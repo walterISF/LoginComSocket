@@ -9,8 +9,16 @@ public class Programa
     {
         try
         {
-            Usuario usuario = new Usuario ("teste@mail.com","Walter","123");
-            BD.USUARIOS.incluir (usuario);
+            Usuario usuario = new Usuario ("walter@mail.com","Walter","123");
+//            BD.USUARIOS.incluir (usuario);
+            
+            if(!BD.USUARIOS.cadastrado("walter@mail.com"));
+            {
+                usuario.setNome("Romeu");
+                usuario.setSenha("romeu123");
+                BD.USUARIOS.alterar(usuario);
+            }
+            
         }
         catch (Exception erro)
         {

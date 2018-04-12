@@ -18,8 +18,8 @@ public class BD
             comando =
             new MeuPreparedStatement (
             "com.microsoft.sqlserver.jdbc.SQLServerDriver",
-            "jdbc:sqlserver://SERVIDOR:1433;databasename=BD",
-            "USUARIO", "SENHA");
+            "jdbc:sqlserver://172.16.12.12:1433;databasename=poo201840",
+            "poo201840", "Npech7");
 
             usuarios = new Usuarios (); //um como esse para cada classe DAO
         }

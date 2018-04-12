@@ -93,7 +93,7 @@ public class Usuarios
         {
             String sql;
 
-            sql = "DELETE FROM LOGIN " +
+            sql = "DELETE FROM login " +
                   "WHERE EMAIL=?";
 
             BD.COMANDO.prepareStatement (sql);
@@ -120,10 +120,10 @@ public class Usuarios
         {
             String sql;
 
-            sql = "UPDATE LOGIN " +
+            sql = "UPDATE login " +
                   "SET NOME=? " +
-                  "SET SENHA=? " +
-                  "WHERE EMAIL = ?";
+                  ",SENHA=? " +
+                  "WHERE EMAIL=?";
 
             BD.COMANDO.prepareStatement (sql);
 
@@ -140,7 +140,7 @@ public class Usuarios
         }
     }
 
-    public Usuario getUsuario (int codigo) throws Exception
+    public Usuario getUsuario (String email) throws Exception
     {
         Usuario usuario = null;
 
@@ -149,12 +149,12 @@ public class Usuarios
             String sql;
 
             sql = "SELECT * " +
-                  "FROM LOGIN " +
+                  "FROM login " +
                   "WHERE EMAIL = ?";
 
             BD.COMANDO.prepareStatement (sql);
 
-            BD.COMANDO.setInt (1, codigo);
+            BD.COMANDO.setString (1, email);
 
             MeuResultSet resultado = (MeuResultSet)BD.COMANDO.executeQuery ();
 
@@ -182,7 +182,7 @@ public class Usuarios
             String sql;
 
             sql = "SELECT * " +
-                  "FROM LOGIN";
+                  "FROM login";
 
             BD.COMANDO.prepareStatement (sql);
 

@@ -1,17 +1,17 @@
-package bd;
+package logindeusuarios.bd;
 
-import bd.core.*;
-import bd.daos.*;
+import logindeusuarios.bd.core.MeuPreparedStatement;
+import logindeusuarios.bd.daos.Usuarios;
 
 public class BD
 {
     public static final MeuPreparedStatement COMANDO;
-    public static final Livros LIVROS; //um como esse para cada classe DAO
+    public static final Usuarios USUARIOS; //um como esse para cada classe DAO
 
     static
     {
     	MeuPreparedStatement comando = null;
-     	Livros               livros  = null; //um como esse para cada classe DAO
+     	Usuarios           usuarios  = null; //um como esse para cada classe DAO
 
     	try
         {
@@ -21,15 +21,15 @@ public class BD
             "jdbc:sqlserver://SERVIDOR:1433;databasename=BD",
             "USUARIO", "SENHA");
 
-            livros = new Livros (); //um como esse para cada classe DAO
+            usuarios = new Usuarios (); //um como esse para cada classe DAO
         }
         catch (Exception erro)
         {
-            System.err.println ("Problemas de conexao com o BD");
+            System.err.println ("Problemas de conexao com o BD: " + erro);
             System.exit(0); // aborta o programa
         }
         
         COMANDO = comando;
-        LIVROS  = livros; //um como esse para cada classe DAO
+        USUARIOS  = usuarios; //um como esse para cada classe DAO
     }
 }

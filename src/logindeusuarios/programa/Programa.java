@@ -1,7 +1,7 @@
-package programa;
+package logindeusuarios.programa;
 
-import bd.*;
-import bd.dbos.*;
+import logindeusuarios.bd.*;
+import logindeusuarios.bd.dbos.*;
 
 public class Programa
 {
@@ -9,8 +9,8 @@ public class Programa
     {
         try
         {
-            Livro livro = new Livro (1,"L'Etranger",55.55F);
-            BD.LIVROS.incluir (livro);
+            Usuario usuario = new Usuario ("teste@mail.com","Walter","123");
+            BD.USUARIOS.incluir (usuario);
         }
         catch (Exception erro)
         {

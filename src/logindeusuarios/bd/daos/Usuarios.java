@@ -1,13 +1,13 @@
-package bd.daos;
+package logindeusuarios.bd.daos;
 
+import logindeusuarios.bd.core.MeuResultSet;
 import java.sql.*;
-import bd.*;
-import bd.core.*;
-import bd.dbos.*;
+import logindeusuarios.bd.BD;
+import logindeusuarios.bd.dbos.Usuario;
 
-public class Livros
+public class Usuarios
 {
-    public boolean cadastrado (int codigo) throws Exception
+    public boolean cadastrado (String email) throws Exception
     {
         boolean retorno = false;
 
@@ -16,12 +16,12 @@ public class Livros
             String sql;
 
             sql = "SELECT * " +
-                  "FROM LIVROS " +
-                  "WHERE CODIGO = ?";
+                  "FROM LOGIN " +
+                  "WHERE EMAIL = ?";
 
             BD.COMANDO.prepareStatement (sql);
 
-            BD.COMANDO.setInt (1, codigo);
+            BD.COMANDO.setString (1, email);
 
             MeuResultSet resultado = (MeuResultSet)BD.COMANDO.executeQuery ();
 
@@ -49,108 +49,108 @@ public class Livros
         }
         catch (SQLException erro)
         {
-            throw new Exception ("Erro ao procurar livro");
+            throw new Exception ("Erro ao procurar usuario");
         }
 
         return retorno;
     }
 
-    public void incluir (Livro livro) throws Exception
+    public void incluir (Usuario usuario) throws Exception
     {
-        if (livro==null)
-            throw new Exception ("Livro nao fornecido");
+        if (usuario==null)
+            throw new Exception ("Usuario nao fornecido");
 
         try
         {
             String sql;
 
-            sql = "INSERT INTO LIVROS " +
-                  "(CODIGO,NOME,PRECO) " +
+            sql = "INSERT INTO login " +
+                  "(EMAIL,NOME,SENHA) " +
                   "VALUES " +
                   "(?,?,?)";
 
             BD.COMANDO.prepareStatement (sql);
 
-            BD.COMANDO.setInt    (1, livro.getCodigo ());
-            BD.COMANDO.setString (2, livro.getNome ());
-            BD.COMANDO.setFloat  (3, livro.getPreco ());
+            BD.COMANDO.setString (1, usuario.getEmail ());
+            BD.COMANDO.setString (2, usuario.getNome  ());
+            BD.COMANDO.setString (3, usuario.getSenha ());
 
             BD.COMANDO.executeUpdate ();
             BD.COMANDO.commit        ();
         }
         catch (SQLException erro)
         {
-            throw new Exception ("Erro ao inserir livro");
+            throw new Exception ("Erro ao inserir usuario");
         }
     }
 
-    public void excluir (int codigo) throws Exception
+    public void excluir (String email) throws Exception
     {
-        if (!cadastrado (codigo))
+        if (!cadastrado (email))
             throw new Exception ("Nao cadastrado");
 
         try
         {
             String sql;
 
-            sql = "DELETE FROM LIVROS " +
-                  "WHERE CODIGO=?";
+            sql = "DELETE FROM LOGIN " +
+                  "WHERE EMAIL=?";
 
             BD.COMANDO.prepareStatement (sql);
 
-            BD.COMANDO.setInt (1, codigo);
+            BD.COMANDO.setString (1, email);
 
             BD.COMANDO.executeUpdate ();
             BD.COMANDO.commit        ();        }
         catch (SQLException erro)
         {
-            throw new Exception ("Erro ao excluir livro");
+            throw new Exception ("Erro ao excluir usuario");
         }
     }
 
-    public void alterar (Livro livro) throws Exception
+    public void alterar (Usuario usuario) throws Exception
     {
-        if (livro==null)
-            throw new Exception ("Livro nao fornecido");
+        if (usuario==null)
+            throw new Exception ("Usuario nao fornecido");
 
-        if (!cadastrado (livro.getCodigo()))
+        if (!cadastrado (usuario.getEmail()))
             throw new Exception ("Nao cadastrado");
 
         try
         {
             String sql;
 
-            sql = "UPDATE LIVROS " +
+            sql = "UPDATE LOGIN " +
                   "SET NOME=? " +
-                  "SET PRECO=? " +
-                  "WHERE CODIGO = ?";
+                  "SET SENHA=? " +
+                  "WHERE EMAIL = ?";
 
             BD.COMANDO.prepareStatement (sql);
 
-            BD.COMANDO.setString (1, livro.getNome ());
-            BD.COMANDO.setFloat  (2, livro.getPreco ());
-            BD.COMANDO.setInt    (3, livro.getCodigo ());
+            BD.COMANDO.setString (1, usuario.getEmail ());
+            BD.COMANDO.setString (2, usuario.getNome  ());
+            BD.COMANDO.setString (3, usuario.getSenha ());
 
             BD.COMANDO.executeUpdate ();
             BD.COMANDO.commit        ();
         }
         catch (SQLException erro)
         {
-            throw new Exception ("Erro ao atualizar dados de livro");
+            throw new Exception ("Erro ao atualizar dados de usuario");
         }
     }
 
-    public Livro getLivro (int codigo) throws Exception
+    public Usuario getUsuario (int codigo) throws Exception
     {
-        Livro livro = null;
+        Usuario usuario = null;
 
         try
         {
             String sql;
 
             sql = "SELECT * " +
-                  "FROM LIVROS " +
-                  "WHERE CODIGO = ?";
+                  "FROM LOGIN " +
+                  "WHERE EMAIL = ?";
 
             BD.COMANDO.prepareStatement (sql);
 
@@ -161,19 +161,19 @@ public class Livros
             if (!resultado.first())
                 throw new Exception ("Nao cadastrado");
 
-            livro = new Livro (resultado.getInt   ("CODIGO"),
-                               resultado.getString("NOME"),
-                               resultado.getFloat ("PRECO"));
+            usuario = new Usuario ( resultado.getString ("EMAIL"),
+                                    resultado.getString ("NOME"),
+                                    resultado.getString ("SENHA"));
         }
         catch (SQLException erro)
         {
             throw new Exception ("Erro ao procurar livro");
         }
 
-        return livro;
+        return usuario;
     }
 
-    public MeuResultSet getLivros () throws Exception
+    public MeuResultSet getUsuarios () throws Exception
     {
         MeuResultSet resultado = null;
 
@@ -182,7 +182,7 @@ public class Livros
             String sql;
 
             sql = "SELECT * " +
-                  "FROM LIVROS";
+                  "FROM LOGIN";
 
             BD.COMANDO.prepareStatement (sql);
 
@@ -190,7 +190,7 @@ public class Livros
         }
         catch (SQLException erro)
         {
-            throw new Exception ("Erro ao recuperar livros");
+            throw new Exception ("Erro ao recuperar usuarios");
         }
 
         return resultado;

@@ -9,10 +9,10 @@ public class Programa
     {
         try
         {
-            Usuario usuario = new Usuario ("walter@mail.com","Walter","123");
+            Usuario usuario = new Usuario ("inacio@mail.com","Inacio","123");
 //            BD.USUARIOS.incluir (usuario);
             
-            if(!BD.USUARIOS.cadastrado("walter@mail.com"));
+            if(!BD.USUARIOS.cadastrado("inacio@mail.com"));
             {
                 usuario.setNome("Romeu");
                 usuario.setSenha("romeu123");

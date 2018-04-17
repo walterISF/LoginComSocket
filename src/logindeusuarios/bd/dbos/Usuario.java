@@ -1,11 +1,12 @@
 package logindeusuarios.bd.dbos;
 
+import java.util.Objects;
+
 public class Usuario
 {
     private String email;
     private String nome;
     private String  senha;
-
 
     public Usuario (String email, String nome, String senha) throws Exception
     {
@@ -14,8 +15,50 @@ public class Usuario
         this.setSenha  (senha);
     }
 
-    // � claro que os m�todos obrigat�rios deveriam ser feitos
-    // para a implementa��o ficar completa
+    @Override
+    public String toString()
+    {
+        String ret = "";
+        ret = "Usuario [Nome: " + this.getNome() + ", "
+                    + "Email: " + this.getEmail() + ", "
+                    + "Senha: " + this.getSenha() + "]";
+        return ret;
+    }
+    
+    @Override
+    public int hashCode() 
+    {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.email);
+        hash = 89 * hash + Objects.hashCode(this.nome);
+        hash = 89 * hash + Objects.hashCode(this.senha);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.senha, other.senha)) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * @param email the email to set

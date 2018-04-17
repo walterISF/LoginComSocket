@@ -25,27 +25,7 @@ public class Usuarios
 
             MeuResultSet resultado = (MeuResultSet)BD.COMANDO.executeQuery ();
 
-            retorno = resultado.first(); // pode-se usar resultado.last() ou resultado.next() ou resultado.previous() ou resultado.absotule(numeroDaLinha)
-
-            /* // ou, se preferirmos,
-
-            String sql;
-
-            sql = "SELECT COUNT(*) AS QUANTOS " +
-                  "FROM LIVROS " +
-                  "WHERE CODIGO = ?";
-
-            BD.COMANDO.prepareStatement (sql);
-
-            BD.COMANDO.setInt (1, codigo);
-
-            MeuResultSet resultado = (MeuResultSet)BD.COMANDO.executeQuery ();
-
-            resultado.first();
-
-            retorno = resultado.getInt("QUANTOS") != 0;
-
-            */
+            retorno = resultado.first();
         }
         catch (SQLException erro)
         {
@@ -127,9 +107,9 @@ public class Usuarios
 
             BD.COMANDO.prepareStatement (sql);
 
-            BD.COMANDO.setString (1, usuario.getEmail ());
-            BD.COMANDO.setString (2, usuario.getNome  ());
-            BD.COMANDO.setString (3, usuario.getSenha ());
+            BD.COMANDO.setString (3, usuario.getEmail ());
+            BD.COMANDO.setString (1, usuario.getNome  ());
+            BD.COMANDO.setString (2, usuario.getSenha ());
 
             BD.COMANDO.executeUpdate ();
             BD.COMANDO.commit        ();

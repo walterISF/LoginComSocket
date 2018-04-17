@@ -11,13 +11,19 @@ public class Programa
         {
             Usuario usuario = new Usuario ("inacio@mail.com","Inacio","123");
 //            BD.USUARIOS.incluir (usuario);
+            //BD.USUARIOS.excluir(usuario.getEmail());
             
-            if(!BD.USUARIOS.cadastrado("inacio@mail.com"));
+            if(BD.USUARIOS.cadastrado("inacio@mail.com"))
             {
-                usuario.setNome("Romeu");
-                usuario.setSenha("romeu123");
+                usuario.setNome("mario");
+                usuario.setSenha("july123");
                 BD.USUARIOS.alterar(usuario);
             }
+            else
+            {
+                BD.USUARIOS.incluir (usuario);
+            }
+            System.out.println(usuario.toString());
             
         }
         catch (Exception erro)

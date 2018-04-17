@@ -7,6 +7,13 @@ import logindeusuarios.bd.dbos.Usuario;
 
 public class Usuarios
 {
+    /**
+     * Utilize esta função para verificar se um usuario ja foi ou não cadastrado
+     * @param email Insira um email quer servira como chave de acesso por exemplo 
+     * "seunome@email.com"
+     * @return Em caso de excessão o chamante deve tratar
+     * @throws Exception  Retorna Excessão caso uma das operações falharem
+     */
     public boolean cadastrado (String email) throws Exception
     {
         boolean retorno = false;
@@ -34,7 +41,13 @@ public class Usuarios
 
         return retorno;
     }
-
+    
+    /**
+     * Método responsável em incluir um novo Usuario à base de dados
+     * @param usuario Objeto Usuario à ser passado para o método
+     * @throws Exception Retorna Excessão caso objeto for nulo ou as operações de inserção
+     * falharem
+     */
     public void incluir (Usuario usuario) throws Exception
     {
         if (usuario==null)
@@ -64,6 +77,11 @@ public class Usuarios
         }
     }
 
+    /**
+     * Método responsável em excluir um usuário específico
+     * @param email Email do usuário que deseja excluir
+     * @throws Exception Em caso de excessâo o chamante deve tratar
+     */
     public void excluir (String email) throws Exception
     {
         if (!cadastrado (email))
@@ -88,6 +106,11 @@ public class Usuarios
         }
     }
 
+    /**
+     * Método responsável em alterar os dados de um Usuario
+     * @param usuario Objeto de Usuario a ser alterado
+     * @throws Exception Em caso de excessão o chamante deve tratar
+     */
     public void alterar (Usuario usuario) throws Exception
     {
         if (usuario==null)
@@ -120,6 +143,12 @@ public class Usuarios
         }
     }
 
+    /**
+     * Função responsável por retornar os dados de um único Usuario
+     * @param email Email do usuário que quer saber os dados
+     * @return Retorna um objeto Usuario com os dados obtidos
+     * @throws Exception Em caso de excessão o chamante deve tratar
+     */
     public Usuario getUsuario (String email) throws Exception
     {
         Usuario usuario = null;
@@ -153,6 +182,11 @@ public class Usuarios
         return usuario;
     }
 
+    /**
+     * Função que retorna todos os Usuarios cadastrados na base 
+     * @return tipo MeuResultSet
+     * @throws Exception Em caso de excessão o chamante deve tratar
+     */
     public MeuResultSet getUsuarios () throws Exception
     {
         MeuResultSet resultado = null;

@@ -10,13 +10,12 @@ public class Programa
         try
         {
             Usuario usuario = new Usuario ("inacio@mail.com","Inacio","123");
-//            BD.USUARIOS.incluir (usuario);
-            //BD.USUARIOS.excluir(usuario.getEmail());
+            BD.USUARIOS.excluir(usuario.getEmail());
             
             if(BD.USUARIOS.cadastrado("inacio@mail.com"))
             {
-                usuario.setNome("mario");
-                usuario.setSenha("july123");
+                usuario.setNome("Jose");
+                usuario.setSenha("jsenha");
                 BD.USUARIOS.alterar(usuario);
             }
             else

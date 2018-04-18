@@ -14,6 +14,8 @@ public class Usuario
         this.setNome   (nome);
         this.setSenha  (senha);
     }
+    
+    //################### Métodos Obrigatórios (Canônicos) #####################//
 
     @Override
     public String toString()
@@ -60,8 +62,9 @@ public class Usuario
         return true;
     }
 
+    //################ Guetters e Setters #####################//
     /**
-     * @param email the email to set
+     * @param email Email a ser inserido
      * @throws java.lang.Exception
      */
     public void setEmail(String email) throws Exception
@@ -72,7 +75,7 @@ public class Usuario
     }    
 
     /**
-     * @param nome the nome to set
+     * @param nome Nome a ser inserido
      * @throws java.lang.Exception
      */
     public void setNome(String nome) throws Exception 
@@ -83,7 +86,7 @@ public class Usuario
     }
 
     /**
-     * @param senha the senha to set
+     * @param senha Senha a ser inserida
      * @throws java.lang.Exception
      */
     public void setSenha(String senha) throws Exception 
@@ -94,21 +97,21 @@ public class Usuario
     }
     
     /**
-     * @return the email
+     * @return Retorna o email do Usuario
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * @return the nome
+     * @return Retorna o nome do Usuario
      */
     public String getNome() {
         return nome;
     }
 
     /**
-     * @return the senha
+     * @return Retorna a senha do Usuario
      */
     public String getSenha() {
         return senha;

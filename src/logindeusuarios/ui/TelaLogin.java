@@ -5,17 +5,30 @@
  */
 package logindeusuarios.ui;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 /**
  *
  * @author vntwafi
  */
-public class login extends javax.swing.JPanel {
+public class TelaLogin extends javax.swing.JPanel {
 
+    JFrame frameLayout;
     /**
      * Creates new form login
+     * @param frameLayout Frame para definir layout da tela
      */
-    public login() {
+    public TelaLogin(JFrame frameLayout) 
+    {
+        
         initComponents();
+        this.frameLayout = frameLayout;
+        this.frameLayout.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frameLayout.add(this);
+        this.frameLayout.pack();
+        this.frameLayout.setLocationRelativeTo(null); 
+        this.frameLayout.setVisible(true);
     }
 
     /**
@@ -47,6 +60,11 @@ public class login extends javax.swing.JPanel {
         });
 
         btnCadastro.setText("Cadastrar-se");
+        btnCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastroActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
 
@@ -59,7 +77,7 @@ public class login extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
+                        .addGap(17, 17, 17)
                         .addComponent(txtSenha)
                         .addGap(23, 23, 23))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -113,6 +131,13 @@ public class login extends javax.swing.JPanel {
             
         }
     }//GEN-LAST:event_btnEntrarMouseClicked
+
+    private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
+        
+        this.frameLayout.setVisible(false);
+        JFrame frameCadastro = new JFrame("Cadastro");
+        TelaCadastro tela = new TelaCadastro(frameCadastro);
+    }//GEN-LAST:event_btnCadastroActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

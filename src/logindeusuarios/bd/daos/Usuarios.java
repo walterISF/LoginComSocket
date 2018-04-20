@@ -1,11 +1,12 @@
 package logindeusuarios.bd.daos;
 
+import java.io.Serializable;
 import logindeusuarios.bd.core.MeuResultSet;
 import java.sql.*;
 import logindeusuarios.bd.BD;
 import logindeusuarios.bd.dbos.Usuario;
 
-public class Usuarios
+public class Usuarios implements Serializable
 {
     /**
      * Utilize esta função para verificar se um usuario ja foi ou não cadastrado

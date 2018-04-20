@@ -6,7 +6,7 @@ import java.sql.*;
 import logindeusuarios.bd.BD;
 import logindeusuarios.bd.dbos.Usuario;
 
-public class Usuarios implements Serializable
+public class Usuarios
 {
     /**
      * Utilize esta função para verificar se um usuario ja foi ou não cadastrado

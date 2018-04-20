@@ -1,8 +1,9 @@
 package logindeusuarios.bd.dbos;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Usuario
+public class Usuario implements Serializable
 {
     private String email;
     private String nome;

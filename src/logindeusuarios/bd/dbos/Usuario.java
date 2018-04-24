@@ -32,9 +32,9 @@ public class Usuario implements Serializable
     public int hashCode() 
     {
         int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.email);
-        hash = 89 * hash + Objects.hashCode(this.nome);
-        hash = 89 * hash + Objects.hashCode(this.senha);
+        hash = 89 * hash + this.email.hashCode();
+        hash = 89 * hash + this.nome.hashCode();
+        hash = 89 * hash + this.senha.hashCode();
         return hash;
     }
 

@@ -5,8 +5,15 @@
  */
 package logindeusuarios.ui;
 
+import java.awt.Color;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import logindeusuario.socket.SocketTransmissora;
+import logindeusuario.socket.Solicitacao;
 
 /**
  *
@@ -28,7 +35,12 @@ public class TelaLogin extends javax.swing.JPanel {
         this.frameLayout.add(this);
         this.frameLayout.pack();
         this.frameLayout.setLocationRelativeTo(null); 
+        this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
+    }
+
+    TelaLogin() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -40,6 +52,7 @@ public class TelaLogin extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnEntrar = new javax.swing.JButton();
@@ -47,6 +60,9 @@ public class TelaLogin extends javax.swing.JPanel {
         btnCancelar = new javax.swing.JButton();
         txtSenha = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
+        lblError = new javax.swing.JLabel();
+
+        jLabel3.setText("jLabel3");
 
         jLabel1.setText("E-mail");
 
@@ -67,6 +83,25 @@ public class TelaLogin extends javax.swing.JPanel {
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        txtSenha.setSize(new java.awt.Dimension(290, 20));
+
+        txtEmail.setSize(new java.awt.Dimension(290, 20));
+        txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtEmailFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmailFocusLost(evt);
+            }
+        });
+
+        lblError.setForeground(new java.awt.Color(255, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -81,17 +116,19 @@ public class TelaLogin extends javax.swing.JPanel {
                         .addComponent(txtSenha)
                         .addGap(23, 23, 23))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtEmail)
+                        .addGap(24, 24, 24))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblError)
+                            .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCadastro)
-                        .addGap(30, 30, 30))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtEmail)
-                        .addGap(24, 24, 24))))
+                        .addGap(30, 30, 30))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,7 +141,9 @@ public class TelaLogin extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblError)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEntrar)
                     .addComponent(btnCadastro)
@@ -125,11 +164,12 @@ public class TelaLogin extends javax.swing.JPanel {
 
         String email = txtEmail.getText();
         String nome = txtSenha.getText();
-        
-        if(!email.equals("") && nome.equals(""))
+        if(!email.isEmpty() && !nome.isEmpty())
         {
-            
+            SocketTransmissora socket = 
+            new SocketTransmissora(new Solicitacao("LOG", email, nome));           
         }
+
     }//GEN-LAST:event_btnEntrarMouseClicked
 
     private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
@@ -139,6 +179,38 @@ public class TelaLogin extends javax.swing.JPanel {
         TelaCadastro tela = new TelaCadastro(frameCadastro);
     }//GEN-LAST:event_btnCadastroActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        txtEmail.setText("");
+        txtSenha.setText("");
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusLost
+        if(!validarEmail(this.txtEmail.getText()))
+        {
+            Border border = BorderFactory.createLineBorder(Color.red, 1);
+            this.txtEmail.setBorder(border);
+
+        }
+    }//GEN-LAST:event_txtEmailFocusLost
+
+    private void txtEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusGained
+
+        this.txtEmail.setBorder(UIManager.getBorder("TextField.border"));
+    }//GEN-LAST:event_txtEmailFocusGained
+
+    public static boolean validarEmail(String email)
+    {
+        boolean isEmailIdValid = false;
+        if (email != null && email.length() > 0) {
+            String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+            Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(email);
+            if (matcher.matches()) {
+                isEmailIdValid = true;
+            }
+        }
+        return isEmailIdValid;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastro;
@@ -146,6 +218,8 @@ public class TelaLogin extends javax.swing.JPanel {
     private javax.swing.JButton btnEntrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblError;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtSenha;
     // End of variables declaration//GEN-END:variables

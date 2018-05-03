@@ -5,7 +5,14 @@
  */
 package logindeusuarios.ui;
 
+import java.awt.Color;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import static logindeusuarios.ui.TelaLogin.validarEmail;
 
 /**
  *
@@ -23,7 +30,8 @@ public class TelaCadastro extends javax.swing.JPanel {
         this.frameLayout.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frameLayout.add(this);
         this.frameLayout.pack();
-        this.frameLayout.setLocationRelativeTo(null); 
+        this.frameLayout.setLocationRelativeTo(null);
+        this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
     }
 
@@ -45,11 +53,22 @@ public class TelaCadastro extends javax.swing.JPanel {
         txtNome = new javax.swing.JTextField();
         txtSenha = new javax.swing.JTextField();
         txtConfirmacao = new javax.swing.JTextField();
-        txtNome1 = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        lblError = new javax.swing.JLabel();
 
         btnOk.setText("OK");
+        btnOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Nome");
 
@@ -61,7 +80,27 @@ public class TelaCadastro extends javax.swing.JPanel {
 
         txtNome.setToolTipText("");
 
-        txtNome1.setToolTipText("");
+        txtSenha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSenhaFocusGained(evt);
+            }
+        });
+
+        txtConfirmacao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtConfirmacaoFocusGained(evt);
+            }
+        });
+
+        txtEmail.setToolTipText("");
+        txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtEmailFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmailFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -73,7 +112,7 @@ public class TelaCadastro extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(9, 9, 9)
-                        .addComponent(txtNome1))
+                        .addComponent(txtEmail))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -81,17 +120,21 @@ public class TelaCadastro extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(6, 6, 6)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtConfirmacao, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnCancelar)))))
+                                .addComponent(lblError))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(6, 6, 6)
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtConfirmacao, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnCancelar))))))
                 .addGap(0, 24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -104,26 +147,97 @@ public class TelaCadastro extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtNome1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnOk)
-                        .addContainerGap(19, Short.MAX_VALUE))
+                        .addGap(1, 1, 1)
+                        .addComponent(lblError)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txtConfirmacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnCancelar)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCancelar)
+                            .addComponent(btnOk))
+                        .addGap(0, 19, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.frameLayout.setVisible(false);
+        JFrame frame = new JFrame("Login");
+        TelaLogin loginPanel = new TelaLogin(frame);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
+        String nome = this.txtNome.getText();
+        String email = this.txtEmail.getText();
+        String senha = this.txtSenha.getText();
+        String confirmacao = this.txtConfirmacao.getText();
+        
+        if(!nome.isEmpty() && !email.isEmpty() && !senha.isEmpty() && !confirmacao.isEmpty())
+        {
+            if(!validarEmail(email))
+            {
+                Border borderRed = BorderFactory.createLineBorder(Color.red, 1);
+                this.txtEmail.setBorder(borderRed);
+            }
+            if(!senha.equals(confirmacao))
+            {
+                this.lblError.setText("Senhas não coincidem");
+                this.lblError.setForeground(Color.red);
+                this.lblError.setVisible(true);
+            }
+            else
+            {
+                this.frameLayout.setVisible(false);
+                JFrame frame = new JFrame("Login");
+                TelaLogin loginPanel = new TelaLogin(frame);                
+            }
+
+        }
+    }//GEN-LAST:event_btnOkActionPerformed
+
+    private void txtConfirmacaoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtConfirmacaoFocusGained
+        this.lblError.setVisible(false);
+    }//GEN-LAST:event_txtConfirmacaoFocusGained
+
+    private void txtSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSenhaFocusGained
+        this.lblError.setVisible(false);
+    }//GEN-LAST:event_txtSenhaFocusGained
+
+    private void txtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusLost
+        if(!validarEmail(this.txtEmail.getText()))
+        {
+            Border border = BorderFactory.createLineBorder(Color.red, 1);
+            this.txtEmail.setBorder(border);
+
+        }        
+    }//GEN-LAST:event_txtEmailFocusLost
+
+    private void txtEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusGained
+        this.txtEmail.setBorder(UIManager.getBorder("TextField.border"));
+    }//GEN-LAST:event_txtEmailFocusGained
+
+    public static boolean validarEmail(String email)
+    {
+        boolean isEmailIdValid = false;
+        if (email != null && email.length() > 0) {
+            String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+            Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(email);
+            if (matcher.matches()) {
+                isEmailIdValid = true;
+            }
+        }
+        return isEmailIdValid;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -132,9 +246,10 @@ public class TelaCadastro extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel lblError;
     private javax.swing.JTextField txtConfirmacao;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtNome1;
     private javax.swing.JTextField txtSenha;
     // End of variables declaration//GEN-END:variables
 }

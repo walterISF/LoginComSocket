@@ -6,13 +6,15 @@
 package logindeusuarios.ui;
 
 import java.awt.Color;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import logindeusuario.socket.SocketTransmissora;
 import logindeusuario.socket.Solicitacao;
 
 /**
@@ -163,11 +165,29 @@ public class TelaLogin extends javax.swing.JPanel {
     private void btnEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEntrarMouseClicked
 
         String email = txtEmail.getText();
-        String nome = txtSenha.getText();
-        if(!email.isEmpty() && !nome.isEmpty())
+        String senha = txtSenha.getText();
+        if(!email.isEmpty() && !senha.isEmpty())
         {
-            SocketTransmissora socket = 
-            new SocketTransmissora(new Solicitacao("LOG", email, nome));           
+            Solicitacao solicitacao = new Solicitacao("LOG", email, senha);
+            try
+            {
+                Socket conexao = new Socket("172.16.14.23", 33333);
+                ObjectOutputStream transmissor = new ObjectOutputStream(conexao.getOutputStream());
+
+                do
+                {
+                        transmissor.writeObject(solicitacao);
+                        transmissor.flush(); //envio imediato
+                }
+                while(!solicitacao.getComando().toUpperCase().equals("FIM"));
+
+                transmissor.close();
+                conexao.close();  
+            }
+            catch(Exception e)
+            {
+                System.out.println(e.getClass());
+            }            
         }
 
     }//GEN-LAST:event_btnEntrarMouseClicked
@@ -223,6 +243,14 @@ public class TelaLogin extends javax.swing.JPanel {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtSenha;
     // End of variables declaration//GEN-END:variables
+
+    public JTextField getTxtEmail() {
+        return this.txtEmail;
+    }
+
+    public JTextField getTxtSenha() {
+        return this.txtSenha;
+    }
 
 
 }

@@ -6,6 +6,7 @@
 package logindeusuarios.ui;
 
 import java.awt.Color;
+import java.net.Socket;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
@@ -21,10 +22,11 @@ import static logindeusuarios.ui.TelaLogin.validarEmail;
 public class TelaCadastro extends javax.swing.JPanel {
 
     JFrame frameLayout;
+    Socket conexao;
     /**
      * Creates new form TelaCadastro
      */
-    public TelaCadastro(JFrame frameLayout) {
+    public TelaCadastro(JFrame frameLayout, Socket conexao) {
         initComponents();
         this.frameLayout = frameLayout;
         this.frameLayout.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,6 +35,7 @@ public class TelaCadastro extends javax.swing.JPanel {
         this.frameLayout.setLocationRelativeTo(null);
         this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
+        this.conexao = conexao;
     }
 
     /**
@@ -172,7 +175,7 @@ public class TelaCadastro extends javax.swing.JPanel {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.frameLayout.setVisible(false);
         JFrame frame = new JFrame("Login");
-        TelaLogin loginPanel = new TelaLogin(frame);
+        TelaLogin loginPanel = new TelaLogin(frame, this.conexao);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
@@ -198,7 +201,7 @@ public class TelaCadastro extends javax.swing.JPanel {
             {
                 this.frameLayout.setVisible(false);
                 JFrame frame = new JFrame("Login");
-                TelaLogin loginPanel = new TelaLogin(frame);                
+                TelaLogin loginPanel = new TelaLogin(frame, this.conexao);                
             }
 
         }

@@ -6,6 +6,8 @@
 package logindeusuarios.ui;
 
 import java.awt.Color;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.regex.Matcher;
@@ -15,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import logindeusuario.socket.Solicitacao;
+import logindeusuarios.socket.Solicitacao;
 
 /**
  *
@@ -24,11 +26,12 @@ import logindeusuario.socket.Solicitacao;
 public class TelaLogin extends javax.swing.JPanel {
 
     JFrame frameLayout;
+    Socket conexao;
     /**
      * Creates new form login
      * @param frameLayout Frame para definir layout da tela
      */
-    public TelaLogin(JFrame frameLayout) 
+    public TelaLogin(JFrame frameLayout, Socket conexao) 
     {
         
         initComponents();
@@ -39,6 +42,7 @@ public class TelaLogin extends javax.swing.JPanel {
         this.frameLayout.setLocationRelativeTo(null); 
         this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
+        this.conexao = conexao;
     }
 
     TelaLogin() {
@@ -169,20 +173,18 @@ public class TelaLogin extends javax.swing.JPanel {
         if(!email.isEmpty() && !senha.isEmpty())
         {
             Solicitacao solicitacao = new Solicitacao("LOG", email, senha);
+            Solicitacao retorno;
             try
             {
-                Socket conexao = new Socket("172.16.14.23", 33333);
                 ObjectOutputStream transmissor = new ObjectOutputStream(conexao.getOutputStream());
-
-                do
-                {
-                        transmissor.writeObject(solicitacao);
-                        transmissor.flush(); //envio imediato
-                }
-                while(!solicitacao.getComando().toUpperCase().equals("FIM"));
-
-                transmissor.close();
-                conexao.close();  
+                ObjectInputStream recebido = new ObjectInputStream(conexao.getInputStream());
+                
+                transmissor.writeObject(solicitacao);
+                transmissor.flush(); //envio imediato
+//                retorno = (Solicitacao) recebido.readObject();
+//                System.out.println(retorno.toString());
+//                transmissor.close();
+//                conexao.close();  
             }
             catch(Exception e)
             {
@@ -196,7 +198,7 @@ public class TelaLogin extends javax.swing.JPanel {
         
         this.frameLayout.setVisible(false);
         JFrame frameCadastro = new JFrame("Cadastro");
-        TelaCadastro tela = new TelaCadastro(frameCadastro);
+        TelaCadastro tela = new TelaCadastro(frameCadastro, this.conexao);
     }//GEN-LAST:event_btnCadastroActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

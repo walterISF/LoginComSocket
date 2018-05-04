@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logindeusuario.socket;
+package logindeusuarios.socket;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -40,10 +40,10 @@ public class Solicitacao implements Serializable
     {this.comando = cmd; this.complemento1 = comp1;}
     
     public Solicitacao (String cmd, String comp1, String comp2)
-    {this.comando = cmd; this.complemento1 = comp1; this.complemento1 = comp2;}
+    {this.comando = cmd; this.complemento1 = comp1; this.complemento2 = comp2;}
 
     public Solicitacao (String cmd, String comp1, String comp2, String comp3)
-    {this.comando = cmd; this.complemento1 = comp1; this.complemento1 = comp2; this.complemento1 = comp3;}
+    {this.comando = cmd; this.complemento1 = comp1; this.complemento2 = comp2; this.complemento3 = comp3;}
 
     @Override
     public String toString() 

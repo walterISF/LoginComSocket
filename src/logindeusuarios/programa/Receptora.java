@@ -1,10 +1,8 @@
 package logindeusuarios.programa;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import logindeusuarios.socket.Solicitacao;
+import logindeusuarios.thread.Processo;
 
 public class Receptora
 {
@@ -14,17 +12,16 @@ public class Receptora
         try{
                 //*****RECEPTORA*****
                 ServerSocket pedido = new ServerSocket(33333);
-                Socket conexao = pedido.accept();											//por isso n„o È instanciada
-                ObjectInputStream receptor = 
-                new ObjectInputStream(conexao.getInputStream());
+                while(true)
+                {
+                    Socket conexao = pedido.accept();
+                    Processo procThread = new Processo(conexao);
+                }
 
-                Solicitacao recebido;
-                recebido = (Solicitacao) receptor.readObject();
-                System.out.println(recebido.toString());
         }
-        catch (IOException | ClassNotFoundException erro)
+        catch (Exception erro)
         {
-                System.err.println(erro.getMessage());
+            System.err.println(erro.getMessage());
         }
 
     }

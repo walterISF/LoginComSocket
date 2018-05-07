@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -197,6 +198,7 @@ public class TelaLogin extends javax.swing.JPanel {
                     this.lblMensagem.setText("Login efetuado com sucesso!");
                     this.lblMensagem.setForeground(Color.green);
                     this.btnEntrar.setEnabled(false);
+                    this.btnCadastro.setEnabled(false);
                 }  
             }
             catch(Exception e)
@@ -224,9 +226,19 @@ public class TelaLogin extends javax.swing.JPanel {
                 transmissor.close();
                 conexao.close();
                 this.lblMensagem.setText("");
-                this.btnEntrar.setEnabled(true);
-                Socket conexao = new Socket("192.168.15.19", 2222);
-                this.conexao = conexao;
+                
+                if(JOptionPane.showConfirmDialog(null, "Deseja se conectar novamente",
+                        "Atenção", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                {
+                    Socket conexao = new Socket("192.168.15.19", 2222);
+                    this.conexao = conexao;
+                    this.btnEntrar.setEnabled(true);
+                }
+                else
+                {
+                    this.btnCadastro.setEnabled(true);
+                }
+                
             } 
             catch (IOException ex) 
             {

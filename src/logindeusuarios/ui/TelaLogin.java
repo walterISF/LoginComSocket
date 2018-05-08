@@ -32,6 +32,7 @@ public class TelaLogin extends javax.swing.JPanel {
     JFrame frameLayout;
     Socket conexao;
     ObjectOutputStream transmissor = null;
+    ObjectInputStream recebido = null;
     /**
      * Creates new form login
      * @param frameLayout Frame para definir layout da tela
@@ -185,7 +186,7 @@ public class TelaLogin extends javax.swing.JPanel {
             try
             {
                 transmissor = new ObjectOutputStream(conexao.getOutputStream());
-                ObjectInputStream recebido = new ObjectInputStream(conexao.getInputStream());
+                recebido = new ObjectInputStream(conexao.getInputStream());
                 
                 transmissor.writeObject(solicitacao);
                 transmissor.flush(); //envio imediato
@@ -213,7 +214,7 @@ public class TelaLogin extends javax.swing.JPanel {
         
         this.frameLayout.setVisible(false);
         JFrame frameCadastro = new JFrame("Cadastro");
-        TelaCadastro tela = new TelaCadastro(frameCadastro, this.conexao);
+        TelaCadastro tela = new TelaCadastro(frameCadastro, this.conexao, transmissor, recebido);
     }//GEN-LAST:event_btnCadastroActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

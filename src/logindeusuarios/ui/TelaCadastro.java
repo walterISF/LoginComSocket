@@ -6,13 +6,19 @@
 package logindeusuarios.ui;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import logindeusuarios.socket.Solicitacao;
 import static logindeusuarios.ui.TelaLogin.validarEmail;
 
 /**
@@ -23,10 +29,14 @@ public class TelaCadastro extends javax.swing.JPanel {
 
     JFrame frameLayout;
     Socket conexao;
+    ObjectOutputStream out;
+    ObjectInputStream in;
     /**
      * Creates new form TelaCadastro
+     * @param frameLayout
+     * @param conexao
      */
-    public TelaCadastro(JFrame frameLayout, Socket conexao) {
+    public TelaCadastro(JFrame frameLayout, Socket conexao, ObjectOutputStream out, ObjectInputStream in) {
         initComponents();
         this.frameLayout = frameLayout;
         this.frameLayout.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,6 +46,8 @@ public class TelaCadastro extends javax.swing.JPanel {
         this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
         this.conexao = conexao;
+        this.out = out;
+        this.in = in;
     }
 
     /**
@@ -199,6 +211,18 @@ public class TelaCadastro extends javax.swing.JPanel {
             }
             else
             {
+                Solicitacao retorno, cadastro;
+                cadastro = new Solicitacao(this.txtNome.getText(), this.txtEmail.getText(), this.txtSenha.getText());
+                try 
+                {
+                    this.out.writeObject(cadastro);
+                    this.out.flush(); //envio imediato
+                    retorno = (Solicitacao) in.readObject();
+                } 
+                catch (IOException | ClassNotFoundException ex) 
+                {
+                    Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 this.frameLayout.setVisible(false);
                 JFrame frame = new JFrame("Login");
                 TelaLogin loginPanel = new TelaLogin(frame, this.conexao);                

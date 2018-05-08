@@ -7,7 +7,6 @@ package logindeusuarios.ui;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -21,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import logindeusuarios.socket.Conexao;
 import logindeusuarios.socket.Solicitacao;
 
 /**
@@ -30,14 +30,14 @@ import logindeusuarios.socket.Solicitacao;
 public class TelaLogin extends javax.swing.JPanel {
 
     JFrame frameLayout;
+    ObjectOutputStream transmissor;
+    ObjectInputStream recebido;
     Socket conexao;
-    ObjectOutputStream transmissor = null;
-    ObjectInputStream recebido = null;
     /**
      * Creates new form login
      * @param frameLayout Frame para definir layout da tela
      */
-    public TelaLogin(JFrame frameLayout, Socket conexao) 
+    public TelaLogin(JFrame frameLayout) 
     {
         
         initComponents();
@@ -48,7 +48,6 @@ public class TelaLogin extends javax.swing.JPanel {
         this.frameLayout.setLocationRelativeTo(null); 
         this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
-        this.conexao = conexao;
     }
 
     TelaLogin() {
@@ -70,15 +69,21 @@ public class TelaLogin extends javax.swing.JPanel {
         btnEntrar = new javax.swing.JButton();
         btnCadastro = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtSenha = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         lblMensagem = new javax.swing.JLabel();
+        txtSenha = new javax.swing.JPasswordField();
 
         jLabel3.setText("jLabel3");
 
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jLabel1.setText("E-mail");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 25, -1, -1));
+        jLabel1.getAccessibleContext().setAccessibleName("email");
 
         jLabel2.setText("Senha");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 55, -1, -1));
+        jLabel2.getAccessibleContext().setAccessibleName("senha");
 
         btnEntrar.setText("Entrar");
         btnEntrar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -86,6 +91,8 @@ public class TelaLogin extends javax.swing.JPanel {
                 btnEntrarMouseClicked(evt);
             }
         });
+        add(btnEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 106, 102, -1));
+        btnEntrar.getAccessibleContext().setAccessibleName("btnEntrar");
 
         btnCadastro.setText("Cadastrar-se");
         btnCadastro.addActionListener(new java.awt.event.ActionListener() {
@@ -93,6 +100,8 @@ public class TelaLogin extends javax.swing.JPanel {
                 btnCadastroActionPerformed(evt);
             }
         });
+        add(btnCadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 106, -1, -1));
+        btnCadastro.getAccessibleContext().setAccessibleName("btnCadastro");
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +109,8 @@ public class TelaLogin extends javax.swing.JPanel {
                 btnCancelarActionPerformed(evt);
             }
         });
+        add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 106, -1, -1));
+        btnCancelar.getAccessibleContext().setAccessibleName("btnCancelar");
 
         txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -109,88 +120,33 @@ public class TelaLogin extends javax.swing.JPanel {
                 txtEmailFocusLost(evt);
             }
         });
+        add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 300, -1));
+        txtEmail.getAccessibleContext().setAccessibleName("txtEmail");
 
         lblMensagem.setForeground(new java.awt.Color(255, 0, 0));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblMensagem)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(btnCancelar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnCadastro))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(295, 295, 295)))
-                        .addGap(23, 23, 23))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtEmail)))
-                        .addGap(24, 24, 24))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblMensagem, javax.swing.GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEntrar)
-                    .addComponent(btnCadastro)
-                    .addComponent(btnCancelar))
-                .addGap(20, 20, 20))
-        );
-
-        jLabel1.getAccessibleContext().setAccessibleName("email");
-        jLabel2.getAccessibleContext().setAccessibleName("senha");
-        btnEntrar.getAccessibleContext().setAccessibleName("btnEntrar");
-        btnCadastro.getAccessibleContext().setAccessibleName("btnCadastro");
-        btnCancelar.getAccessibleContext().setAccessibleName("btnCancelar");
-        txtSenha.getAccessibleContext().setAccessibleName("txtSenha");
-        txtEmail.getAccessibleContext().setAccessibleName("txtEmail");
+        add(lblMensagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 84, -1, 10));
+        add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 300, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEntrarMouseClicked
 
-        String email = txtEmail.getText();
-        String senha = txtSenha.getText();
+        String email = this.txtEmail.getText();
+        String senha = String.valueOf(this.txtSenha.getPassword());
         if(!email.isEmpty() && !senha.isEmpty())
         {
             Solicitacao solicitacao = new Solicitacao("LOG", email, senha);
             Solicitacao retorno;
             try
             {
-                transmissor = new ObjectOutputStream(conexao.getOutputStream());
-                recebido = new ObjectInputStream(conexao.getInputStream());
+                Conexao.getInstance();
+                Conexao.startConnection();
+                this.conexao = Conexao.getSocket();
+                this.transmissor = Conexao.getOutputStream();
+                this.recebido = Conexao.getInputStream();
                 
-                transmissor.writeObject(solicitacao);
-                transmissor.flush(); //envio imediato
-                retorno = (Solicitacao) recebido.readObject();
+                this.transmissor.writeObject(solicitacao);
+                this.transmissor.flush(); //envio imediato
+                retorno = (Solicitacao) this.recebido.readObject();
                 System.out.println(retorno.toString());
                 if(retorno.getComando().toUpperCase().equals("SUC"))
                 {
@@ -200,7 +156,12 @@ public class TelaLogin extends javax.swing.JPanel {
                     this.lblMensagem.setForeground(Color.green);
                     this.btnEntrar.setEnabled(false);
                     this.btnCadastro.setEnabled(false);
-                }  
+                }
+                else
+                {
+                    this.lblMensagem.setText(retorno.getComplemento1());
+                    Conexao.closeConnection();
+                }
             }
             catch(Exception e)
             {
@@ -214,30 +175,34 @@ public class TelaLogin extends javax.swing.JPanel {
         
         this.frameLayout.setVisible(false);
         JFrame frameCadastro = new JFrame("Cadastro");
-        TelaCadastro tela = new TelaCadastro(frameCadastro, this.conexao, transmissor, recebido);
+        TelaCadastro tela = new TelaCadastro(frameCadastro);
     }//GEN-LAST:event_btnCadastroActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         txtEmail.setText("");
         txtSenha.setText("");
-        if(this.conexao.isConnected())
+        if(Conexao.getSocket() != null)
         {
             try 
             {
-                transmissor.close();
-                conexao.close();
+                Conexao.closeConnection();
                 this.lblMensagem.setText("");
                 
                 if(JOptionPane.showConfirmDialog(null, "Deseja se conectar novamente",
                         "Atenção", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                 {
-                    Socket conexao = new Socket("192.168.15.19", 2222);
-                    this.conexao = conexao;
+                    Conexao.getInstance();
+                    Conexao.startConnection();
+                    this.conexao = Conexao.getSocket();
+                    this.transmissor = Conexao.getOutputStream();
+                    this.recebido = Conexao.getInputStream();
                     this.btnEntrar.setEnabled(true);
+                    this.btnCadastro.setEnabled(true);
                 }
                 else
                 {
                     this.btnCadastro.setEnabled(true);
+                    System.exit(0);
                 }
                 
             } 
@@ -285,7 +250,7 @@ public class TelaLogin extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblMensagem;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtSenha;
+    private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 
     public JTextField getTxtEmail() {

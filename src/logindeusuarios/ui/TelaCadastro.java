@@ -18,8 +18,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import logindeusuarios.socket.Conexao;
 import logindeusuarios.socket.Solicitacao;
-import static logindeusuarios.ui.TelaLogin.validarEmail;
 
 /**
  *
@@ -28,15 +28,14 @@ import static logindeusuarios.ui.TelaLogin.validarEmail;
 public class TelaCadastro extends javax.swing.JPanel {
 
     JFrame frameLayout;
-    Socket conexao;
+    Socket conexao = Conexao.getSocket();
     ObjectOutputStream out;
     ObjectInputStream in;
     /**
      * Creates new form TelaCadastro
      * @param frameLayout
-     * @param conexao
      */
-    public TelaCadastro(JFrame frameLayout, Socket conexao, ObjectOutputStream out, ObjectInputStream in) {
+    public TelaCadastro(JFrame frameLayout) {
         initComponents();
         this.frameLayout = frameLayout;
         this.frameLayout.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,9 +44,7 @@ public class TelaCadastro extends javax.swing.JPanel {
         this.frameLayout.setLocationRelativeTo(null);
         this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
-        this.conexao = conexao;
-        this.out = out;
-        this.in = in;
+
     }
 
     /**
@@ -59,6 +56,7 @@ public class TelaCadastro extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPasswordField1 = new javax.swing.JPasswordField();
         btnOk = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -66,10 +64,17 @@ public class TelaCadastro extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
-        txtSenha = new javax.swing.JTextField();
-        txtConfirmacao = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
+        txtSenha = new javax.swing.JPasswordField();
+        txtConfirmacao = new javax.swing.JPasswordField();
+        jSeparator1 = new javax.swing.JSeparator();
         lblError = new javax.swing.JLabel();
+
+        jPasswordField1.setText("jPasswordField1");
+
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20))));
+        setSize(new java.awt.Dimension(462, 171));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnOk.setText("OK");
         btnOk.addActionListener(new java.awt.event.ActionListener() {
@@ -77,6 +82,7 @@ public class TelaCadastro extends javax.swing.JPanel {
                 btnOkActionPerformed(evt);
             }
         });
+        add(btnOk, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 98, 30));
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -84,28 +90,22 @@ public class TelaCadastro extends javax.swing.JPanel {
                 btnCancelarActionPerformed(evt);
             }
         });
+        add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 140, -1, -1));
 
         jLabel1.setText("Nome");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         jLabel2.setText("Email");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
         jLabel3.setText("Senha");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
         jLabel4.setText("Confirmação");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, -1, -1));
 
         txtNome.setToolTipText("");
-
-        txtSenha.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtSenhaFocusGained(evt);
-            }
-        });
-
-        txtConfirmacao.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtConfirmacaoFocusGained(evt);
-            }
-        });
+        add(txtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 370, 20));
 
         txtEmail.setToolTipText("");
         txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -116,128 +116,86 @@ public class TelaCadastro extends javax.swing.JPanel {
                 txtEmailFocusLost(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(9, 9, 9)
-                        .addComponent(txtEmail))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNome))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(lblError))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(6, 6, 6)
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtConfirmacao, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnCancelar))))))
-                .addGap(0, 24, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(1, 1, 1)
-                        .addComponent(lblError)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtConfirmacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnCancelar)
-                            .addComponent(btnOk))
-                        .addGap(0, 19, Short.MAX_VALUE))))
-        );
+        add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 370, 20));
+        add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 140, -1));
+        add(txtConfirmacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, 140, -1));
+        add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 45, 20));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.frameLayout.setVisible(false);
         JFrame frame = new JFrame("Login");
-        TelaLogin loginPanel = new TelaLogin(frame, this.conexao);
+        TelaLogin loginPanel = new TelaLogin(frame);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
         String nome = this.txtNome.getText();
         String email = this.txtEmail.getText();
-        String senha = this.txtSenha.getText();
-        String confirmacao = this.txtConfirmacao.getText();
-        
-        if(!nome.isEmpty() && !email.isEmpty() && !senha.isEmpty() && !confirmacao.isEmpty())
+        String senha = String.valueOf(this.txtSenha.getPassword());
+        String confirmacao = String.valueOf(this.txtConfirmacao.getPassword());
+        try 
         {
-            if(!validarEmail(email))
+            Conexao.getInstance();
+            Conexao.startConnection();
+            this.conexao = Conexao.getSocket();
+            this.in = Conexao.getInputStream();
+            this.out = Conexao.getOutputStream();
+            
+            if(!nome.isEmpty() && !email.isEmpty() && !senha.isEmpty() && !confirmacao.isEmpty())
             {
-                Border borderRed = BorderFactory.createLineBorder(Color.red, 1);
-                this.txtEmail.setBorder(borderRed);
-            }
-            if(!senha.equals(confirmacao))
-            {
-                this.lblError.setText("Senhas não coincidem");
-                this.lblError.setForeground(Color.red);
-                this.lblError.setVisible(true);
-            }
-            else
-            {
-                Solicitacao retorno, cadastro;
-                cadastro = new Solicitacao(this.txtNome.getText(), this.txtEmail.getText(), this.txtSenha.getText());
-                try 
+                if(!validarEmail(email))
                 {
-                    this.out.writeObject(cadastro);
-                    this.out.flush(); //envio imediato
-                    retorno = (Solicitacao) in.readObject();
-                } 
-                catch (IOException | ClassNotFoundException ex) 
-                {
-                    Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                    Border borderRed = BorderFactory.createLineBorder(Color.red, 1);
+                    this.txtEmail.setBorder(borderRed);
                 }
-                this.frameLayout.setVisible(false);
-                JFrame frame = new JFrame("Login");
-                TelaLogin loginPanel = new TelaLogin(frame, this.conexao);                
+                if(!senha.equals(confirmacao))
+                {
+                    this.lblError.setText("Senhas não coincidem");
+                    this.lblError.setForeground(Color.red);
+                    this.lblError.setVisible(true);
+                }
+                else
+                {
+                    Solicitacao retorno, cadastro;
+                    this.out = Conexao.getOutputStream();
+                    this.in = Conexao.getInputStream();
+                    cadastro = new Solicitacao("CAD", this.txtEmail.getText(), this.txtNome.getText(), String.valueOf(this.txtSenha.getPassword()));
+                    try 
+                    {
+                        this.out.writeObject(cadastro);
+                        this.out.flush(); //envio imediato
+                        retorno = (Solicitacao) in.readObject();
+                        System.out.println(retorno.toString());
+                        if(retorno.getComando().toUpperCase().equals("SUC"))
+                        {
+                            Conexao.closeConnection();
+                            this.frameLayout.setVisible(false);
+                            JFrame frame = new JFrame("Login");
+                            TelaLogin loginPanel = new TelaLogin(frame);                             
+                        }
+                        else
+                        {
+                            this.lblError.setText(retorno.getComplemento1());
+                            this.lblError.setVisible(true);
+                            this.lblError.setForeground(Color.red);
+                        }
+                    } 
+                    catch (IOException | ClassNotFoundException ex) 
+                    {
+                        Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+               
+                }
+
             }
-
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_btnOkActionPerformed
-
-    private void txtConfirmacaoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtConfirmacaoFocusGained
-        this.lblError.setVisible(false);
-    }//GEN-LAST:event_txtConfirmacaoFocusGained
-
-    private void txtSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSenhaFocusGained
-        this.lblError.setVisible(false);
-    }//GEN-LAST:event_txtSenhaFocusGained
 
     private void txtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusLost
         if(!validarEmail(this.txtEmail.getText()))
@@ -273,10 +231,12 @@ public class TelaCadastro extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblError;
-    private javax.swing.JTextField txtConfirmacao;
+    private javax.swing.JPasswordField txtConfirmacao;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtSenha;
+    private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }

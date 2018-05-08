@@ -1,5 +1,6 @@
 package logindeusuarios.programa;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import logindeusuarios.thread.Processo;
@@ -11,16 +12,16 @@ public class Receptora
 
         try{
                 //*****RECEPTORA*****
-                ServerSocket pedido = new ServerSocket(55556);
+                ServerSocket pedido = new ServerSocket(55555);
                 while(true)
                 {
                     Socket conexao = pedido.accept();
                     Processo procThread = new Processo(conexao);
-                    procThread.run();
+                    procThread.start();
                 }
 
         }
-        catch (Exception erro)
+        catch (IOException erro)
         {
             System.err.println(erro.getMessage());
         }

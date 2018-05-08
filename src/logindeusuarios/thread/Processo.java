@@ -29,7 +29,7 @@ public class Processo extends Thread
     public void run() 
     {
         ObjectInputStream receptor;
-        ObjectOutputStream output = null;
+        ObjectOutputStream output;
         try 
         {
             receptor = new ObjectInputStream(this.conexao.getInputStream());
@@ -75,7 +75,15 @@ public class Processo extends Thread
                         {
                             if(!BD.USUARIOS.cadastrado(recebido.getComplemento1()))
                             {
-                                output.writeObject(new Solicitacao("ERR", "usuario não está cadastrado"));
+                                output.writeObject(new Solicitacao("ERR", "Não encontramos o seu cadastro em nossa base."));
+                            }
+                            else
+                            {
+                                Usuario userTest = BD.USUARIOS.getUsuario(recebido.getComplemento1());
+                                if(userTest.getSenha().equals(recebido.getComplemento2()))
+                                    output.writeObject(new Solicitacao("SUC", "Login efetuado com sucesso!"));
+                                else
+                                    output.writeObject(new Solicitacao("ERR", "email e ou senha incorretos"));
                             }
                         } 
                         catch (Exception ex) 
@@ -86,7 +94,7 @@ public class Processo extends Thread
                      }
                      else
                      {
-                         output.writeObject(new Solicitacao("ERR", "preencha os campos email e senha"));
+                         output.writeObject(new Solicitacao("ERR", "Você não preencheu todos os campos!"));
                      }
                      break;
             }

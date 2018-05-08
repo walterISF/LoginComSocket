@@ -11,7 +11,7 @@ public class Receptora
 
         try{
                 //*****RECEPTORA*****
-                ServerSocket pedido = new ServerSocket(2222);
+                ServerSocket pedido = new ServerSocket(55556);
                 while(true)
                 {
                     Socket conexao = pedido.accept();

@@ -36,6 +36,7 @@ public class Processo extends Thread
             output = new ObjectOutputStream(this.conexao.getOutputStream());
             Solicitacao recebido;
             recebido = (Solicitacao) receptor.readObject();
+//            Logger.getLogger("Conexão", "Usuário conectado");
             switch(recebido.getComando())
             {
                 case "CAD":
@@ -70,11 +71,22 @@ public class Processo extends Thread
                 case "LOG":
                      if(!recebido.getComplemento1().equals("") && !recebido.getComplemento2().equals(""))
                      {
-                         output.writeObject(new Solicitacao("SUC"));
+                        try 
+                        {
+                            if(!BD.USUARIOS.cadastrado(recebido.getComplemento1()))
+                            {
+                                output.writeObject(new Solicitacao("ERR", "usuario não está cadastrado"));
+                            }
+                        } 
+                        catch (Exception ex) 
+                        {
+                            Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                         
                      }
                      else
                      {
-                         output.writeObject(new Solicitacao("ERR"));
+                         output.writeObject(new Solicitacao("ERR", "preencha os campos email e senha"));
                      }
                      break;
             }

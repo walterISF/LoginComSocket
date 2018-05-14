@@ -36,67 +36,69 @@ public class Processo extends Thread
             output = new ObjectOutputStream(this.conexao.getOutputStream());
             Solicitacao recebido;
             recebido = (Solicitacao) receptor.readObject();
-//            Logger.getLogger("Conexão", "Usuário conectado");
-            switch(recebido.getComando())
+            while(!recebido.getComando().equals(""))
             {
-                case "CAD":
-                    if(
-                        !recebido.getComplemento1().equals("") && 
-                        !recebido.getComplemento2().equals("") && 
-                        !recebido.getComplemento3().equals("")
-                      )
-                    {
-                        try 
+                switch(recebido.getComando())
+                {
+                    case "CAD":
+                        if(
+                            !recebido.getComplemento1().equals("") && 
+                            !recebido.getComplemento2().equals("") && 
+                            !recebido.getComplemento3().equals("")
+                          )
                         {
-                            if(!BD.USUARIOS.cadastrado(recebido.getComplemento2()))
+                            try 
                             {
-                                BD.USUARIOS.incluir(new Usuario(recebido.getComplemento1(),recebido.getComplemento2(),recebido.getComplemento3()));
-                                output.writeObject(new Solicitacao("SUC"));
-                            }
-                            else
-                            {
-                                output.writeObject(new Solicitacao("ERR"));
-                            }
-                        } 
-                        catch (Exception ex) 
-                        {
-                            Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    else
-                    {
-                        output.writeObject(new Solicitacao("ERR"));
-                    }
-                    break;
-                case "LOG":
-                     if(!recebido.getComplemento1().equals("") && !recebido.getComplemento2().equals(""))
-                     {
-                        try 
-                        {
-                            if(!BD.USUARIOS.cadastrado(recebido.getComplemento1()))
-                            {
-                                output.writeObject(new Solicitacao("ERR", "Não encontramos o seu cadastro em nossa base."));
-                            }
-                            else
-                            {
-                                Usuario userTest = BD.USUARIOS.getUsuario(recebido.getComplemento1());
-                                if(userTest.getSenha().equals(recebido.getComplemento2()))
-                                    output.writeObject(new Solicitacao("SUC", "Login efetuado com sucesso!"));
+                                if(!BD.USUARIOS.cadastrado(recebido.getComplemento2()))
+                                {
+                                    BD.USUARIOS.incluir(new Usuario(recebido.getComplemento1(),recebido.getComplemento2(),recebido.getComplemento3()));
+                                    output.writeObject(new Solicitacao("SUC"));
+                                }
                                 else
-                                    output.writeObject(new Solicitacao("ERR", "email e ou senha incorretos"));
+                                {
+                                    output.writeObject(new Solicitacao("ERR"));
+                                }
+                            } 
+                            catch (Exception ex) 
+                            {
+                                Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                        } 
-                        catch (Exception ex) 
-                        {
-                            Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                         
-                     }
-                     else
-                     {
-                         output.writeObject(new Solicitacao("ERR", "Você não preencheu todos os campos!"));
-                     }
-                     break;
+                        else
+                        {
+                            output.writeObject(new Solicitacao("ERR"));
+                        }
+                        break;
+                    case "LOG":
+                         if(!recebido.getComplemento1().equals("") && !recebido.getComplemento2().equals(""))
+                         {
+                            try 
+                            {
+                                if(!BD.USUARIOS.cadastrado(recebido.getComplemento1()))
+                                {
+                                    output.writeObject(new Solicitacao("ERR", "Não encontramos o seu cadastro em nossa base."));
+                                }
+                                else
+                                {
+                                    Usuario userTest = BD.USUARIOS.getUsuario(recebido.getComplemento1());
+                                    if(userTest.getSenha().equals(recebido.getComplemento2()))
+                                        output.writeObject(new Solicitacao("SUC", "Login efetuado com sucesso!"));
+                                    else
+                                        output.writeObject(new Solicitacao("ERR", "email e ou senha incorretos"));
+                                }
+                            } 
+                            catch (Exception ex) 
+                            {
+                                Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                         }
+                         else
+                         {
+                             output.writeObject(new Solicitacao("ERR", "Você não preencheu todos os campos!"));
+                         }
+                         break;
+                }                
             }
             
         } 

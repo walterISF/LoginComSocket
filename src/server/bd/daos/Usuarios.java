@@ -1,10 +1,10 @@
-package logindeusuarios.bd.daos;
+package bd.daos;
 
 import java.io.Serializable;
-import logindeusuarios.bd.core.MeuResultSet;
+import bd.core.MeuResultSet;
 import java.sql.*;
-import logindeusuarios.bd.BD;
-import logindeusuarios.bd.dbos.Usuario;
+import bd.BD;
+import bd.dbos.Usuario;
 
 public class Usuarios
 {

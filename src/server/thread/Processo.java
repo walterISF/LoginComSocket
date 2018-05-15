@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logindeusuarios.thread;
+package thread;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,9 +11,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import logindeusuarios.socket.Solicitacao;
-import logindeusuarios.bd.BD;
-import logindeusuarios.bd.dbos.Usuario;
+import socket.Solicitacao;
+import bd.BD;
+import bd.dbos.Usuario;
 
 public class Processo extends Thread
 {

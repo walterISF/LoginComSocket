@@ -1,4 +1,4 @@
-package logindeusuarios.bd.core;
+package bd.core;
 
 import java.sql.Array;
 import java.sql.Blob;

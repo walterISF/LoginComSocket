@@ -1,4 +1,4 @@
-package logindeusuarios.bd.dbos;
+package bd.dbos;
 
 import java.io.Serializable;
 import java.util.Objects;

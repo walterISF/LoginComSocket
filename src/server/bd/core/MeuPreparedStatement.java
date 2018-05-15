@@ -1,4 +1,4 @@
-package logindeusuarios.bd.core;
+package bd.core;
 
 import java.io.InputStream;
 import java.io.Reader;

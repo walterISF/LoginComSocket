@@ -1,9 +1,9 @@
-package logindeusuarios.programa;
+package programaServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import logindeusuarios.thread.Processo;
+import thread.Processo;
 
 public class Receptora
 {

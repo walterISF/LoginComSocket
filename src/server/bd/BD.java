@@ -1,7 +1,7 @@
-package logindeusuarios.bd;
+package bd;
 
-import logindeusuarios.bd.core.MeuPreparedStatement;
-import logindeusuarios.bd.daos.Usuarios;
+import bd.core.MeuPreparedStatement;
+import bd.daos.Usuarios;
 
 public class BD
 {

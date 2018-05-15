@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import client.socket.Conexao;
-import client.socket.Solicitacao;
+import socket.Solicitacao;
 
 /**
  *
@@ -72,6 +72,7 @@ public class TelaLogin extends javax.swing.JPanel {
         txtEmail = new javax.swing.JTextField();
         lblMensagem = new javax.swing.JLabel();
         txtSenha = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
 
         jLabel3.setText("jLabel3");
 
@@ -116,6 +117,13 @@ public class TelaLogin extends javax.swing.JPanel {
 
         lblMensagem.setForeground(new java.awt.Color(255, 0, 0));
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -135,11 +143,14 @@ public class TelaLogin extends javax.swing.JPanel {
                 .addComponent(lblMensagem))
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(btnCancelar)
-                .addGap(6, 6, 6)
-                .addComponent(btnCadastro))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnCancelar)
+                        .addGap(6, 6, 6)
+                        .addComponent(btnCadastro))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,7 +173,10 @@ public class TelaLogin extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEntrar)
                     .addComponent(btnCancelar)
-                    .addComponent(btnCadastro)))
+                    .addComponent(btnCadastro))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         jLabel1.getAccessibleContext().setAccessibleName("email");
@@ -276,6 +290,19 @@ public class TelaLogin extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEntrarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Solicitacao solicitacao = new Solicitacao("TEST", "SALVE");
+        try {
+            this.transmissor.writeObject(solicitacao);
+            this.transmissor.flush();
+            Solicitacao retorno = (Solicitacao) this.recebido.readObject();
+            System.out.println(retorno.toString());
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static boolean validarEmail(String email)
     {
         boolean isEmailIdValid = false;
@@ -294,6 +321,7 @@ public class TelaLogin extends javax.swing.JPanel {
     private javax.swing.JButton btnCadastro;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEntrar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

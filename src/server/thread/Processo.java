@@ -35,9 +35,9 @@ public class Processo extends Thread
             receptor = new ObjectInputStream(this.conexao.getInputStream());
             output = new ObjectOutputStream(this.conexao.getOutputStream());
             Solicitacao recebido;
-            recebido = (Solicitacao) receptor.readObject();
-            while(!recebido.getComando().equals(""))
+            do
             {
+                recebido = (Solicitacao) receptor.readObject();
                 switch(recebido.getComando())
                 {
                     case "CAD":
@@ -98,8 +98,12 @@ public class Processo extends Thread
                              output.writeObject(new Solicitacao("ERR", "Você não preencheu todos os campos!"));
                          }
                          break;
+                    case "TEST":
+                        output.writeObject(new Solicitacao("SUCC", "Você agora consegue falar a vontade!"));
+                        break;
                 }                
             }
+            while(!recebido.getComando().equals(""));
             
         } 
         catch (ClassNotFoundException | IOException ex)  

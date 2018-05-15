@@ -8,6 +8,7 @@ public class Usuario implements Serializable
     private String email;
     private String nome;
     private String  senha;
+    private Float moeda;
 
     public Usuario (String email, String nome, String senha) throws Exception
     {
@@ -24,7 +25,8 @@ public class Usuario implements Serializable
         String ret = "";
         ret = "Usuario [Nome: " + this.getNome() + ", "
                     + "Email: " + this.getEmail() + ", "
-                    + "Senha: " + this.getSenha() + "]";
+                    + "Senha: " + this.getSenha() + ", "
+                    + "Moedas: " + this.getSenha() + "]";
         return ret;
     }
     
@@ -58,6 +60,9 @@ public class Usuario implements Serializable
             return false;
         }
         if (!Objects.equals(this.senha, other.senha)) {
+            return false;
+        }
+        if (!Objects.equals(this.moeda, other.moeda)) {
             return false;
         }
         return true;
@@ -96,6 +101,20 @@ public class Usuario implements Serializable
             throw new Exception("Insira uma senha válida");
         this.senha = senha;
     }
+
+    /**
+     * 
+     * @param moeda Valor de investimentos do jogo
+     * @throws Exception 
+     */
+    public void setMoeda(Float moeda) throws Exception
+    {
+        if(moeda == null)
+            throw new Exception("Insira uma quantidade de moedas válida");
+        this.moeda = moeda;
+    }
+    
+    
     
     /**
      * @return Retorna o email do Usuario
@@ -116,5 +135,12 @@ public class Usuario implements Serializable
      */
     public String getSenha() {
         return senha;
+    }
+    
+    /**
+     * @return Retorna as moedas do Usuario
+     */
+    public Float getMoeda() {
+        return moeda;
     }
 }

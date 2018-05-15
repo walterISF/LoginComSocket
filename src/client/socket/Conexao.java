@@ -21,7 +21,7 @@ public class Conexao
     private static ObjectOutputStream out = null;
     private static ObjectInputStream in = null;
     private static final String ip = "127.0.0.1";
-    private static final Integer port = 55555;
+    private static final Integer port = 55557;
     
     
     private Conexao()

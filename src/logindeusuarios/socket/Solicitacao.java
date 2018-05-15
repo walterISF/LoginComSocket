@@ -147,4 +147,8 @@ public class Solicitacao implements Serializable
         return true;
     }
     
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> client

@@ -1,8 +1,8 @@
-package logindeusuarios.programa;
+package client.programa;
 
 import java.io.IOException;
 import javax.swing.JFrame;
-import logindeusuarios.ui.TelaLogin;
+import client.ui.TelaLogin;
 
 public class Transmissora
 {

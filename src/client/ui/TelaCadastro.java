@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logindeusuarios.ui;
+package client.ui;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -18,8 +18,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import logindeusuarios.socket.Conexao;
-import logindeusuarios.socket.Solicitacao;
+import client.socket.Conexao;
+import client.socket.Solicitacao;
+import client.ui.TelaLogin;
 
 /**
  *

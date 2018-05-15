@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logindeusuarios.socket;
+package client.socket;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,7 +20,7 @@ public class Conexao
     private static Socket socket = null;
     private static ObjectOutputStream out = null;
     private static ObjectInputStream in = null;
-    private static final String ip = "172.16.13.80";
+    private static final String ip = "127.0.0.1";
     private static final Integer port = 55555;
     
     

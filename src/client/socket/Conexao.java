@@ -21,7 +21,7 @@ public class Conexao
     private static ObjectOutputStream out = null;
     private static ObjectInputStream in = null;
     private static final String ip = "127.0.0.1";
-    private static final Integer port = 55557;
+    private static final Integer port = 12345;
     
     
     private Conexao()
@@ -44,6 +44,7 @@ public class Conexao
             socket = new Socket(ip, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            System.out.println("Uma conexão foi estabelecida");
         }
     }
     
@@ -56,6 +57,7 @@ public class Conexao
         socket.close();
         socket = null;
         INSTANCE = null;
+        System.out.println("Sua conexão foi encerrada");
         
     }
     

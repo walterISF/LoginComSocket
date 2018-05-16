@@ -291,7 +291,7 @@ public class TelaLogin extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Solicitacao solicitacao = new Solicitacao("TEST", "SALVE");
+        Solicitacao solicitacao = new Solicitacao("TEST");
         try {
             this.transmissor.writeObject(solicitacao);
             this.transmissor.flush();

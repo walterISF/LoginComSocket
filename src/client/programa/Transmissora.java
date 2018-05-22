@@ -10,7 +10,6 @@ public class Transmissora
     {
         JFrame frame = new JFrame("Login");
         TelaLogin loginPanel = new TelaLogin(frame);
-        
-          
+         
     } 
 }

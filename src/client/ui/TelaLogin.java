@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import client.socket.Conexao;
+import saladejogo.ui.TelaLobby;
+import saladejogo.ui.TelaPartida;
 import socket.Solicitacao;
 
 /**
@@ -72,7 +74,6 @@ public class TelaLogin extends javax.swing.JPanel {
         txtEmail = new javax.swing.JTextField();
         lblMensagem = new javax.swing.JLabel();
         txtSenha = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
 
         jLabel3.setText("jLabel3");
 
@@ -117,13 +118,6 @@ public class TelaLogin extends javax.swing.JPanel {
 
         lblMensagem.setForeground(new java.awt.Color(255, 0, 0));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -143,14 +137,11 @@ public class TelaLogin extends javax.swing.JPanel {
                 .addComponent(lblMensagem))
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnCancelar)
-                        .addGap(6, 6, 6)
-                        .addComponent(btnCadastro))))
+                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(btnCancelar)
+                .addGap(6, 6, 6)
+                .addComponent(btnCadastro))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,9 +165,7 @@ public class TelaLogin extends javax.swing.JPanel {
                     .addComponent(btnEntrar)
                     .addComponent(btnCancelar)
                     .addComponent(btnCadastro))
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addGap(20, 20, 20))
         );
 
         jLabel1.getAccessibleContext().setAccessibleName("email");
@@ -189,44 +178,48 @@ public class TelaLogin extends javax.swing.JPanel {
 
     private void btnEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEntrarMouseClicked
 
-        String email = this.txtEmail.getText();
-        String senha = String.valueOf(this.txtSenha.getPassword());
-        if(!email.isEmpty() && !senha.isEmpty())
-        {
-            Solicitacao solicitacao = new Solicitacao("LOG", email, senha);
-            Solicitacao retorno;
-            try
-            {
-                Conexao.getInstance();
-                Conexao.startConnection();
-                this.conexao = Conexao.getSocket();
-                this.transmissor = Conexao.getOutputStream();
-                this.recebido = Conexao.getInputStream();
-                
-                this.transmissor.writeObject(solicitacao);
-                this.transmissor.flush(); //envio imediato
-                retorno = (Solicitacao) this.recebido.readObject();
-                System.out.println(retorno.toString());
-                if(retorno.getComando().toUpperCase().equals("SUC"))
-                {
-                    this.txtEmail.setText("");
-                    this.txtSenha.setText("");
-                    this.lblMensagem.setText("Login efetuado com sucesso!");
-                    this.lblMensagem.setForeground(Color.green);
-                    this.btnEntrar.setEnabled(false);
-                    this.btnCadastro.setEnabled(false);
-                }
-                else
-                {
-                    this.lblMensagem.setText(retorno.getComplemento1());
-                    Conexao.closeConnection();
-                }
-            }
-            catch(Exception e)
-            {
-                System.out.println(e.getClass());
-            }            
-        }
+        JFrame frame = new JFrame("Login");
+        TelaLobby partida = new TelaLobby(frame);
+//        String email = this.txtEmail.getText();
+//        String senha = String.valueOf(this.txtSenha.getPassword());
+//        if(!email.isEmpty() && !senha.isEmpty())
+//        {
+//            Solicitacao solicitacao = new Solicitacao("LOG", email, senha);
+//            Solicitacao retorno;
+//            try
+//            {
+//                Conexao.getInstance();
+//                Conexao.startConnection();
+//                this.conexao = Conexao.getSocket();
+//                this.transmissor = Conexao.getOutputStream();
+//                this.recebido = Conexao.getInputStream();
+//                
+//                this.transmissor.writeObject(solicitacao);
+//                this.transmissor.flush(); //envio imediato
+//                retorno = (Solicitacao) this.recebido.readObject();
+//                System.out.println(retorno.toString());
+//                if(retorno.getComando().toUpperCase().equals("SUC"))
+//                {
+//                    this.txtEmail.setText("");
+//                    this.txtSenha.setText("");
+//                    this.lblMensagem.setText("Login efetuado com sucesso!");
+//                    this.lblMensagem.setForeground(Color.green);
+//                    this.btnEntrar.setEnabled(false);
+//                    this.btnCadastro.setEnabled(false);
+//                    PartidaUI partida = new PartidaUI();
+//                    partida.setVisible(true);
+//                }
+//                else
+//                {
+//                    this.lblMensagem.setText(retorno.getComplemento1());
+//                    Conexao.closeConnection();
+//                }
+//            }
+//            catch(Exception e)
+//            {
+//                System.out.println(e.getClass());
+//            }            
+//        }
 
     }//GEN-LAST:event_btnEntrarMouseClicked
 
@@ -290,19 +283,6 @@ public class TelaLogin extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEntrarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Solicitacao solicitacao = new Solicitacao("TEST");
-        try {
-            this.transmissor.writeObject(solicitacao);
-            this.transmissor.flush();
-            Solicitacao retorno = (Solicitacao) this.recebido.readObject();
-            System.out.println(retorno.toString());
-        } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     public static boolean validarEmail(String email)
     {
         boolean isEmailIdValid = false;
@@ -321,7 +301,6 @@ public class TelaLogin extends javax.swing.JPanel {
     private javax.swing.JButton btnCadastro;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEntrar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

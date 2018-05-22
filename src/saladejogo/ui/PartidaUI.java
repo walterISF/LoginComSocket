@@ -44,84 +44,124 @@ public class PartidaUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        btnParar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         btnMaisCartas = new javax.swing.JButton();
-        btnParar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblValorMesa = new javax.swing.JLabel();
+        lblPontos = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblFundo = new javax.swing.JLabel();
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/field2.jpeg"))); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel3.setText("Aposta: 20");
-
-        btnSair.setText("x");
-        btnSair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSairActionPerformed(evt);
+        setBackground(new java.awt.Color(255, 255, 255));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
+        getContentPane().setLayout(null);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 441, Short.MAX_VALUE)
-                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(btnSair))
-                .addGap(0, 34, Short.MAX_VALUE))
-        );
-
-        btnMaisCartas.setText("MAIS CARTAS ");
-        btnMaisCartas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMaisCartasActionPerformed(evt);
-            }
-        });
-
-        btnParar.setText("Parar");
+        btnParar.setBackground(new java.awt.Color(255, 255, 255));
+        btnParar.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        btnParar.setForeground(new java.awt.Color(255, 255, 255));
+        btnParar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/btnParar.png"))); // NOI18N
+        btnParar.setText("PARAR");
+        btnParar.setBounds(new java.awt.Rectangle(480, 420, 123, 40));
+        btnParar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnParar.setIconTextGap(6);
+        btnParar.setPreferredSize(new java.awt.Dimension(100, 50));
         btnParar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPararActionPerformed(evt);
             }
         });
+        getContentPane().add(btnParar);
+        btnParar.setBounds(480, 420, 123, 40);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(168, 168, 168)
-                .addComponent(btnMaisCartas, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnParar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnMaisCartas, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnParar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        btnSair.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
+        btnSair.setForeground(new java.awt.Color(255, 255, 255));
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/btnParar.png"))); // NOI18N
+        btnSair.setText("x");
+        btnSair.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSair);
+        btnSair.setBounds(860, 10, 25, 20);
+
+        btnMaisCartas.setBackground(new java.awt.Color(255, 255, 255));
+        btnMaisCartas.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        btnMaisCartas.setForeground(new java.awt.Color(255, 255, 255));
+        btnMaisCartas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/btnMais.png"))); // NOI18N
+        btnMaisCartas.setText("MAIS CARTAS");
+        btnMaisCartas.setToolTipText("");
+        btnMaisCartas.setBounds(new java.awt.Rectangle(280, 420, 123, 40));
+        btnMaisCartas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnMaisCartas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMaisCartas.setIconTextGap(6);
+        btnMaisCartas.setRolloverEnabled(true);
+        btnMaisCartas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaisCartasActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnMaisCartas);
+        btnMaisCartas.setBounds(280, 420, 123, 40);
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/efeitoDeck.png"))); // NOI18N
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(200, 290, 510, 60);
+
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel3.setText("Aposta MEGA:");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(50, 150, 140, 20);
+
+        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel4.setText("Status do Jogo:");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(50, 120, 140, 30);
+
+        lblValorMesa.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        lblValorMesa.setForeground(new java.awt.Color(255, 0, 0));
+        lblValorMesa.setText("$ 15K");
+        getContentPane().add(lblValorMesa);
+        lblValorMesa.setBounds(180, 152, 45, 16);
+
+        lblPontos.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        lblPontos.setText("4");
+        getContentPane().add(lblPontos);
+        lblPontos.setBounds(520, 370, 170, 30);
+
+        jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel6.setText("SEUS PONTOS:");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(340, 370, 170, 30);
+
+        jPanel1.setBackground(new java.awt.Color(244, 244, 244));
+        jPanel1.setToolTipText("");
+        jPanel1.setLayout(null);
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 565, 34);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/logo.png"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(50, 30, 383, 81);
+
+        lblFundo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/fundoTestura.png"))); // NOI18N
+        lblFundo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(lblFundo);
+        lblFundo.setBounds(0, 0, 900, 540);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -186,6 +226,10 @@ public class PartidaUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSairActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -226,8 +270,15 @@ public class PartidaUI extends javax.swing.JFrame {
     private javax.swing.JButton btnMaisCartas;
     private javax.swing.JButton btnParar;
     private javax.swing.JButton btnSair;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblFundo;
+    private javax.swing.JLabel lblPontos;
+    private javax.swing.JLabel lblValorMesa;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,8 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/logindeusuarios/socket/Receptora.java</file>
-            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/logindeusuarios/programa/Programa.java</file>
+            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/server/programa/Receptora.java</file>
+            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/server/bd/BD.java</file>
+            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/client/ui/TelaLogin.java</file>
+            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/client/socket/Conexao.java</file>
+            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/server/thread/Processo.java</file>
+            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/client/programa/Transmissora.java</file>
+            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/saladejogo/ui/PartidaUI.java</file>
         </group>
     </open-files>
 </project-private>

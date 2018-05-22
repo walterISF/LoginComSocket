@@ -13,8 +13,17 @@ public class Solicitacao implements Serializable
     //TIPOS DE COMANDO
     //"CAD" -> complemento1: email, complemento2: nome, complemento3: senha;
     //"LOG" -> complemento1: email, complemento2: senha;
+    //"CRI" -> complemento1: nova Partida
+    //"PAR" -> complemento1: nome da Partida, complemento 2: Status
+    //"APO" -> Valor da Aposta
+    //"CAR" -> complemento1: Naipe, complemento2: Valor
+    //"COM" -> sem complemento
+    //"EOP" -> sem complemento
     //"SUC" -> sem complemento
     //"ERR" -> sem complemento
+    //"WIN" -> complemento1: Nome Jogador, complemento2: email Jogador
+    //"EOW" -> complemento1: Saldo atualizado do jogador
+    //"SAI" -> sem complemento
     
     private String comando, complemento1, complemento2, complemento3;
 

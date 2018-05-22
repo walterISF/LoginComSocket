@@ -5,17 +5,33 @@
  */
 package saladejogo.ui;
 
+import client.socket.Conexao;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import socket.Solicitacao;
+
 /**
  *
  * @author Calebe
  */
 public class PartidaUI extends javax.swing.JFrame {
 
+    ObjectOutputStream transmissor;
+    ObjectInputStream receptor;
+    Socket conexao;
     /**
      * Creates new form Partida
      */
-    public PartidaUI() {
+    public PartidaUI() 
+    {
         initComponents();
+        this.transmissor = Conexao.getOutputStream();
+        this.receptor = Conexao.getInputStream();
+        this.conexao = Conexao.getSocket();
     }
 
     /**
@@ -29,53 +45,58 @@ public class PartidaUI extends javax.swing.JFrame {
 
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        btnSair = new javax.swing.JButton();
+        btnMaisCartas = new javax.swing.JButton();
+        btnParar = new javax.swing.JButton();
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/field2.jpeg"))); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Comprar");
-
-        jButton2.setText("Parar");
-
         jLabel3.setText("Aposta: 20");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/field2.jpeg"))); // NOI18N
+        btnSair.setText("x");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(170, 170, 170)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jLabel3))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(790, 790, 790)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jLabel1))
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 441, Short.MAX_VALUE)
+                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(470, 470, 470)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel3))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(470, 470, 470)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLabel1)
+                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(btnSair))
+                .addGap(0, 34, Short.MAX_VALUE))
         );
+
+        btnMaisCartas.setText("MAIS CARTAS ");
+        btnMaisCartas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaisCartasActionPerformed(evt);
+            }
+        });
+
+        btnParar.setText("Parar");
+        btnParar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPararActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,16 +105,86 @@ public class PartidaUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(168, 168, 168)
+                .addComponent(btnMaisCartas, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnParar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnMaisCartas, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnParar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnMaisCartasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaisCartasActionPerformed
+        Solicitacao pedido = new Solicitacao("COM");
+        Solicitacao retorno;
+        try 
+        {
+            this.transmissor.writeObject(pedido);
+            this.transmissor.flush();
+            retorno = (Solicitacao) this.receptor.readObject();
+            System.out.println(retorno.toString());
+            if(retorno.getComando().toUpperCase().equals("SUC"))
+            {
+                
+            }
+        } 
+        catch (IOException | ClassNotFoundException ex) 
+        {
+            Logger.getLogger(PartidaUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btnMaisCartasActionPerformed
+
+    private void btnPararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPararActionPerformed
+        Solicitacao parada = new Solicitacao("EOC");
+        Solicitacao retorno;
+        try 
+        {
+            this.transmissor.writeObject(parada);
+            this.transmissor.flush();
+            retorno = (Solicitacao) this.receptor.readObject();
+            if(retorno.getComando().toUpperCase().equals("SUC"))
+            {
+                
+            }            
+        } 
+        catch (IOException | ClassNotFoundException ex) 
+        {
+            Logger.getLogger(PartidaUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnPararActionPerformed
+
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        Solicitacao sair = new Solicitacao("SAI");
+        Solicitacao retorno;
+        try 
+        {
+            this.transmissor.writeObject(sair);
+            this.transmissor.flush();
+            retorno = (Solicitacao) this.receptor.readObject();
+            if(retorno.getComando().toUpperCase().equals("SUC"))
+            {
+                Conexao.closeConnection();
+            }            
+        } 
+        catch (IOException | ClassNotFoundException ex) 
+        {
+            Logger.getLogger(PartidaUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSairActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,9 +223,9 @@ public class PartidaUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnMaisCartas;
+    private javax.swing.JButton btnParar;
+    private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

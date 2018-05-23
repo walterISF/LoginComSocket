@@ -58,6 +58,7 @@ public class TelaPartida extends javax.swing.JPanel {
         lblValorMesa = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         lblPontos = new javax.swing.JLabel();
         lblFundo = new javax.swing.JLabel();
 
@@ -127,6 +128,13 @@ public class TelaPartida extends javax.swing.JPanel {
         add(jLabel6);
         jLabel6.setBounds(340, 370, 170, 30);
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/copas-10.jpg"))); // NOI18N
+        jLabel2.setText("jLabel2");
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add(jLabel2);
+        jLabel2.setBounds(250, 180, 110, 160);
+
         lblPontos.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         lblPontos.setText("4");
         add(lblPontos);
@@ -184,6 +192,7 @@ public class TelaPartida extends javax.swing.JPanel {
     private javax.swing.JButton btnMaisCartas;
     private javax.swing.JButton btnParar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

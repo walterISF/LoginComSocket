@@ -59,15 +59,16 @@ public class Usuarios
             String sql;
 
             sql = "INSERT INTO login " +
-                  "(EMAIL,NOME,SENHA) " +
+                  "(EMAIL,NOME,SENHA,MOEDAS) " +
                   "VALUES " +
-                  "(?,?,?)";
+                  "(?,?,?,?)";
 
             BD.COMANDO.prepareStatement (sql);
 
             BD.COMANDO.setString (1, usuario.getEmail ());
             BD.COMANDO.setString (2, usuario.getNome  ());
             BD.COMANDO.setString (3, usuario.getSenha ());
+            BD.COMANDO.setFloat  (4, usuario.getMoeda ());
 
             BD.COMANDO.executeUpdate ();
             BD.COMANDO.commit        ();
@@ -127,6 +128,7 @@ public class Usuarios
             sql = "UPDATE login " +
                   "SET NOME=? " +
                   ",SENHA=? " +
+                  ",MOEDAS=? " +
                   "WHERE EMAIL=?";
 
             BD.COMANDO.prepareStatement (sql);

@@ -16,9 +16,10 @@ public class Carta
     String valor;
     String nipe;
     
-    public Carta()
+    public Carta(String valor, String nipe)
     {
-        
+        this.valor = valor;
+        this.nipe = nipe;
     }
 
     /**

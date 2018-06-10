@@ -14,11 +14,17 @@ import java.util.logging.Logger;
 import socket.Solicitacao;
 import bd.BD;
 import bd.dbos.Usuario;
+import javax.swing.JFrame;
+import saladejogo.ui.TelaLobby;
+import socket.DadosBasicos;
+import socket.Lista;
+import socket.Partida;
 
 public class Processo extends Thread
 {
 
-    Socket conexao;
+    public Socket conexao;
+    private Lista<Partida> partidas;
     public Processo(Socket conexao) 
     {
         this.conexao = conexao;
@@ -30,14 +36,19 @@ public class Processo extends Thread
     {
         ObjectInputStream receptor;
         ObjectOutputStream output;
+        DadosBasicos.Init();
+        partidas = DadosBasicos.getPartidas();
+        
         try 
         {
             receptor = new ObjectInputStream(this.conexao.getInputStream());
             output = new ObjectOutputStream(this.conexao.getOutputStream());
             Solicitacao recebido;
+            Usuario userPartida = null;
             do
             {
                 recebido = (Solicitacao) receptor.readObject();
+                
                 switch(recebido.getComando())
                 {
                     case "CAD":
@@ -51,7 +62,10 @@ public class Processo extends Thread
                             {
                                 if(!BD.USUARIOS.cadastrado(recebido.getComplemento2()))
                                 {
-                                    BD.USUARIOS.incluir(new Usuario(recebido.getComplemento1(),recebido.getComplemento2(),recebido.getComplemento3()));
+                                    Usuario userCadastro = new Usuario(recebido.getComplemento1(),recebido.getComplemento2(),recebido.getComplemento3());
+                                    userCadastro.setMoeda(1000.0F);
+                                    BD.USUARIOS.incluir(userCadastro);
+                                    
                                     output.writeObject(new Solicitacao("SUC"));
                                 }
                                 else
@@ -80,9 +94,14 @@ public class Processo extends Thread
                                 }
                                 else
                                 {
-                                    Usuario userTest = BD.USUARIOS.getUsuario(recebido.getComplemento1());
-                                    if(userTest.getSenha().equals(recebido.getComplemento2()))
+                                    userPartida = BD.USUARIOS.getUsuario(recebido.getComplemento1());
+                                    if(userPartida.getSenha().equals(recebido.getComplemento2()))
+                                    {
+                                        
                                         output.writeObject(new Solicitacao("SUC", "Login efetuado com sucesso!"));
+                                        JFrame frame = new JFrame("Lobby");
+                                        TelaLobby lobby = new TelaLobby(frame);
+                                    }
                                     else
                                         output.writeObject(new Solicitacao("ERR", "email e ou senha incorretos"));
                                 }
@@ -98,8 +117,40 @@ public class Processo extends Thread
                              output.writeObject(new Solicitacao("ERR", "Você não preencheu todos os campos!"));
                          }
                          break;
-                    case "TEST":
-                        output.writeObject(new Solicitacao("SUCC", "Você agora consegue falar a vontade!"));
+                    case "CRI":
+                        try 
+                        {
+                            Partida nova = new Partida(recebido.getComplemento1());
+                            Lista<Usuario> jogadores = new Lista<>();
+                            jogadores.inserirNoFim(userPartida);
+                            
+                            if(!partidas.tem(nova))
+                            {
+                                partidas.inserirNoFim(nova);
+                                output.writeObject(new Solicitacao("SUC", "Seu saldo atual: " + userPartida.getMoeda() + "moedas"));   
+                            }
+                            else
+                            {
+                                output.writeObject(new Solicitacao("ERR", "Não foi possível criar sua partida: Partida já existe!"));
+                            }
+                        } 
+                        catch (Exception ex) 
+                        {
+                            Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
+                            output.writeObject(new Solicitacao("ERR", "Não foi possível criar sua partida"));
+                        }                   
+                        break;
+                    case "COM":
+                        
+                        break;
+                    case "APO":
+                        
+                        break;
+                    case "ENT":
+                            //if(Conexao.getPartida() == )
+                        break;
+                    case "SAI":
+                        output.writeObject(new Solicitacao("SUC", "Você saiu do jogo"));
                         break;
                 }                
             }

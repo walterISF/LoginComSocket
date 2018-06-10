@@ -5,6 +5,8 @@
  */
 package saladejogo.ui;
 
+import client.socket.Conexao;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,7 +14,12 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import socket.DadosBasicos;
+import socket.Lista;
+import socket.Partida;
 import socket.Solicitacao;
 /**
  *
@@ -20,10 +27,12 @@ import socket.Solicitacao;
  */
 public class TelaLobby extends javax.swing.JPanel {
 
-    ObjectOutputStream transmissor;
-    ObjectInputStream receptor;
-    Socket conexao;
-    JFrame frameLayout;
+    private ObjectOutputStream transmissor;
+    private ObjectInputStream receptor;
+    private Socket conexao;
+    private JFrame frameLayout;
+    private DefaultListModel model;
+    private Lista<Partida> partidas;
     /**
      * Creates new form TelaLobby
      */
@@ -36,6 +45,17 @@ public class TelaLobby extends javax.swing.JPanel {
         this.frameLayout.setLocationRelativeTo(null); 
         this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
+        this.model = Conexao.getModel();
+        this.model.removeAllElements();
+        this.lstAberta.setModel(model);
+        this.partidas = DadosBasicos.getPartidas();
+        if(this.partidas != null)
+        {
+            for(int i=0; i < this.partidas.getQtdElems(); i++)
+            {
+                this.model.addElement(this.partidas);
+            }
+        }
     }
 
     /**
@@ -48,26 +68,43 @@ public class TelaLobby extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnEntrarSala = new javax.swing.JButton();
+        btnNovaPartida = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        lstAberta = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setSize(new java.awt.Dimension(533, 493));
 
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel2.setText("Salas Abertas");
 
-        jButton2.setText("Iniciar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnEntrarSala.setBackground(new java.awt.Color(255, 255, 255));
+        btnEntrarSala.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        btnEntrarSala.setForeground(new java.awt.Color(255, 255, 255));
+        btnEntrarSala.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/btnMais.png"))); // NOI18N
+        btnEntrarSala.setText("Iniciar");
+        btnEntrarSala.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEntrarSala.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnEntrarSalaActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Novo Jogo");
+        btnNovaPartida.setBackground(new java.awt.Color(255, 255, 255));
+        btnNovaPartida.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        btnNovaPartida.setForeground(new java.awt.Color(255, 255, 255));
+        btnNovaPartida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/btnParar.png"))); // NOI18N
+        btnNovaPartida.setText("Novo Jogo");
+        btnNovaPartida.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNovaPartida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovaPartidaActionPerformed(evt);
+            }
+        });
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "TESTE", "TESTE", "TESTE", "TESTE", "TESTE" };
@@ -75,45 +112,57 @@ public class TelaLobby extends javax.swing.JPanel {
             public String getElementAt(int i) { return strings[i]; }
         });
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList1.setToolTipText("");
+        jList1.setDoubleBuffered(true);
         jScrollPane1.setViewportView(jList1);
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+        lstAberta.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "TESTE", "TESTE", "TESTE", "TESTE", "TESTE" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jList2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jList2.setToolTipText("");
-        jScrollPane2.setViewportView(jList2);
+        lstAberta.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstAberta.setToolTipText("");
+        jScrollPane2.setViewportView(lstAberta);
 
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(237, 0, 0));
         jLabel1.setText("Salas Fechadas");
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/logo.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(63, 63, 63)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(51, 51, 51))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(btnEntrarSala, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
+                        .addComponent(btnNovaPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2))
@@ -121,28 +170,56 @@ public class TelaLobby extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnNovaPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEntrarSala, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        JFrame frame = new JFrame("Partida");
-        TelaPartida partida = new TelaPartida(frame);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnEntrarSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarSalaActionPerformed
+        String selected = this.lstAberta.getSelectedValue();
+    }//GEN-LAST:event_btnEntrarSalaActionPerformed
+
+    private void btnNovaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaPartidaActionPerformed
+        String nome = JOptionPane.showInputDialog(null, "Insira o nome da sala");
+        Solicitacao novaPartida = new Solicitacao("CRI", nome);
+        Solicitacao retorno;
+        try 
+        {
+            if(Conexao.getSocket() != null)
+            {
+                this.transmissor = Conexao.getOutputStream();
+                this.receptor = Conexao.getInputStream();
+                this.transmissor.writeObject(novaPartida);
+                retorno = (Solicitacao)this.receptor.readObject(); 
+                System.out.println(retorno);
+                if(retorno.getComando().toUpperCase().equals("SUC"))
+                {
+                    this.model.addElement(nome);
+                }
+            }
+
+        } 
+        catch (IOException | ClassNotFoundException ex) 
+        {
+            Logger.getLogger(TelaLobby.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_btnNovaPartidaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnEntrarSala;
+    private javax.swing.JButton btnNovaPartida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> lstAberta;
     // End of variables declaration//GEN-END:variables
 }

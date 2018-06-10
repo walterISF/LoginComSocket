@@ -178,48 +178,47 @@ public class TelaLogin extends javax.swing.JPanel {
 
     private void btnEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEntrarMouseClicked
 
-        JFrame frame = new JFrame("Login");
-        TelaLobby partida = new TelaLobby(frame);
-//        String email = this.txtEmail.getText();
-//        String senha = String.valueOf(this.txtSenha.getPassword());
-//        if(!email.isEmpty() && !senha.isEmpty())
-//        {
-//            Solicitacao solicitacao = new Solicitacao("LOG", email, senha);
-//            Solicitacao retorno;
-//            try
-//            {
-//                Conexao.getInstance();
-//                Conexao.startConnection();
-//                this.conexao = Conexao.getSocket();
-//                this.transmissor = Conexao.getOutputStream();
-//                this.recebido = Conexao.getInputStream();
-//                
-//                this.transmissor.writeObject(solicitacao);
-//                this.transmissor.flush(); //envio imediato
-//                retorno = (Solicitacao) this.recebido.readObject();
-//                System.out.println(retorno.toString());
-//                if(retorno.getComando().toUpperCase().equals("SUC"))
-//                {
-//                    this.txtEmail.setText("");
-//                    this.txtSenha.setText("");
-//                    this.lblMensagem.setText("Login efetuado com sucesso!");
-//                    this.lblMensagem.setForeground(Color.green);
-//                    this.btnEntrar.setEnabled(false);
-//                    this.btnCadastro.setEnabled(false);
-//                    PartidaUI partida = new PartidaUI();
-//                    partida.setVisible(true);
-//                }
-//                else
-//                {
-//                    this.lblMensagem.setText(retorno.getComplemento1());
-//                    Conexao.closeConnection();
-//                }
-//            }
-//            catch(Exception e)
-//            {
-//                System.out.println(e.getClass());
-//            }            
-//        }
+        String email = this.txtEmail.getText();
+        String senha = String.valueOf(this.txtSenha.getPassword());
+        if(!email.isEmpty() && !senha.isEmpty())
+        {
+            Solicitacao solicitacao = new Solicitacao("LOG", email, senha);
+            Solicitacao retorno;
+            try
+            {
+                Conexao.getInstance();
+                Conexao.startConnection();
+                this.conexao = Conexao.getSocket();
+                this.transmissor = Conexao.getOutputStream();
+                this.recebido = Conexao.getInputStream();
+                
+                this.transmissor.writeObject(solicitacao);
+                this.transmissor.flush(); //envio imediato
+                retorno = (Solicitacao) this.recebido.readObject();
+                System.out.println(retorno.toString());
+                if(retorno.getComando().toUpperCase().equals("SUC"))
+                {
+                    this.txtEmail.setText("");
+                    this.txtSenha.setText("");
+                    this.lblMensagem.setText("Login efetuado com sucesso!");
+                    this.lblMensagem.setForeground(Color.green);
+                    this.btnEntrar.setEnabled(false);
+                    this.btnCadastro.setEnabled(false);
+                    JFrame frame = new JFrame("Lobby");
+                    TelaLobby partida = new TelaLobby(frame);                    
+                    partida.setVisible(true);
+                }
+                else
+                {
+                    this.lblMensagem.setText(retorno.getComplemento1());
+                    Conexao.closeConnection();
+                }
+            }
+            catch(Exception e)
+            {
+                System.out.println(e.getClass());
+            }            
+        }
 
     }//GEN-LAST:event_btnEntrarMouseClicked
 

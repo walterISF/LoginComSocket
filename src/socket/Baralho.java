@@ -4,65 +4,25 @@
  * and open the template in the editor.
  */
 package socket;
-
-import java.util.Arrays;
-
 /**
  *
  * @author vntwafi
  */
 public class Baralho 
 {
-    Carta[] item = new Carta[52];
+    Lista<Carta> cartas;
     
-    public Baralho()
+    public Baralho(Lista<Carta> cartas)
     {
-        
+        this.cartas = cartas;
     }
 
-    /**
-     * @return Retorna um baralho
-     */
-    public Carta[] getItem() {
-        return item;
+    public Lista<Carta> getCartas() {
+        return cartas;
     }
 
-    /**
-     * @param item Insira uma lista de Cartas para o baralho
-     */
-    public void setItem(Carta[] item) {
-        this.item = item;
+    public void setCartas(Lista<Carta> cartas) {
+        this.cartas = cartas;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Arrays.deepHashCode(this.item);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Baralho other = (Baralho) obj;
-        if (!Arrays.deepEquals(this.item, other.item)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Baralho{" + "item=" + item.toString() + '}';
-    }
-    
-    
+  
 }

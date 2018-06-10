@@ -12,7 +12,7 @@ public class Receptora
 
         try{
                 //*****RECEPTORA*****
-                ServerSocket pedido = new ServerSocket(12345);
+                ServerSocket pedido = new ServerSocket(12346);
                 System.out.println("Servidor online!");
                 while(true)
                 {

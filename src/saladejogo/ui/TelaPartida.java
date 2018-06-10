@@ -5,14 +5,24 @@
  */
 package saladejogo.ui;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import socket.Solicitacao;
 /**
  *
@@ -52,14 +62,18 @@ public class TelaPartida extends javax.swing.JPanel {
 
         btnParar = new javax.swing.JButton();
         btnMaisCartas = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblLogo = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
         lblValorMesa = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblAposta = new javax.swing.JLabel();
+        lblSeusPontos = new javax.swing.JLabel();
         lblPontos = new javax.swing.JLabel();
+        lblBaseCartas = new javax.swing.JLabel();
+        carta1 = new javax.swing.JLabel();
+        carta2 = new javax.swing.JLabel();
+        carta4 = new javax.swing.JLabel();
+        carta5 = new javax.swing.JLabel();
+        carta3 = new javax.swing.JLabel();
         lblFundo = new javax.swing.JLabel();
 
         setLayout(null);
@@ -98,18 +112,14 @@ public class TelaPartida extends javax.swing.JPanel {
         add(btnMaisCartas);
         btnMaisCartas.setBounds(280, 420, 123, 40);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/logo.png"))); // NOI18N
-        add(jLabel1);
-        jLabel1.setBounds(50, 30, 383, 81);
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/logo.png"))); // NOI18N
+        add(lblLogo);
+        lblLogo.setBounds(50, 30, 383, 81);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/efeitoDeck.png"))); // NOI18N
-        add(jLabel5);
-        jLabel5.setBounds(200, 290, 510, 60);
-
-        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel4.setText("Status do Jogo:");
-        add(jLabel4);
-        jLabel4.setBounds(50, 120, 140, 30);
+        lblStatus.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        lblStatus.setText("Status do Jogo:");
+        add(lblStatus);
+        lblStatus.setBounds(50, 120, 140, 30);
 
         lblValorMesa.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         lblValorMesa.setForeground(new java.awt.Color(255, 0, 0));
@@ -117,28 +127,56 @@ public class TelaPartida extends javax.swing.JPanel {
         add(lblValorMesa);
         lblValorMesa.setBounds(180, 152, 45, 16);
 
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel3.setText("Aposta MEGA:");
-        add(jLabel3);
-        jLabel3.setBounds(50, 150, 140, 20);
+        lblAposta.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        lblAposta.setText("Aposta MEGA:");
+        add(lblAposta);
+        lblAposta.setBounds(50, 150, 140, 20);
 
-        jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        jLabel6.setText("SEUS PONTOS:");
-        jLabel6.setToolTipText("");
-        add(jLabel6);
-        jLabel6.setBounds(340, 370, 170, 30);
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/copas-10.jpg"))); // NOI18N
-        jLabel2.setText("jLabel2");
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        add(jLabel2);
-        jLabel2.setBounds(250, 180, 110, 160);
+        lblSeusPontos.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        lblSeusPontos.setText("SEUS PONTOS:");
+        lblSeusPontos.setToolTipText("");
+        add(lblSeusPontos);
+        lblSeusPontos.setBounds(340, 370, 170, 30);
 
         lblPontos.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         lblPontos.setText("4");
         add(lblPontos);
         lblPontos.setBounds(520, 370, 170, 30);
+
+        lblBaseCartas.setBackground(new java.awt.Color(153, 153, 153));
+        lblBaseCartas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/efeitoDeck.png"))); // NOI18N
+        add(lblBaseCartas);
+        lblBaseCartas.setBounds(150, 290, 550, 60);
+
+        carta1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/copas-10.jpg"))); // NOI18N
+        carta1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        carta1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add(carta1);
+        carta1.setBounds(150, 180, 110, 160);
+
+        carta2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/espadas-9.jpg"))); // NOI18N
+        carta2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        carta2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add(carta2);
+        carta2.setBounds(590, 180, 110, 160);
+
+        carta4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/espadas-9.jpg"))); // NOI18N
+        carta4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        carta4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add(carta4);
+        carta4.setBounds(370, 180, 110, 160);
+
+        carta5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/espadas-9.jpg"))); // NOI18N
+        carta5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        carta5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add(carta5);
+        carta5.setBounds(480, 180, 110, 160);
+
+        carta3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/copas-10.jpg"))); // NOI18N
+        carta3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        carta3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add(carta3);
+        carta3.setBounds(260, 180, 110, 160);
 
         lblFundo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/fundoTestura.png"))); // NOI18N
@@ -170,35 +208,75 @@ public class TelaPartida extends javax.swing.JPanel {
     private void btnMaisCartasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaisCartasActionPerformed
         Solicitacao pedido = new Solicitacao("COM");
         Solicitacao retorno;
-        try
-        {
-            this.transmissor.writeObject(pedido);
-            this.transmissor.flush();
-            retorno = (Solicitacao) this.receptor.readObject();
-            System.out.println(retorno.toString());
-            if(retorno.getComando().toUpperCase().equals("SUC"))
-            {
-
-            }
-        }
-        catch (IOException | ClassNotFoundException ex)
-        {
-            Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Graphics g = null;
+        
+        AffineTransform at = AffineTransform.getTranslateInstance(100, 100);
+        at.rotate(Math.toRadians(45));
+        BufferedImage carta3 = loadImage("/saladejogo/ui/espadas-9.jpg");
+//        try
+//        {
+//            this.transmissor.writeObject(pedido);
+//            this.transmissor.flush();
+//            retorno = (Solicitacao) this.receptor.readObject();
+//            System.out.println(retorno.toString());
+//            if(retorno.getComando().toUpperCase().equals("SUC"))
+//            {
+//
+//            }
+//        }
+//        catch (IOException | ClassNotFoundException ex)
+//        {
+//            Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnMaisCartasActionPerformed
+    BufferedImage loadImage(String fileName) {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File(fileName));
+            
+        } catch (IOException e) {
+        }
+        
+        return img;
+    }
+    
+    	static class RotateLabel extends JLabel {
+		private static final long serialVersionUID = 1L;
+		private int angle = 0;
 
+		public RotateLabel( String text, int x, int y ) {
+			super( text );
+			setBorder( new javax.swing.border.CompoundBorder( new javax.swing.border.LineBorder( Color.red, 1), getBorder() ) );
+			int width = getPreferredSize().width;
+			int height = getPreferredSize().height;
+			setBounds( x, y, width, height );
+		}
+
+		@Override
+		public void paintComponent( Graphics g ) {
+			Graphics2D gx = (Graphics2D) g;
+			gx.rotate(0.2, getX() + getWidth() / 2, getY() + getHeight() / 2);
+			super.paintComponent(g);
+		}
+
+		public void setRotation( int angle ) { this.angle = angle; }
+	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMaisCartas;
     private javax.swing.JButton btnParar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel carta1;
+    private javax.swing.JLabel carta2;
+    private javax.swing.JLabel carta3;
+    private javax.swing.JLabel carta4;
+    private javax.swing.JLabel carta5;
+    private javax.swing.JLabel lblAposta;
+    private javax.swing.JLabel lblBaseCartas;
     private javax.swing.JLabel lblFundo;
+    private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblPontos;
+    private javax.swing.JLabel lblSeusPontos;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblValorMesa;
     // End of variables declaration//GEN-END:variables
 }

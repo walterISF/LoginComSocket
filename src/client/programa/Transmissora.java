@@ -3,6 +3,7 @@ package client.programa;
 import java.io.IOException;
 import javax.swing.JFrame;
 import client.ui.TelaLogin;
+import saladejogo.ui.TelaPartida;
 
 public class Transmissora
 {
@@ -10,6 +11,5 @@ public class Transmissora
     {
         JFrame frame = new JFrame("Login");
         TelaLogin loginPanel = new TelaLogin(frame);
-         
     } 
 }

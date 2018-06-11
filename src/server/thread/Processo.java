@@ -16,6 +16,8 @@ import bd.BD;
 import bd.dbos.Usuario;
 import javax.swing.JFrame;
 import saladejogo.ui.TelaLobby;
+import socket.Baralho;
+import socket.Carta;
 import socket.DadosBasicos;
 import socket.Lista;
 import socket.Partida;
@@ -38,7 +40,7 @@ public class Processo extends Thread
         ObjectOutputStream output;
         DadosBasicos.Init();
         partidas = DadosBasicos.getPartidas();
-        
+        String nomePartida = null;
         try 
         {
             receptor = new ObjectInputStream(this.conexao.getInputStream());
@@ -121,13 +123,17 @@ public class Processo extends Thread
                         try 
                         {
                             Partida nova = new Partida(recebido.getComplemento1());
+                            nomePartida = recebido.getComplemento1();
                             Lista<Usuario> jogadores = new Lista<>();
                             jogadores.inserirNoFim(userPartida);
+                            nova.setJogares(jogadores);
                             
                             if(!partidas.tem(nova))
                             {
+                                nova.setStatus(Partida.Status.INICIADA);
                                 partidas.inserirNoFim(nova);
-                                output.writeObject(new Solicitacao("SUC", "Seu saldo atual: " + userPartida.getMoeda() + "moedas"));   
+                                output.writeObject(new Solicitacao("SUC", "Seu saldo atual: " + userPartida.getMoeda() + "moedas"));
+                                
                             }
                             else
                             {
@@ -141,13 +147,51 @@ public class Processo extends Thread
                         }                   
                         break;
                     case "COM":
-                        
+                        if(nomePartida != null)
+                        {
+                            Partida partida = DadosBasicos.getUmaPartida(nomePartida);
+                            Carta carta = partida.getCarta(partida.getBaralhos().getBaralho(0));
+                            output.writeObject(new Solicitacao("CAR",carta.getNipe(), carta.getValor()));
+                        }
+                        else
+                        {
+                            output.writeObject(new Solicitacao("ERR","Voce nao esta logado em neuma partida"));
+                        }
                         break;
                     case "APO":
-                        
+                            if(userPartida.getMoeda() < Float.valueOf(recebido.getComplemento1()))
+                            {
+                                output.writeObject(new Solicitacao("ERR", "Saldo insuficiente"));
+                            }
+                            else
+                            {
+                                Partida partida = DadosBasicos.getUmaPartida(nomePartida);
+                                try 
+                                {
+                                    partida.addMoedas(Float.valueOf(recebido.getComplemento1()));
+                                } 
+                                catch (Exception ex) 
+                                {
+                                    Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
                         break;
                     case "ENT":
-                            //if(Conexao.getPartida() == )
+                            nomePartida = recebido.getComplemento1();
+                            Partida partidaEntrar = DadosBasicos.getUmaPartida(nomePartida);
+                
+                            try 
+                            {
+                                partidaEntrar.addJogador(userPartida);
+                            } 
+                            catch (Exception ex) 
+                            {
+                                Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                
+                        break;
+                    case "EOC":
+                        
                         break;
                     case "SAI":
                         output.writeObject(new Solicitacao("SUC", "Você saiu do jogo"));

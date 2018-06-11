@@ -29,5 +29,10 @@ public class DadosBasicos
         DadosBasicos.partidas = partidas;
     }
     
+    public static Partida getUmaPartida(String nomePartida)
+    {     
+        return DadosBasicos.partidas.getPartida(nomePartida);
+    }
+    
     
 }

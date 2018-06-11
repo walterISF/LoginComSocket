@@ -106,21 +106,11 @@ public class TelaLobby extends javax.swing.JPanel {
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "TESTE", "TESTE", "TESTE", "TESTE", "TESTE" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.setToolTipText("");
         jList1.setDoubleBuffered(true);
         jScrollPane1.setViewportView(jList1);
 
-        lstAberta.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "TESTE", "TESTE", "TESTE", "TESTE", "TESTE" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         lstAberta.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstAberta.setToolTipText("");
         jScrollPane2.setViewportView(lstAberta);
@@ -180,6 +170,26 @@ public class TelaLobby extends javax.swing.JPanel {
 
     private void btnEntrarSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarSalaActionPerformed
         String selected = this.lstAberta.getSelectedValue();
+        this.conexao = Conexao.getSocket();
+        if(this.conexao != null)
+        {
+            this.transmissor = Conexao.getOutputStream();
+            this.receptor = Conexao.getInputStream();
+            try 
+            {
+                transmissor.writeObject(new Solicitacao("ENT", selected));
+                Solicitacao retorno = (Solicitacao)receptor.readObject();
+                if(retorno.getComando().toUpperCase().equals("SUC"))
+                {
+                    JFrame frame = new JFrame("Aguarde");
+                    TelaAguardando tela = new TelaAguardando(frame, selected);                    
+                }
+            } 
+            catch (IOException | ClassNotFoundException ex) 
+            {
+                Logger.getLogger(TelaLobby.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btnEntrarSalaActionPerformed
 
     private void btnNovaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaPartidaActionPerformed
@@ -198,6 +208,8 @@ public class TelaLobby extends javax.swing.JPanel {
                 if(retorno.getComando().toUpperCase().equals("SUC"))
                 {
                     this.model.addElement(nome);
+                    JFrame frame = new JFrame("Aguarde");
+                    TelaAguardando tela = new TelaAguardando(frame, nome);
                 }
             }
 
@@ -209,7 +221,7 @@ public class TelaLobby extends javax.swing.JPanel {
         
         
     }//GEN-LAST:event_btnNovaPartidaActionPerformed
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrarSala;

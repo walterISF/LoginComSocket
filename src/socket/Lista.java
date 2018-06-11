@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 /**
  *
  * @author vntwafi
+ * @param <X>
  */
 public class Lista <X> implements Cloneable, Serializable
 {
@@ -137,6 +138,36 @@ public class Lista <X> implements Cloneable, Serializable
 
         return false;
     }
+    
+    public Partida getPartida (String nome)
+    {	
+        No atual = this.prim;
+        Partida partida;
+        while (atual!=null)
+        {
+            partida = (Partida)atual.getInfo();
+            if (partida.equals(atual.getInfo()))
+                return partida;
+
+            atual=atual.getProx();
+        }
+
+        return null;
+    }
+    
+        public Baralho getBaralho (int posicao)
+    {	
+        No atual = this.prim;
+        Baralho baralho;
+        while (atual!=null)
+        {
+            baralho = (Baralho)atual.getInfo();
+            if (baralho.equals(atual.getInfo()))
+                return baralho;
+        }
+
+        return null;
+    }
 	
     public void removerDoInicio () throws Exception
     {
@@ -163,7 +194,32 @@ public class Lista <X> implements Cloneable, Serializable
                 atual.setProx (null);
         }	
     }
+    
+    public X removerDoMeio(int posicao) throws Exception
+    {
+        X info = null;
+        if (this.prim==null)
+            throw new Exception ("Lista vazia");
+        
+        if (this.prim.getProx()==null)
+            this.prim=null;
+        else
+        {
+            No atual = this.prim;
+            No remover;
+            for(int i=0; i<posicao; i++)
+            {
+                atual = atual.getProx();
+            }
+            remover = atual.getProx();
+            atual.setProx(atual.getProx().getProx());
+            info = remover.getInfo();
+        }
+        
+        return info;
+    }
 	
+    @Override
     public String toString ()
     {
         String ret = "{";
@@ -183,6 +239,7 @@ public class Lista <X> implements Cloneable, Serializable
         return ret+"}";
     }
 	
+    @Override
     public boolean equals (Object obj)
     {
         if (this==obj)
@@ -214,6 +271,7 @@ public class Lista <X> implements Cloneable, Serializable
         return true;
     }
 	
+    @Override
     public int hashCode ()
     {
         int ret=777;
@@ -254,6 +312,7 @@ public class Lista <X> implements Cloneable, Serializable
         
     }
 	
+    @Override
     public Object clone ()
     {
         Lista<X> ret=null;

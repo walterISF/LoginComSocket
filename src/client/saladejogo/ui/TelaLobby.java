@@ -15,9 +15,6 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import server.socket.Lista;
-import server.socket.Partida;
-import server.socket.Solicitacao;
 /**
  *
  * @author vntwafi
@@ -29,7 +26,6 @@ public class TelaLobby extends javax.swing.JPanel {
     private Socket conexao;
     private JFrame frameLayout;
     private DefaultListModel model;
-    private Lista<Partida> partidas;
     /**
      * Creates new form TelaLobby
      */
@@ -45,13 +41,6 @@ public class TelaLobby extends javax.swing.JPanel {
         this.model = Conexao.getModel();
         this.model.removeAllElements();
         this.lstAberta.setModel(model);
-        if(this.partidas != null)
-        {
-            for(int i=0; i < this.partidas.getQtdElems(); i++)
-            {
-                this.model.addElement(this.partidas);
-            }
-        }
         Conexao.getInstance();
         this.conexao = Conexao.getSocket();
     }
@@ -196,7 +185,7 @@ public class TelaLobby extends javax.swing.JPanel {
         Solicitacao retorno;
         try 
         {
-            if(Conexao.getSocket() != null)
+            if(this.conexao != null)
             {
                 this.transmissor = Conexao.getOutputStream();
                 this.receptor = Conexao.getInputStream();

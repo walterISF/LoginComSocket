@@ -5,12 +5,9 @@
  */
 package client.saladejogo.ui;
 
-import bd.dbos.Usuario;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.JFrame;
-import server.socket.Lista;
-import server.socket.Partida;
 
 /**
  *
@@ -22,8 +19,6 @@ public class TelaAguardando extends javax.swing.JPanel {
     private ObjectOutputStream transmissor;
     private ObjectInputStream receptor;
     private String nomePartida;
-    private Partida partida;
-    private Lista<Usuario> jogadores;
     /**
      * Creates new form TelaAguardando
      */
@@ -37,8 +32,6 @@ public class TelaAguardando extends javax.swing.JPanel {
         this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
         this.nomePartida = nome;
-        this.jogadores = partida.getJogares();
-        atualizarLabelValor();
     }
 
     /**
@@ -122,28 +115,14 @@ public class TelaAguardando extends javax.swing.JPanel {
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
         if(Integer.parseInt(this.lblValor.getText()) > 2)
         {
-            this.partida.setStatus(Partida.Status.JOGANDO);
             this.frameLayout.setVisible(false);
             JFrame frame = new JFrame("Partida");
             TelaPartida jogar = new TelaPartida(frame);
         }
     }//GEN-LAST:event_btnOkActionPerformed
 
-    private void atualizarLabelValor()
-    {
-        setTimeout(() -> this.lblValor.setText(this.jogadores.getQtdElems()+""), 2000);
-    }
     public void setTimeout(Runnable runnable, int delay)
     {
-        if(this.jogadores.getQtdElems() > 3)
-        {
-            if(this.partida.getStatus() == Partida.Status.JOGANDO)
-            {
-                this.frameLayout.setVisible(false);
-                JFrame frame = new JFrame("Partida");
-                TelaPartida jogar = new TelaPartida(frame);
-            }
-        }
         new Thread(() -> {
             try {
                 Thread.sleep(delay);

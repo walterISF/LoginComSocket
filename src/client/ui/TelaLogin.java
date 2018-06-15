@@ -22,7 +22,7 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import client.socket.Conexao;
 import client.saladejogo.ui.TelaLobby;
-import server.socket.Solicitacao;
+import client.socket.Solicitacao;
 
 /**
  *

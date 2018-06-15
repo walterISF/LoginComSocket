@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 import server.socket.Solicitacao;
 import bd.BD;
 import bd.dbos.Usuario;
-import javax.swing.JFrame;
-import client.saladejogo.ui.TelaLobby;
 import server.socket.Carta;
 import server.socket.DadosBasicos;
 import server.socket.Lista;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thread;
+package server.thread;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -100,8 +100,6 @@ public class Processo extends Thread
                                     {
                                         
                                         output.writeObject(new Solicitacao("SUC", "Login efetuado com sucesso!"));
-                                        JFrame frame = new JFrame("Lobby");
-                                        TelaLobby lobby = new TelaLobby(frame);
                                     }
                                     else
                                         output.writeObject(new Solicitacao("ERR", "email e ou senha incorretos"));

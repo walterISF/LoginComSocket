@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import server.socket.DadosBasicos;
-import thread.Processo;
+import server.thread.Processo;
 
 public class Receptora
 {
@@ -14,7 +14,7 @@ public class Receptora
 
         try{
                 //*****RECEPTORA*****
-                ServerSocket pedido = new ServerSocket(12346);
+                ServerSocket pedido = new ServerSocket(12345);
                 System.out.println("Servidor online!");
                 while(true)
                 {

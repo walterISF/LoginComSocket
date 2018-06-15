@@ -126,10 +126,9 @@ public class Processo extends Thread
                             if(!partidas.tem(nova))
                             {
                                 nova.setStatus(Partida.Status.INICIADA);
-                                partidas.inserirNoFim(nova);
                                 if(DadosBasicos.getPartidas() == null)
                                     DadosBasicos.Init();
-                                
+                                partidas.inserirNoFim(nova);
                                 DadosBasicos.setUmaPartida(nova);
                                 output.writeObject(new Solicitacao("SUC", "Seu saldo atual: " + userPartida.getMoeda() + "moedas"));
                                 
@@ -194,6 +193,10 @@ public class Processo extends Thread
                         break;
                     case "SAI":
                         output.writeObject(new Solicitacao("SUC", "Você saiu do jogo"));
+                        break;
+                    case "CONT":
+                        Partida partidaSolicitada = DadosBasicos.getUmaPartida(recebido.getComplemento1());
+                        output.writeObject(new Solicitacao("SUC", partidaSolicitada.getJogares().getQtdElems() + ""));
                         break;
                 }                
             }

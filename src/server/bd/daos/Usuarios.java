@@ -176,6 +176,7 @@ public class Usuarios
             usuario = new Usuario ( resultado.getString ("EMAIL"),
                                     resultado.getString ("NOME"),
                                     resultado.getString ("SENHA"));
+            usuario.setMoeda(resultado.getFloat("MOEDAS"));
         }
         catch (SQLException erro)
         {

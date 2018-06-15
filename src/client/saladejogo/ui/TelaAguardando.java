@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package saladejogo.ui;
+package client.saladejogo.ui;
 
 import bd.dbos.Usuario;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.JFrame;
-import socket.DadosBasicos;
-import socket.Lista;
-import socket.Partida;
+import server.socket.Lista;
+import server.socket.Partida;
 
 /**
  *
@@ -38,7 +37,6 @@ public class TelaAguardando extends javax.swing.JPanel {
         this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
         this.nomePartida = nome;
-        this.partida = DadosBasicos.getUmaPartida(this.nomePartida);
         this.jogadores = partida.getJogares();
         atualizarLabelValor();
     }
@@ -60,7 +58,7 @@ public class TelaAguardando extends javax.swing.JPanel {
 
         btnOk.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         btnOk.setForeground(new java.awt.Color(255, 255, 255));
-        btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/btnMais.png"))); // NOI18N
+        btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/btnMais.png"))); // NOI18N
         btnOk.setText("OK");
         btnOk.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnOk.addActionListener(new java.awt.event.ActionListener() {
@@ -71,7 +69,7 @@ public class TelaAguardando extends javax.swing.JPanel {
 
         btnSair.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         btnSair.setForeground(new java.awt.Color(255, 255, 255));
-        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/btnParar.png"))); // NOI18N
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/btnParar.png"))); // NOI18N
         btnSair.setText("Sair");
         btnSair.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 

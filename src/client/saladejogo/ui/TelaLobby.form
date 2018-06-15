@@ -97,7 +97,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/saladejogo/ui/btnMais.png"/>
+          <Image iconType="3" name="/client/saladejogo/ui/btnMais.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Iniciar"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -118,7 +118,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/saladejogo/ui/btnParar.png"/>
+          <Image iconType="3" name="/client/saladejogo/ui/btnParar.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Novo Jogo"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -184,7 +184,7 @@
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/saladejogo/ui/logo.png"/>
+          <Image iconType="3" name="/client/saladejogo/ui/logo.png"/>
         </Property>
       </Properties>
     </Component>

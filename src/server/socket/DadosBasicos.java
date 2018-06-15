@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package socket;
+package server.socket;
 
 /**
  *
@@ -32,6 +32,11 @@ public class DadosBasicos
     public static Partida getUmaPartida(String nomePartida)
     {     
         return DadosBasicos.partidas.getPartida(nomePartida);
+    }
+    
+    public static void setUmaPartida(Partida partida) throws Exception
+    {
+        DadosBasicos.partidas.inserirNoFim(partida);
     }
     
     

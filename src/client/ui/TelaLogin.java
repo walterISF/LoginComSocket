@@ -21,9 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import client.socket.Conexao;
-import saladejogo.ui.TelaLobby;
-import saladejogo.ui.TelaPartida;
-import socket.Solicitacao;
+import client.saladejogo.ui.TelaLobby;
+import server.socket.Solicitacao;
 
 /**
  *

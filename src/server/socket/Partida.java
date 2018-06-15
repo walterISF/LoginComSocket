@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package socket;
+package server.socket;
 
 import bd.dbos.Usuario;
 import java.util.Random;
@@ -77,6 +77,7 @@ public class Partida
         try 
         {
             Lista<Carta> cartas = new Lista<>();
+            baralhos = new Lista<>();
             baralhos.inserirNoFim(new Baralho(cartas));
             String[] nipes = {"copas", "espadas", "paus", "ouro"};
             String valor;

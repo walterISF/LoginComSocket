@@ -11,16 +11,15 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import socket.Solicitacao;
+import server.socket.Solicitacao;
 import bd.BD;
 import bd.dbos.Usuario;
 import javax.swing.JFrame;
-import saladejogo.ui.TelaLobby;
-import socket.Baralho;
-import socket.Carta;
-import socket.DadosBasicos;
-import socket.Lista;
-import socket.Partida;
+import client.saladejogo.ui.TelaLobby;
+import server.socket.Carta;
+import server.socket.DadosBasicos;
+import server.socket.Lista;
+import server.socket.Partida;
 
 public class Processo extends Thread
 {
@@ -132,6 +131,10 @@ public class Processo extends Thread
                             {
                                 nova.setStatus(Partida.Status.INICIADA);
                                 partidas.inserirNoFim(nova);
+                                if(DadosBasicos.getPartidas() == null)
+                                    DadosBasicos.Init();
+                                
+                                DadosBasicos.setUmaPartida(nova);
                                 output.writeObject(new Solicitacao("SUC", "Seu saldo atual: " + userPartida.getMoeda() + "moedas"));
                                 
                             }

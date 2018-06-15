@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package saladejogo.ui;
+package client.saladejogo.ui;
 
 import client.socket.Conexao;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,10 +15,9 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import socket.DadosBasicos;
-import socket.Lista;
-import socket.Partida;
-import socket.Solicitacao;
+import server.socket.Lista;
+import server.socket.Partida;
+import server.socket.Solicitacao;
 /**
  *
  * @author vntwafi
@@ -48,7 +45,6 @@ public class TelaLobby extends javax.swing.JPanel {
         this.model = Conexao.getModel();
         this.model.removeAllElements();
         this.lstAberta.setModel(model);
-        this.partidas = DadosBasicos.getPartidas();
         if(this.partidas != null)
         {
             for(int i=0; i < this.partidas.getQtdElems(); i++)
@@ -56,6 +52,8 @@ public class TelaLobby extends javax.swing.JPanel {
                 this.model.addElement(this.partidas);
             }
         }
+        Conexao.getInstance();
+        this.conexao = Conexao.getSocket();
     }
 
     /**
@@ -85,7 +83,7 @@ public class TelaLobby extends javax.swing.JPanel {
         btnEntrarSala.setBackground(new java.awt.Color(255, 255, 255));
         btnEntrarSala.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         btnEntrarSala.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntrarSala.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/btnMais.png"))); // NOI18N
+        btnEntrarSala.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/btnMais.png"))); // NOI18N
         btnEntrarSala.setText("Iniciar");
         btnEntrarSala.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEntrarSala.addActionListener(new java.awt.event.ActionListener() {
@@ -97,7 +95,7 @@ public class TelaLobby extends javax.swing.JPanel {
         btnNovaPartida.setBackground(new java.awt.Color(255, 255, 255));
         btnNovaPartida.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         btnNovaPartida.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovaPartida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/btnParar.png"))); // NOI18N
+        btnNovaPartida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/btnParar.png"))); // NOI18N
         btnNovaPartida.setText("Novo Jogo");
         btnNovaPartida.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNovaPartida.addActionListener(new java.awt.event.ActionListener() {
@@ -119,7 +117,7 @@ public class TelaLobby extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(237, 0, 0));
         jLabel1.setText("Salas Fechadas");
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/logo.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/logo.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -170,7 +168,7 @@ public class TelaLobby extends javax.swing.JPanel {
 
     private void btnEntrarSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarSalaActionPerformed
         String selected = this.lstAberta.getSelectedValue();
-        this.conexao = Conexao.getSocket();
+        
         if(this.conexao != null)
         {
             this.transmissor = Conexao.getOutputStream();

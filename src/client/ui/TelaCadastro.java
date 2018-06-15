@@ -19,7 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import client.socket.Conexao;
-import socket.Solicitacao;
+import server.socket.Solicitacao;
 import client.ui.TelaLogin;
 
 /**

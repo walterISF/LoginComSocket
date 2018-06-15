@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/client/ui/TelaLogin.java</file>
-            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/client/socket/Conexao.java</file>
+            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/client/saladejogo/ui/TelaAguardando.java</file>
+            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/server/socket/Lista.java</file>
             <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/server/thread/Processo.java</file>
-            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/socket/Solicitacao.java</file>
-            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/socket/Partida.java</file>
+            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/client/saladejogo/ui/TelaLobby.java</file>
+            <file>file:/Users/vntwafi/NetBeansProjects/loginDeUsuarios/src/server/socket/Solicitacao.java</file>
         </group>
     </open-files>
 </project-private>

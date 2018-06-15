@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package saladejogo.ui;
+package client.saladejogo.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,7 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import socket.Solicitacao;
+import server.socket.Solicitacao;
 /**
  *
  * @author vntwafi
@@ -81,7 +81,7 @@ public class TelaPartida extends javax.swing.JPanel {
         btnParar.setBackground(new java.awt.Color(255, 255, 255));
         btnParar.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         btnParar.setForeground(new java.awt.Color(255, 255, 255));
-        btnParar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/btnParar.png"))); // NOI18N
+        btnParar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/btnParar.png"))); // NOI18N
         btnParar.setText("PARAR");
         btnParar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnParar.setIconTextGap(6);
@@ -97,7 +97,7 @@ public class TelaPartida extends javax.swing.JPanel {
         btnMaisCartas.setBackground(new java.awt.Color(255, 255, 255));
         btnMaisCartas.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         btnMaisCartas.setForeground(new java.awt.Color(255, 255, 255));
-        btnMaisCartas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/btnMais.png"))); // NOI18N
+        btnMaisCartas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/btnMais.png"))); // NOI18N
         btnMaisCartas.setText("MAIS CARTAS");
         btnMaisCartas.setToolTipText("");
         btnMaisCartas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -112,7 +112,7 @@ public class TelaPartida extends javax.swing.JPanel {
         add(btnMaisCartas);
         btnMaisCartas.setBounds(280, 420, 123, 40);
 
-        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/logo.png"))); // NOI18N
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/logo.png"))); // NOI18N
         add(lblLogo);
         lblLogo.setBounds(50, 30, 383, 81);
 
@@ -144,42 +144,42 @@ public class TelaPartida extends javax.swing.JPanel {
         lblPontos.setBounds(520, 370, 170, 30);
 
         lblBaseCartas.setBackground(new java.awt.Color(153, 153, 153));
-        lblBaseCartas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/efeitoDeck.png"))); // NOI18N
+        lblBaseCartas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/efeitoDeck.png"))); // NOI18N
         add(lblBaseCartas);
         lblBaseCartas.setBounds(150, 290, 550, 60);
 
-        carta1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/copas-10.jpg"))); // NOI18N
+        carta1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/copas-10.jpg"))); // NOI18N
         carta1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         carta1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         add(carta1);
         carta1.setBounds(150, 180, 110, 160);
 
-        carta2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/espadas-9.jpg"))); // NOI18N
+        carta2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/espadas-9.jpg"))); // NOI18N
         carta2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         carta2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         add(carta2);
         carta2.setBounds(590, 180, 110, 160);
 
-        carta4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/espadas-9.jpg"))); // NOI18N
+        carta4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/espadas-9.jpg"))); // NOI18N
         carta4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         carta4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         add(carta4);
         carta4.setBounds(370, 180, 110, 160);
 
-        carta5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/espadas-9.jpg"))); // NOI18N
+        carta5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/espadas-9.jpg"))); // NOI18N
         carta5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         carta5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         add(carta5);
         carta5.setBounds(480, 180, 110, 160);
 
-        carta3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/copas-10.jpg"))); // NOI18N
+        carta3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/copas-10.jpg"))); // NOI18N
         carta3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         carta3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         add(carta3);
         carta3.setBounds(260, 180, 110, 160);
 
         lblFundo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/saladejogo/ui/fundoTestura.png"))); // NOI18N
+        lblFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/fundoTestura.png"))); // NOI18N
         lblFundo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         add(lblFundo);
         lblFundo.setBounds(0, 0, 900, 540);

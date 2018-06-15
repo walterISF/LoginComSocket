@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import server.socket.Solicitacao;
+import client.socket.Solicitacao;
 import bd.BD;
 import bd.dbos.Usuario;
 import server.socket.Carta;

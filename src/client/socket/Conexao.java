@@ -22,7 +22,7 @@ public class Conexao
     private static ObjectOutputStream out = null;
     private static ObjectInputStream in = null;
     private static final String ip = "172.16.14.74";
-    private static final Integer port = 12345;
+    private static final Integer port = 1234;
     private static DefaultListModel model = new DefaultListModel();
     private Conexao()
     {

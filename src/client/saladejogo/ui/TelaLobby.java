@@ -6,6 +6,7 @@
 package client.saladejogo.ui;
 
 import client.socket.Conexao;
+import client.socket.Solicitacao;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

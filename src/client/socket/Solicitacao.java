@@ -5,10 +5,6 @@
  */
 package client.socket;
 
-/**
- *
- * @author vntwafi
- */
 import java.io.Serializable;
 import java.util.Objects;
 

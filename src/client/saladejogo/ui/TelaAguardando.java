@@ -5,8 +5,16 @@
  */
 package client.saladejogo.ui;
 
+import client.socket.Conexao;
+import client.socket.Solicitacao;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -15,12 +23,15 @@ import javax.swing.JFrame;
  */
 public class TelaAguardando extends javax.swing.JPanel {
 
-    private JFrame frameLayout;
+    private final JFrame frameLayout;
     private ObjectOutputStream transmissor;
     private ObjectInputStream receptor;
-    private String nomePartida;
+    private final String nomePartida;
+    private final Socket conexao;
     /**
      * Creates new form TelaAguardando
+     * @param framelayout
+     * @param nome
      */
     public TelaAguardando(JFrame framelayout, String nome) {
         initComponents();
@@ -32,6 +43,9 @@ public class TelaAguardando extends javax.swing.JPanel {
         this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
         this.nomePartida = nome;
+        this.conexao = Conexao.getSocket();
+        atualizarUsuarios(this.nomePartida);
+        
     }
 
     /**
@@ -121,17 +135,41 @@ public class TelaAguardando extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnOkActionPerformed
 
-    public void setTimeout(Runnable runnable, int delay)
+    private void atualizarUsuarios(String nomePartida)
     {
-        new Thread(() -> {
-            try {
-                Thread.sleep(delay);
-                runnable.run();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                while(true)
+                {
+                    if(Conexao.getSocket() != null)
+                    {
+                        Solicitacao solicitacao = new Solicitacao("CONT", nomePartida);
+                        Solicitacao retorno;
+                        try 
+                        {
+                            transmissor = Conexao.getOutputStream();
+                            receptor = Conexao.getInputStream();
+                            transmissor.writeObject(solicitacao);
+                            transmissor.flush(); //envio imediato
+                            retorno = (Solicitacao) receptor.readObject();
+                            System.out.println(retorno.toString());
+                            if(retorno.getComando().toUpperCase().equals("SUC"))
+                            {
+                                lblValor.setText(retorno.getComplemento1());
+                            }
+                        } 
+                        catch (IOException | ClassNotFoundException ex) 
+                        {
+                            Logger.getLogger(TelaAguardando.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    }                    
+                }
+
             }
-            catch (InterruptedException e){
-                System.err.println(e);
-            }
-        }).start();
+        }, 1000);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

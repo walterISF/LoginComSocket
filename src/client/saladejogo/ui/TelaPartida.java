@@ -23,7 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import server.socket.Solicitacao;
+import client.socket.Solicitacao;
 /**
  *
  * @author vntwafi

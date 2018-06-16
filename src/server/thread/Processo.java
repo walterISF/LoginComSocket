@@ -208,7 +208,6 @@ public class Processo extends Thread
                                 partidas.getPrim();
                             }
                         }
-
                         break;
                 }                
             }

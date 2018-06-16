@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import client.socket.Solicitacao;
 import bd.BD;
 import bd.dbos.Usuario;
+import java.util.ArrayList;
 import server.socket.Carta;
 import server.socket.DadosBasicos;
 import server.socket.Lista;
@@ -126,10 +127,9 @@ public class Processo extends Thread
                             if(!partidas.tem(nova))
                             {
                                 nova.setStatus(Partida.Status.INICIADA);
-                                partidas.inserirNoFim(nova);
                                 if(DadosBasicos.getPartidas() == null)
                                     DadosBasicos.Init();
-                                
+                                partidas.inserirNoFim(nova);
                                 DadosBasicos.setUmaPartida(nova);
                                 output.writeObject(new Solicitacao("SUC", "Seu saldo atual: " + userPartida.getMoeda() + "moedas"));
                                 
@@ -194,6 +194,21 @@ public class Processo extends Thread
                         break;
                     case "SAI":
                         output.writeObject(new Solicitacao("SUC", "Você saiu do jogo"));
+                        break;
+                    case "CONT":
+                        if(recebido.getComplemento1() != "")
+                        {
+                            Partida partidaSolicitada = DadosBasicos.getUmaPartida(recebido.getComplemento1());
+                            output.writeObject(new Solicitacao("SUC", partidaSolicitada.getJogares().getQtdElems() + ""));                            
+                        }
+                        else
+                        {
+                            for(int i = 0; i<partidas.getQtdElems(); i++)
+                            {
+                                partidas.getPrim();
+                            }
+                        }
+
                         break;
                 }                
             }

@@ -180,7 +180,7 @@ public class Usuarios
         }
         catch (SQLException erro)
         {
-            throw new Exception ("Erro ao procurar livro");
+            throw new Exception ("Erro ao procurar usuario");
         }
 
         return usuario;

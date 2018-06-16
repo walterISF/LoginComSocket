@@ -51,6 +51,15 @@ public class Lista <X> implements Cloneable, Serializable
                 this (i,null);
         }
     }
+
+    public No getPrim() {
+        return prim;
+    }
+
+    public void setPrim(No prim) {
+        this.prim = prim;
+    }
+    
 	
     private No prim=null;
 

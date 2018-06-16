@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -44,6 +46,7 @@ public class TelaLobby extends javax.swing.JPanel {
         this.lstAberta.setModel(model);
         Conexao.getInstance();
         this.conexao = Conexao.getSocket();
+        updateListaSalas();
     }
 
     /**
@@ -209,7 +212,42 @@ public class TelaLobby extends javax.swing.JPanel {
         
         
     }//GEN-LAST:event_btnNovaPartidaActionPerformed
-    
+private void updateListaSalas()
+{
+            Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                while(true)
+                {
+                    if(Conexao.getSocket() != null)
+                    {
+                        Solicitacao solicitacao = new Solicitacao("CONT");
+                        Solicitacao retorno;
+                        try 
+                        {
+                            transmissor = Conexao.getOutputStream();
+                            receptor = Conexao.getInputStream();
+                            transmissor.writeObject(solicitacao);
+                            transmissor.flush(); //envio imediato
+                            retorno = (Solicitacao) receptor.readObject();
+                            System.out.println(retorno.toString());
+                            if(retorno.getComando().toUpperCase().equals("SUC"))
+                            {
+                                
+                            }
+                        } 
+                        catch (IOException | ClassNotFoundException ex) 
+                        {
+                            Logger.getLogger(TelaAguardando.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    }                    
+                }
+
+            }
+        }, 1000);
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrarSala;

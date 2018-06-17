@@ -137,6 +137,12 @@ public class TelaAguardandoCliente extends javax.swing.JPanel {
                             if(retorno.getComando().toUpperCase().equals("SUC"))
                             {
                                 lblValor.setText(retorno.getComplemento1());
+                                if(retorno.getComplemento2().equals("JOGANDO"))
+                                {
+                                    frameLayout.setVisible(false);
+                                    JFrame frame = new JFrame("Partida");
+                                    TelaPartida jogar = new TelaPartida(frame);
+                                }
                             }
                         } 
                         catch (IOException | ClassNotFoundException ex) 

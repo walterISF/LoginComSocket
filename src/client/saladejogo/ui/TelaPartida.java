@@ -5,6 +5,7 @@
  */
 package client.saladejogo.ui;
 
+import client.socket.Conexao;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -24,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import client.socket.Solicitacao;
+import javax.swing.JOptionPane;
 /**
  *
  * @author vntwafi
@@ -49,6 +51,7 @@ public class TelaPartida extends javax.swing.JPanel {
         this.frameLayout.setLocationRelativeTo(null);
         this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
+        getAposta();
     }
 
     /**
@@ -240,27 +243,48 @@ public class TelaPartida extends javax.swing.JPanel {
         return img;
     }
     
-    	static class RotateLabel extends JLabel {
-		private static final long serialVersionUID = 1L;
-		private int angle = 0;
+    static class RotateLabel extends JLabel 
+    {
+            private static final long serialVersionUID = 1L;
+            private int angle = 0;
 
-		public RotateLabel( String text, int x, int y ) {
-			super( text );
-			setBorder( new javax.swing.border.CompoundBorder( new javax.swing.border.LineBorder( Color.red, 1), getBorder() ) );
-			int width = getPreferredSize().width;
-			int height = getPreferredSize().height;
-			setBounds( x, y, width, height );
-		}
+            public RotateLabel( String text, int x, int y ) {
+                    super( text );
+                    setBorder( new javax.swing.border.CompoundBorder( new javax.swing.border.LineBorder( Color.red, 1), getBorder() ) );
+                    int width = getPreferredSize().width;
+                    int height = getPreferredSize().height;
+                    setBounds( x, y, width, height );
+            }
 
-		@Override
-		public void paintComponent( Graphics g ) {
-			Graphics2D gx = (Graphics2D) g;
-			gx.rotate(0.2, getX() + getWidth() / 2, getY() + getHeight() / 2);
-			super.paintComponent(g);
-		}
+            @Override
+            public void paintComponent( Graphics g ) {
+                    Graphics2D gx = (Graphics2D) g;
+                    gx.rotate(0.2, getX() + getWidth() / 2, getY() + getHeight() / 2);
+                    super.paintComponent(g);
+            }
 
-		public void setRotation( int angle ) { this.angle = angle; }
-	}
+            public void setRotation( int angle ) { this.angle = angle; }
+    }
+    private void getAposta()
+    {
+        String aposta = JOptionPane.showInputDialog(null, "Insira o valor da sua aposta");
+        Solicitacao retorno;
+        this.transmissor = Conexao.getOutputStream();
+        this.receptor = Conexao.getInputStream();
+        try 
+        {
+            this.transmissor.writeObject(new Solicitacao("APO",aposta));
+            retorno = (Solicitacao) receptor.readObject();
+            if(retorno.getComando().toUpperCase().equals("SUC"))
+            {
+                
+            }
+        } 
+        catch (IOException | ClassNotFoundException ex) 
+        {
+            Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMaisCartas;

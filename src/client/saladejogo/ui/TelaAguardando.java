@@ -132,7 +132,7 @@ public class TelaAguardando extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-        if(Integer.parseInt(this.lblValor.getText()) > 2)
+        if(Integer.parseInt(this.lblValor.getText()) > 1)
         {
             this.frameLayout.setVisible(false);
             JFrame frame = new JFrame("Partida");

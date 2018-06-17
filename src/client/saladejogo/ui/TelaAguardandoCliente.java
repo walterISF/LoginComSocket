@@ -7,6 +7,9 @@ package client.saladejogo.ui;
 
 import client.socket.Conexao;
 import client.socket.Solicitacao;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,6 +19,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -37,7 +41,7 @@ public class TelaAguardandoCliente extends javax.swing.JPanel {
         initComponents();
         this.frameLayout = framelayout;
         this.frameLayout.add(this);
-        this.frameLayout.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frameLayout.addWindowListener(exitListener);
         this.frameLayout.pack();
         this.frameLayout.setLocationRelativeTo(null); 
         this.frameLayout.setResizable(false);
@@ -146,7 +150,37 @@ public class TelaAguardandoCliente extends javax.swing.JPanel {
             }
         }, 1000);
     }
+    WindowListener exitListener = new WindowAdapter() {
 
+        @Override
+        public void windowClosing(WindowEvent e) {
+            int confirm = JOptionPane.showOptionDialog(
+                 null, "Tem certeza que deseja fechar o jogo?", 
+                 "Exit Confirmation", JOptionPane.YES_NO_OPTION, 
+                 JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if (confirm == 0) 
+            {
+                Solicitacao retorno;
+                try 
+                {
+                    transmissor = Conexao.getOutputStream();
+                    receptor = Conexao.getInputStream();
+                    transmissor.writeObject(new Solicitacao("SAI"));
+                    transmissor.flush(); //envio imediato
+                    retorno = (Solicitacao) receptor.readObject();
+                    System.out.println(retorno.toString());
+                    if(retorno.getComando().toUpperCase().equals("SUC"))
+                    {
+                        System.exit(0);
+                    }
+                }
+                catch (IOException | ClassNotFoundException ex) 
+                {
+                    Logger.getLogger(TelaAguardando.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    };
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;

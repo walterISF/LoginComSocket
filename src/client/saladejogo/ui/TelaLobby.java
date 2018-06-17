@@ -241,6 +241,7 @@ private void updateListaSalas()
     {
         Solicitacao solicitacao = new Solicitacao("URL");
         Solicitacao retorno;
+        String[] listaDeSalas;
         try 
         {
             transmissor = Conexao.getOutputStream();
@@ -251,7 +252,10 @@ private void updateListaSalas()
             System.out.println(retorno.toString());
             if(retorno.getComando().toUpperCase().equals("SUC"))
             {
-
+                listaDeSalas = retorno.getComplemento1().split(",");
+                for(int i=0; i<listaDeSalas.length; i++)
+                    this.model.addElement(listaDeSalas[i]);
+                
             }
         } 
         catch (IOException | ClassNotFoundException ex) 

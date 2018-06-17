@@ -145,7 +145,7 @@ public class TelaAguardando extends javax.swing.JPanel {
                 {
                     if(Conexao.getSocket() != null)
                     {
-                        Solicitacao solicitacao = new Solicitacao("CONT", nomePartida);
+                        Solicitacao solicitacao = new Solicitacao("UUL", nomePartida);
                         Solicitacao retorno;
                         try 
                         {

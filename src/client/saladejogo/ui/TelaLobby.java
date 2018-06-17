@@ -29,8 +29,10 @@ public class TelaLobby extends javax.swing.JPanel {
     private Socket conexao;
     private JFrame frameLayout;
     private DefaultListModel model;
+    private Timer timer = null;
     /**
      * Creates new form TelaLobby
+     * @param framelayout
      */
     public TelaLobby(JFrame framelayout) {
         initComponents();
@@ -67,8 +69,7 @@ public class TelaLobby extends javax.swing.JPanel {
         lstAberta = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-
-        setSize(new java.awt.Dimension(533, 493));
+        btnUpdate = new javax.swing.JButton();
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel2.setText("Salas Abertas");
@@ -112,31 +113,45 @@ public class TelaLobby extends javax.swing.JPanel {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/logo.png"))); // NOI18N
 
+        btnUpdate.setBackground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/btnMais.png"))); // NOI18N
+        btnUpdate.setText("Atualiza Listas");
+        btnUpdate.setToolTipText("");
+        btnUpdate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(51, 51, 51))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
                         .addComponent(btnEntrarSala, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
-                        .addComponent(btnNovaPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(36, 36, 36)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNovaPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))))
+                .addGap(51, 51, 51))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,7 +169,8 @@ public class TelaLobby extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovaPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEntrarSala, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEntrarSala, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -184,6 +200,9 @@ public class TelaLobby extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEntrarSalaActionPerformed
 
     private void btnNovaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaPartidaActionPerformed
+        if(this.timer != null)
+            timer.cancel();
+        
         String nome = JOptionPane.showInputDialog(null, "Insira o nome da sala");
         Solicitacao novaPartida = new Solicitacao("CRI", nome);
         Solicitacao retorno;
@@ -191,11 +210,11 @@ public class TelaLobby extends javax.swing.JPanel {
         {
             if(this.conexao != null)
             {
-                this.transmissor = Conexao.getOutputStream();
-                this.receptor = Conexao.getInputStream();
-                this.transmissor.writeObject(novaPartida);
-                retorno = (Solicitacao)this.receptor.readObject(); 
-                System.out.println(retorno);
+                transmissor = Conexao.getOutputStream();
+                receptor = Conexao.getInputStream();
+                transmissor.writeObject(novaPartida);
+                retorno = (Solicitacao) receptor.readObject();
+                System.out.println(retorno.toString());
                 if(retorno.getComando().toUpperCase().equals("SUC"))
                 {
                     this.model.addElement(nome);
@@ -212,46 +231,41 @@ public class TelaLobby extends javax.swing.JPanel {
         
         
     }//GEN-LAST:event_btnNovaPartidaActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        updateListaSalas();
+    }//GEN-LAST:event_btnUpdateActionPerformed
 private void updateListaSalas()
 {
-            Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                while(true)
-                {
-                    if(Conexao.getSocket() != null)
-                    {
-                        Solicitacao solicitacao = new Solicitacao("URL");
-                        Solicitacao retorno;
-                        try 
-                        {
-                            transmissor = Conexao.getOutputStream();
-                            receptor = Conexao.getInputStream();
-                            transmissor.writeObject(solicitacao);
-                            transmissor.flush(); //envio imediato
-                            retorno = (Solicitacao) receptor.readObject();
-                            System.out.println(retorno.toString());
-                            if(retorno.getComando().toUpperCase().equals("SUC"))
-                            {
-                                
-                            }
-                        } 
-                        catch (IOException | ClassNotFoundException ex) 
-                        {
-                            Logger.getLogger(TelaAguardando.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                    }                    
-                }
+    if(Conexao.getSocket() != null)
+    {
+        Solicitacao solicitacao = new Solicitacao("URL");
+        Solicitacao retorno;
+        try 
+        {
+            transmissor = Conexao.getOutputStream();
+            receptor = Conexao.getInputStream();
+            transmissor.writeObject(solicitacao);
+            transmissor.flush(); //envio imediato
+            retorno = (Solicitacao) receptor.readObject();
+            System.out.println(retorno.toString());
+            if(retorno.getComando().toUpperCase().equals("SUC"))
+            {
 
             }
-        }, 1000);
+        } 
+        catch (IOException | ClassNotFoundException ex) 
+        {
+            Logger.getLogger(TelaAguardando.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrarSala;
     private javax.swing.JButton btnNovaPartida;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

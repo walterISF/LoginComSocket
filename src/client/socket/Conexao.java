@@ -21,7 +21,7 @@ public class Conexao
     private static Socket socket = null;
     private static ObjectOutputStream out = null;
     private static ObjectInputStream in = null;
-    private static final String ip = "127.0.0.1";
+    private static final String ip = "192.168.15.15";
     private static final Integer port = 1234;
     private static DefaultListModel model = new DefaultListModel();
     private Conexao()

@@ -5,7 +5,9 @@
  */
 package client.saladejogo.ui;
 
+import client.socket.Carta;
 import client.socket.Conexao;
+import client.socket.Lista;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -20,11 +22,10 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import client.socket.Solicitacao;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 /**
  *
@@ -36,6 +37,7 @@ public class TelaPartida extends javax.swing.JPanel {
     ObjectInputStream receptor;
     Socket conexao;
     JFrame frameLayout;
+    Lista<Carta> cartas= new Lista<>();
     /**
      * Creates new form TelaPartida
      * @param framelayout
@@ -74,9 +76,10 @@ public class TelaPartida extends javax.swing.JPanel {
         lblBaseCartas = new javax.swing.JLabel();
         carta1 = new javax.swing.JLabel();
         carta2 = new javax.swing.JLabel();
+        carta3 = new javax.swing.JLabel();
         carta4 = new javax.swing.JLabel();
         carta5 = new javax.swing.JLabel();
-        carta3 = new javax.swing.JLabel();
+        carta6 = new javax.swing.JLabel();
         lblFundo = new javax.swing.JLabel();
 
         setLayout(null);
@@ -95,7 +98,7 @@ public class TelaPartida extends javax.swing.JPanel {
             }
         });
         add(btnParar);
-        btnParar.setBounds(480, 420, 123, 40);
+        btnParar.setBounds(480, 420, 130, 40);
 
         btnMaisCartas.setBackground(new java.awt.Color(255, 255, 255));
         btnMaisCartas.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
@@ -106,14 +109,13 @@ public class TelaPartida extends javax.swing.JPanel {
         btnMaisCartas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnMaisCartas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMaisCartas.setIconTextGap(6);
-        btnMaisCartas.setRolloverEnabled(true);
         btnMaisCartas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMaisCartasActionPerformed(evt);
             }
         });
         add(btnMaisCartas);
-        btnMaisCartas.setBounds(280, 420, 123, 40);
+        btnMaisCartas.setBounds(280, 420, 130, 40);
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/logo.png"))); // NOI18N
         add(lblLogo);
@@ -126,7 +128,7 @@ public class TelaPartida extends javax.swing.JPanel {
 
         lblValorMesa.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         lblValorMesa.setForeground(new java.awt.Color(255, 0, 0));
-        lblValorMesa.setText("$ 15K");
+        lblValorMesa.setText("$");
         add(lblValorMesa);
         lblValorMesa.setBounds(180, 152, 45, 16);
 
@@ -139,47 +141,47 @@ public class TelaPartida extends javax.swing.JPanel {
         lblSeusPontos.setText("SEUS PONTOS:");
         lblSeusPontos.setToolTipText("");
         add(lblSeusPontos);
-        lblSeusPontos.setBounds(340, 370, 170, 30);
+        lblSeusPontos.setBounds(340, 370, 200, 30);
 
         lblPontos.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        lblPontos.setText("4");
+        lblPontos.setText("0");
         add(lblPontos);
-        lblPontos.setBounds(520, 370, 170, 30);
+        lblPontos.setBounds(560, 370, 170, 30);
 
         lblBaseCartas.setBackground(new java.awt.Color(153, 153, 153));
         lblBaseCartas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/efeitoDeck.png"))); // NOI18N
         add(lblBaseCartas);
-        lblBaseCartas.setBounds(150, 290, 550, 60);
+        lblBaseCartas.setBounds(190, 290, 550, 60);
 
-        carta1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/copas-10.jpg"))); // NOI18N
         carta1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         carta1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         add(carta1);
-        carta1.setBounds(150, 180, 110, 160);
+        carta1.setBounds(320, 180, 110, 160);
 
-        carta2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/espadas-9.jpg"))); // NOI18N
         carta2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         carta2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         add(carta2);
-        carta2.setBounds(590, 180, 110, 160);
+        carta2.setBounds(430, 180, 110, 160);
 
-        carta4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/espadas-9.jpg"))); // NOI18N
-        carta4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        carta4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        add(carta4);
-        carta4.setBounds(370, 180, 110, 160);
-
-        carta5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/espadas-9.jpg"))); // NOI18N
-        carta5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        carta5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        add(carta5);
-        carta5.setBounds(480, 180, 110, 160);
-
-        carta3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/copas-10.jpg"))); // NOI18N
         carta3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         carta3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         add(carta3);
-        carta3.setBounds(260, 180, 110, 160);
+        carta3.setBounds(210, 180, 110, 160);
+
+        carta4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        carta4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add(carta4);
+        carta4.setBounds(540, 180, 110, 160);
+
+        carta5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        carta5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add(carta5);
+        carta5.setBounds(650, 180, 110, 160);
+
+        carta6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        carta6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add(carta6);
+        carta6.setBounds(100, 180, 110, 160);
 
         lblFundo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/fundoTestura.png"))); // NOI18N
@@ -274,15 +276,116 @@ public class TelaPartida extends javax.swing.JPanel {
         try 
         {
             this.transmissor.writeObject(new Solicitacao("APO",aposta));
-            retorno = (Solicitacao) receptor.readObject();
+            this.transmissor.flush();
+            retorno = (Solicitacao)receptor.readObject();
             if(retorno.getComando().toUpperCase().equals("SUC"))
             {
-                
+                getCartasIniciais();
             }
         } 
         catch (IOException | ClassNotFoundException ex) 
         {
             Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void getCartasIniciais()
+    {
+        if(cartas != null)
+        {
+            if(cartas.getQtdElems() == 0)
+            {
+                while(cartas.getQtdElems() < 3)
+                {
+                    Solicitacao retorno;
+                    if(this.conexao != null)
+                    {
+                        transmissor = Conexao.getOutputStream();
+                        receptor = Conexao.getInputStream();
+
+                        try 
+                        {
+                            transmissor.writeObject(new Solicitacao("COM"));
+                            retorno = (Solicitacao) receptor.readObject();
+                            System.out.println(retorno.toString());
+                            if(retorno.getComando().toUpperCase().equals("CAR"))
+                            {
+                                cartas.inserirNoFim(new Carta(retorno.getComplemento1(), retorno.getComplemento2()));
+                                ImageIcon image;
+                                switch(retorno.getComplemento2())
+                                {
+                                    case "copas":
+                                        if(cartas.getQtdElems() == 1)
+                                        {
+                                            image = new ImageIcon(getClass()
+                                                    .getResource("/saladejogo/ui/copas-" + retorno.getComplemento1() + ".jpg"));
+                                            carta1.setIcon(image);                                            
+                                        }
+                                        else
+                                        {
+                                            image = new ImageIcon(getClass()
+                                                .getResource("/saladejogo/ui/copas-" + retorno.getComplemento1() + ".jpg"));
+                                            carta2.setIcon(image);
+                                        }
+
+                                    break;
+                                    
+                                    case "espadas":
+                                        if(cartas.getQtdElems() == 1)
+                                        {
+                                            image = new ImageIcon(getClass()
+                                                    .getResource("/saladejogo/ui/espadas-" + retorno.getComplemento1() + ".jpg"));
+                                            carta1.setIcon(image);                                            
+                                        }
+                                        else
+                                        {
+                                            image = new ImageIcon(getClass()
+                                                .getResource("/saladejogo/ui/espadas-" + retorno.getComplemento1() + ".jpg"));
+                                            carta2.setIcon(image);
+                                        }
+                                    break;
+                                    
+                                    case "paus":
+                                        if(cartas.getQtdElems() == 1)
+                                        {
+                                            image = new ImageIcon(getClass()
+                                                    .getResource("/saladejogo/ui/paus-" + retorno.getComplemento1() + ".jpg"));
+                                            carta1.setIcon(image);                                            
+                                        }
+                                        else
+                                        {
+                                            image = new ImageIcon(getClass()
+                                                .getResource("/saladejogo/ui/paus-" + retorno.getComplemento1() + ".jpg"));
+                                            carta2.setIcon(image);
+                                        }
+                                    break;
+                                    
+                                    case "ouro":
+                                        if(cartas.getQtdElems() == 1)
+                                        {
+                                            image = new ImageIcon(getClass()
+                                                    .getResource("/saladejogo/ui/ouro-" + retorno.getComplemento1() + ".jpg"));
+                                            carta1.setIcon(image);                                            
+                                        }
+                                        else
+                                        {
+                                            image = new ImageIcon(getClass()
+                                                .getResource("/saladejogo/ui/ouro-" + retorno.getComplemento1() + ".jpg"));
+                                            carta2.setIcon(image);
+                                        }
+                                    break;
+                                }
+                                
+                            }
+                        } 
+                        catch (IOException | ClassNotFoundException ex) 
+                        {
+                            Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (Exception ex) {
+                            Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }                    
+                }
+            }
         }
     }
 
@@ -294,6 +397,7 @@ public class TelaPartida extends javax.swing.JPanel {
     private javax.swing.JLabel carta3;
     private javax.swing.JLabel carta4;
     private javax.swing.JLabel carta5;
+    private javax.swing.JLabel carta6;
     private javax.swing.JLabel lblAposta;
     private javax.swing.JLabel lblBaseCartas;
     private javax.swing.JLabel lblFundo;

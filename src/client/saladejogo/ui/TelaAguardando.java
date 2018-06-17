@@ -163,7 +163,7 @@ public class TelaAguardando extends javax.swing.JPanel {
                             if(retorno.getComando().toUpperCase().equals("SUC"))
                             {
                                 lblValor.setText(retorno.getComplemento1());
-                                if(Integer.parseInt(retorno.getComplemento1()) > 2)
+                                if(Integer.parseInt(retorno.getComplemento1()) > 1)
                                     btnOk.setVisible(true);
                             }
                         } 

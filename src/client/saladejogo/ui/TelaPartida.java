@@ -344,39 +344,7 @@ public class TelaPartida extends javax.swing.JPanel {
                     }                    
  
     }//GEN-LAST:event_btnMaisCartasActionPerformed
-    BufferedImage loadImage(String fileName) {
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File(fileName));
-            
-        } catch (IOException e) {
-        }
-        
-        return img;
-    }
-    
-    static class RotateLabel extends JLabel 
-    {
-            private static final long serialVersionUID = 1L;
-            private int angle = 0;
 
-            public RotateLabel( String text, int x, int y ) {
-                    super( text );
-                    setBorder( new javax.swing.border.CompoundBorder( new javax.swing.border.LineBorder( Color.red, 1), getBorder() ) );
-                    int width = getPreferredSize().width;
-                    int height = getPreferredSize().height;
-                    setBounds( x, y, width, height );
-            }
-
-            @Override
-            public void paintComponent( Graphics g ) {
-                    Graphics2D gx = (Graphics2D) g;
-                    gx.rotate(0.2, getX() + getWidth() / 2, getY() + getHeight() / 2);
-                    super.paintComponent(g);
-            }
-
-            public void setRotation( int angle ) { this.angle = angle; }
-    }
     private void getAposta()
     {
         String aposta = JOptionPane.showInputDialog(null, "Insira o valor da sua aposta");
@@ -418,7 +386,20 @@ public class TelaPartida extends javax.swing.JPanel {
                             System.out.println(retorno.toString());
                             if(retorno.getComando().toUpperCase().equals("CAR"))
                             {
-                                this.pontosDoJogo += Integer.parseInt(retorno.getComplemento2());
+                                if("as".equals(retorno.getComplemento2()))
+                                {
+                                    for(int i=0; i<cartas.getQtdElems(); i++)
+                                    {
+                                        if("valete".equals(cartas.get(i).getValor()))
+                                            this.pontosDoJogo += 10;
+                                    }
+                                    this.pontosDoJogo += 1;
+                                }
+                                else if("rei".equals(retorno.getComplemento2()) || "dama".equals(retorno.getComplemento2()) || "valete".equals(retorno.getComplemento2()))
+                                {
+                                    this.pontosDoJogo += 10;
+                                }
+                                else{this.pontosDoJogo += Integer.parseInt(retorno.getComplemento2());}
                                 lblPontos.setText(this.pontosDoJogo.toString());
                                 cartas.inserirNoFim(new Carta(retorno.getComplemento2(), retorno.getComplemento1()));
                                 ImageIcon image;

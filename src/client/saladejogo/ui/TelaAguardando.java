@@ -151,10 +151,32 @@ public class TelaAguardando extends javax.swing.JPanel {
         {
             if(timer != null)
                 timer.cancel();
-            
-            this.frameLayout.setVisible(false);
-            JFrame frame = new JFrame("Partida");
-            TelaPartida jogar = new TelaPartida(frame);
+
+            if(Conexao.getSocket() != null)
+            {
+                Solicitacao solicitacao = new Solicitacao("USP", nomePartida);
+                Solicitacao retorno;
+                try 
+                {
+                    transmissor = Conexao.getOutputStream();
+                    receptor = Conexao.getInputStream();
+                    transmissor.writeObject(solicitacao);
+                    transmissor.flush(); //envio imediato
+                    retorno = (Solicitacao) receptor.readObject();
+                    System.out.println(retorno.toString());
+                    if(retorno.getComando().toUpperCase().equals("SUC"))
+                    {
+                        this.frameLayout.setVisible(false);
+                        JFrame frame = new JFrame("Partida");
+                        TelaPartida jogar = new TelaPartida(frame);
+                    }
+                } 
+                catch (IOException | ClassNotFoundException ex) 
+                {
+                    Logger.getLogger(TelaAguardando.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }            
         }
     }//GEN-LAST:event_btnOkActionPerformed
 

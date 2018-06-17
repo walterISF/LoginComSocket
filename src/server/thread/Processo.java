@@ -170,6 +170,7 @@ public class Processo extends Thread
                                 try 
                                 {
                                     partida.addMoedas(Float.parseFloat(recebido.getComplemento1()));
+                                    output.writeObject(new Solicitacao("SUC"));
                                 } 
                                 catch (Exception ex) 
                                 {
@@ -238,7 +239,7 @@ public class Processo extends Thread
                                 partidaSolicitada = DadosBasicos.getUmaPartida(recebido.getComplemento1());
                             
                             if(partidaSolicitada != null)
-                            output.writeObject(new Solicitacao("SUC", partidaSolicitada.getJogares().getQtdElems() + ""));                        
+                            output.writeObject(new Solicitacao("SUC", partidaSolicitada.getJogares().getQtdElems() + "", partidaSolicitada.getStatus().toString()));                        
                         break;
                 }                
             }

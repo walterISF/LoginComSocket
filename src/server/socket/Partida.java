@@ -6,6 +6,7 @@
 package server.socket;
 
 import bd.dbos.Usuario;
+import java.util.Collections;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,6 +87,8 @@ public class Partida
                 for (int j = 1; j<=13; j++) 
                 {
                     valor = j+"";
+                    if(j==1)
+                        valor = "as";
                     if(j==11)
                         valor = "dama";
                     if(j==12)
@@ -95,7 +98,8 @@ public class Partida
                     Carta carta = new Carta(valor, nipe);
                     cartas.inserirNoFim(carta);
                 }
-            }  
+            }
+            this.setBaralhos(baralhos);
         } 
         catch (Exception ex) 
         {
@@ -112,7 +116,7 @@ public class Partida
         int Result = r.nextInt(High-Low) + Low;
         try 
         {
-            return cartas.removerDoMeio(Result);
+            return cartas.get(Result);
         } 
         catch (Exception ex) 
         {

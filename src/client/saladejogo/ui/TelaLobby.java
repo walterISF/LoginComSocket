@@ -192,7 +192,7 @@ public class TelaLobby extends javax.swing.JPanel {
                 if(retorno.getComando().toUpperCase().equals("SUC"))
                 {
                     JFrame frame = new JFrame("Aguarde");
-                    TelaAguardando tela = new TelaAguardando(frame, selected);                    
+                    TelaAguardandoCliente tela = new TelaAguardandoCliente(frame, selected);                    
                 }
             } 
             catch (IOException | ClassNotFoundException ex) 

@@ -32,6 +32,7 @@ public class TelaAguardando extends javax.swing.JPanel {
     private ObjectInputStream receptor;
     private final String nomePartida;
     private final Socket conexao;
+    private Timer timer = null;
     /**
      * Creates new form TelaAguardando
      * @param framelayout
@@ -67,6 +68,7 @@ public class TelaAguardando extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         lblNumJogadores = new javax.swing.JLabel();
         lblValor = new javax.swing.JLabel();
+        btnUpdate = new javax.swing.JButton();
 
         btnOk.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         btnOk.setForeground(new java.awt.Color(255, 255, 255));
@@ -93,17 +95,23 @@ public class TelaAguardando extends javax.swing.JPanel {
 
         lblValor.setText("0");
 
+        btnUpdate.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/btnMais.png"))); // NOI18N
+        btnUpdate.setText("Atualizar");
+        btnUpdate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(jLabel1))
@@ -112,7 +120,13 @@ public class TelaAguardando extends javax.swing.JPanel {
                         .addComponent(lblNumJogadores)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblValor)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,7 +140,8 @@ public class TelaAguardando extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -134,49 +149,46 @@ public class TelaAguardando extends javax.swing.JPanel {
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
         if(Integer.parseInt(this.lblValor.getText()) > 1)
         {
+            if(timer != null)
+                timer.cancel();
+            
             this.frameLayout.setVisible(false);
             JFrame frame = new JFrame("Partida");
             TelaPartida jogar = new TelaPartida(frame);
         }
     }//GEN-LAST:event_btnOkActionPerformed
 
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        atualizarUsuarios(this.nomePartida);
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
     private void atualizarUsuarios(String nomePartida)
     {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                while(true)
+        if(Conexao.getSocket() != null)
+        {
+            Solicitacao solicitacao = new Solicitacao("UUL", nomePartida);
+            Solicitacao retorno;
+            try 
+            {
+                transmissor = Conexao.getOutputStream();
+                receptor = Conexao.getInputStream();
+                transmissor.writeObject(solicitacao);
+                transmissor.flush(); //envio imediato
+                retorno = (Solicitacao) receptor.readObject();
+                System.out.println(retorno.toString());
+                if(retorno.getComando().toUpperCase().equals("SUC"))
                 {
-                    if(Conexao.getSocket() != null)
-                    {
-                        Solicitacao solicitacao = new Solicitacao("UUL", nomePartida);
-                        Solicitacao retorno;
-                        try 
-                        {
-                            transmissor = Conexao.getOutputStream();
-                            receptor = Conexao.getInputStream();
-                            transmissor.writeObject(solicitacao);
-                            transmissor.flush(); //envio imediato
-                            retorno = (Solicitacao) receptor.readObject();
-                            System.out.println(retorno.toString());
-                            if(retorno.getComando().toUpperCase().equals("SUC"))
-                            {
-                                lblValor.setText(retorno.getComplemento1());
-                                if(Integer.parseInt(retorno.getComplemento1()) > 1)
-                                    btnOk.setVisible(true);
-                            }
-                        } 
-                        catch (IOException | ClassNotFoundException ex) 
-                        {
-                            Logger.getLogger(TelaAguardando.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                    }                    
+                    lblValor.setText(retorno.getComplemento1());
+                    if(Integer.parseInt(retorno.getComplemento1()) > 1)
+                        btnOk.setVisible(true);
                 }
-
+            } 
+            catch (IOException | ClassNotFoundException ex) 
+            {
+                Logger.getLogger(TelaAguardando.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }, 1000);
+
+        }
     }
     WindowListener exitListener = new WindowAdapter() {
 
@@ -213,6 +225,7 @@ public class TelaAguardando extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOk;
     private javax.swing.JButton btnSair;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblNumJogadores;
     private javax.swing.JLabel lblValor;

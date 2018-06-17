@@ -8,6 +8,7 @@ package client.saladejogo.ui;
 import client.socket.Carta;
 import client.socket.Conexao;
 import client.socket.Lista;
+import client.socket.Solicitacao;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -24,7 +25,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import client.socket.Solicitacao;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 /**
@@ -53,6 +53,9 @@ public class TelaPartida extends javax.swing.JPanel {
         this.frameLayout.setLocationRelativeTo(null);
         this.frameLayout.setResizable(false);
         this.frameLayout.setVisible(true);
+        this.conexao = Conexao.getSocket();
+        this.transmissor = Conexao.getOutputStream();
+        this.receptor = Conexao.getInputStream();
         getAposta();
     }
 
@@ -211,28 +214,122 @@ public class TelaPartida extends javax.swing.JPanel {
     }//GEN-LAST:event_btnPararActionPerformed
 
     private void btnMaisCartasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaisCartasActionPerformed
-        Solicitacao pedido = new Solicitacao("COM");
-        Solicitacao retorno;
-        Graphics g = null;
-        
-        AffineTransform at = AffineTransform.getTranslateInstance(100, 100);
-        at.rotate(Math.toRadians(45));
-        BufferedImage carta3 = loadImage("/saladejogo/ui/espadas-9.jpg");
-//        try
-//        {
-//            this.transmissor.writeObject(pedido);
-//            this.transmissor.flush();
-//            retorno = (Solicitacao) this.receptor.readObject();
-//            System.out.println(retorno.toString());
-//            if(retorno.getComando().toUpperCase().equals("SUC"))
-//            {
-//
-//            }
-//        }
-//        catch (IOException | ClassNotFoundException ex)
-//        {
-//            Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+                    Solicitacao retorno;
+                    Integer valor=0;
+                    if(this.conexao != null)
+                    {
+                        transmissor = Conexao.getOutputStream();
+                        receptor = Conexao.getInputStream();
+
+                        try 
+                        {
+                            transmissor.writeObject(new Solicitacao("COM"));
+                            transmissor.flush();
+                            retorno = (Solicitacao) receptor.readObject();
+                            System.out.println(retorno.toString());
+                            if(retorno.getComando().toUpperCase().equals("CAR"))
+                            {
+                                valor += Integer.parseInt(retorno.getComplemento2());
+                                lblPontos.setText(valor.toString());
+                                cartas.inserirNoFim(new Carta(retorno.getComplemento2(), retorno.getComplemento1()));
+                                ImageIcon image;
+                                Integer qtd = cartas.getQtdElems();
+                                switch(retorno.getComplemento1())
+                                {
+                                    case "copas":
+                                    image = new ImageIcon(getClass()
+                                        .getResource("/client/saladejogo/ui/copas-" + 
+                                        retorno.getComplemento2() + ".jpg"));
+                                    switch(qtd)
+                                    {
+                                        case 3:
+                                            carta3.setIcon(image);
+                                        break;
+                                        case 4:
+                                            carta4.setIcon(image);
+                                        break;
+                                        case 5:
+                                            carta5.setIcon(image);
+                                        break;
+                                        case 6:
+                                            carta6.setIcon(image);
+                                        break;                                                
+                                    }        
+                                    break;
+                                    case "espadas":
+
+                                        image = new ImageIcon(getClass()
+                                            .getResource("/client/saladejogo/ui/copas-" + 
+                                            retorno.getComplemento2() + ".jpg"));
+                                        switch(qtd)
+                                        {
+                                            case 3:
+                                                carta3.setIcon(image);
+                                            break;
+                                            case 4:
+                                                carta4.setIcon(image);
+                                            break;
+                                            case 5:
+                                                carta5.setIcon(image);
+                                            break;
+                                            case 6:
+                                                carta6.setIcon(image);
+                                            break;                                                
+                                        }
+                                    break;
+                                    case "paus":
+                                        image = new ImageIcon(getClass()
+                                            .getResource("/client/saladejogo/ui/copas-" + 
+                                            retorno.getComplemento2() + ".jpg"));
+                                        switch(qtd)
+                                        {
+                                            case 3:
+                                                carta3.setIcon(image);
+                                            break;
+                                            case 4:
+                                                carta4.setIcon(image);
+                                            break;
+                                            case 5:
+                                                carta5.setIcon(image);
+                                            break;
+                                            case 6:
+                                                carta6.setIcon(image);
+                                            break;                                                
+                                        }                                            
+                                    break;
+                                    
+                                    case "ouro":
+                                        image = new ImageIcon(getClass()
+                                        .getResource("/client/saladejogo/ui/copas-" + 
+                                                    retorno.getComplemento2() + ".jpg"));
+                                        switch(qtd)
+                                        {
+                                            case 3:
+                                                carta3.setIcon(image);
+                                            break;
+                                            case 4:
+                                                carta4.setIcon(image);
+                                            break;
+                                            case 5:
+                                                carta5.setIcon(image);
+                                            break;
+                                            case 6:
+                                                carta6.setIcon(image);
+                                            break;                                                
+                                        }
+                                    break;
+                                }
+                                
+                            }
+                        } 
+                        catch (IOException | ClassNotFoundException ex) 
+                        {
+                            Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (Exception ex) {
+                            Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }                    
+ 
     }//GEN-LAST:event_btnMaisCartasActionPerformed
     BufferedImage loadImage(String fileName) {
         BufferedImage img = null;
@@ -270,14 +367,12 @@ public class TelaPartida extends javax.swing.JPanel {
     private void getAposta()
     {
         String aposta = JOptionPane.showInputDialog(null, "Insira o valor da sua aposta");
-        Solicitacao retorno;
-        this.transmissor = Conexao.getOutputStream();
-        this.receptor = Conexao.getInputStream();
         try 
         {
             this.transmissor.writeObject(new Solicitacao("APO",aposta));
             this.transmissor.flush();
-            retorno = (Solicitacao)receptor.readObject();
+            Solicitacao retorno = (Solicitacao)receptor.readObject();
+            System.out.println(retorno);
             if(retorno.getComando().toUpperCase().equals("SUC"))
             {
                 getCartasIniciais();
@@ -294,7 +389,8 @@ public class TelaPartida extends javax.swing.JPanel {
         {
             if(cartas.getQtdElems() == 0)
             {
-                while(cartas.getQtdElems() < 3)
+                Integer valor = 0;
+                while(cartas.getQtdElems() < 2)
                 {
                     Solicitacao retorno;
                     if(this.conexao != null)
@@ -305,25 +401,30 @@ public class TelaPartida extends javax.swing.JPanel {
                         try 
                         {
                             transmissor.writeObject(new Solicitacao("COM"));
+                            transmissor.flush();
                             retorno = (Solicitacao) receptor.readObject();
                             System.out.println(retorno.toString());
                             if(retorno.getComando().toUpperCase().equals("CAR"))
                             {
-                                cartas.inserirNoFim(new Carta(retorno.getComplemento1(), retorno.getComplemento2()));
+                                valor += Integer.parseInt(retorno.getComplemento2());
+                                lblPontos.setText(valor.toString());
+                                cartas.inserirNoFim(new Carta(retorno.getComplemento2(), retorno.getComplemento1()));
                                 ImageIcon image;
-                                switch(retorno.getComplemento2())
+                                switch(retorno.getComplemento1())
                                 {
                                     case "copas":
                                         if(cartas.getQtdElems() == 1)
                                         {
                                             image = new ImageIcon(getClass()
-                                                    .getResource("/saladejogo/ui/copas-" + retorno.getComplemento1() + ".jpg"));
+                                                    .getResource("/client/saladejogo/ui/copas-" + 
+                                                            retorno.getComplemento2() + ".jpg"));
                                             carta1.setIcon(image);                                            
                                         }
                                         else
                                         {
                                             image = new ImageIcon(getClass()
-                                                .getResource("/saladejogo/ui/copas-" + retorno.getComplemento1() + ".jpg"));
+                                                    .getResource("/client/saladejogo/ui/copas-" + 
+                                                            retorno.getComplemento2() + ".jpg"));
                                             carta2.setIcon(image);
                                         }
 
@@ -333,13 +434,15 @@ public class TelaPartida extends javax.swing.JPanel {
                                         if(cartas.getQtdElems() == 1)
                                         {
                                             image = new ImageIcon(getClass()
-                                                    .getResource("/saladejogo/ui/espadas-" + retorno.getComplemento1() + ".jpg"));
+                                                    .getResource("/client/saladejogo/ui/copas-" + 
+                                                            retorno.getComplemento2() + ".jpg"));
                                             carta1.setIcon(image);                                            
                                         }
                                         else
                                         {
                                             image = new ImageIcon(getClass()
-                                                .getResource("/saladejogo/ui/espadas-" + retorno.getComplemento1() + ".jpg"));
+                                                    .getResource("/client/saladejogo/ui/copas-" + 
+                                                            retorno.getComplemento2() + ".jpg"));
                                             carta2.setIcon(image);
                                         }
                                     break;
@@ -348,13 +451,15 @@ public class TelaPartida extends javax.swing.JPanel {
                                         if(cartas.getQtdElems() == 1)
                                         {
                                             image = new ImageIcon(getClass()
-                                                    .getResource("/saladejogo/ui/paus-" + retorno.getComplemento1() + ".jpg"));
+                                                    .getResource("/client/saladejogo/ui/copas-" + 
+                                                            retorno.getComplemento2() + ".jpg"));
                                             carta1.setIcon(image);                                            
                                         }
                                         else
                                         {
                                             image = new ImageIcon(getClass()
-                                                .getResource("/saladejogo/ui/paus-" + retorno.getComplemento1() + ".jpg"));
+                                                    .getResource("/client/saladejogo/ui/copas-" + 
+                                                            retorno.getComplemento2() + ".jpg"));
                                             carta2.setIcon(image);
                                         }
                                     break;
@@ -363,13 +468,15 @@ public class TelaPartida extends javax.swing.JPanel {
                                         if(cartas.getQtdElems() == 1)
                                         {
                                             image = new ImageIcon(getClass()
-                                                    .getResource("/saladejogo/ui/ouro-" + retorno.getComplemento1() + ".jpg"));
+                                                    .getResource("/client/saladejogo/ui/copas-" + 
+                                                            retorno.getComplemento2() + ".jpg"));
                                             carta1.setIcon(image);                                            
                                         }
                                         else
                                         {
                                             image = new ImageIcon(getClass()
-                                                .getResource("/saladejogo/ui/ouro-" + retorno.getComplemento1() + ".jpg"));
+                                                    .getResource("/client/saladejogo/ui/copas-" + 
+                                                            retorno.getComplemento2() + ".jpg"));
                                             carta2.setIcon(image);
                                         }
                                     break;

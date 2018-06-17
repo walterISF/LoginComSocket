@@ -203,7 +203,9 @@ public class TelaPartida extends javax.swing.JPanel {
             retorno = (Solicitacao) this.receptor.readObject();
             if(retorno.getComando().toUpperCase().equals("SUC"))
             {
-
+                frameLayout.setVisible(false);
+                JFrame frame = new JFrame("Partida");
+                TelaAguardandoVencedor jogar = new TelaAguardandoVencedor(frame, Conexao.getNomePartida());
             }
         }
         catch (IOException | ClassNotFoundException ex)

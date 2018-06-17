@@ -142,6 +142,7 @@ public class TelaAguardandoCliente extends javax.swing.JPanel {
                                 {
                                     frameLayout.setVisible(false);
                                     JFrame frame = new JFrame("Partida");
+                                    Conexao.setNomePartida(nomePartida);
                                     TelaPartida jogar = new TelaPartida(frame);
                                     condicao = false;
                                     timer.cancel();

@@ -61,22 +61,15 @@ public class TelaAguardandoVencedor extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnSair = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         lblNumJogadores = new javax.swing.JLabel();
         lblValor = new javax.swing.JLabel();
-
-        btnSair.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        btnSair.setForeground(new java.awt.Color(255, 255, 255));
-        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/saladejogo/ui/btnParar.png"))); // NOI18N
-        btnSair.setText("Sair");
-        btnSair.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(248, 23, 23));
         jLabel1.setText("Aguarde o moderador iniciar a partida");
 
-        lblNumJogadores.setText("Numero de jogadores:");
+        lblNumJogadores.setText("Vencedor:");
 
         lblValor.setText("0");
 
@@ -90,13 +83,10 @@ public class TelaAguardandoVencedor extends javax.swing.JPanel {
                         .addGap(36, 36, 36)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNumJogadores)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblValor)))))
+                        .addGap(141, 141, 141)
+                        .addComponent(lblNumJogadores)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblValor)))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -104,13 +94,11 @@ public class TelaAguardandoVencedor extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNumJogadores)
                     .addComponent(lblValor))
-                .addGap(18, 18, 18)
-                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGap(62, 62, 62))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -138,6 +126,7 @@ public class TelaAguardandoVencedor extends javax.swing.JPanel {
                             if(retorno.getComando().toUpperCase().equals("WIN"))
                             {
                                 condicao = false;
+                                lblValor.setText(retorno.getComplemento1());
                                 
                             }
                         } 
@@ -184,7 +173,6 @@ public class TelaAguardandoVencedor extends javax.swing.JPanel {
         }
     };
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblNumJogadores;
     private javax.swing.JLabel lblValor;

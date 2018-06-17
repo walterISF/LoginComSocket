@@ -214,134 +214,134 @@ public class TelaPartida extends javax.swing.JPanel {
     }//GEN-LAST:event_btnPararActionPerformed
 
     private void btnMaisCartasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaisCartasActionPerformed
-                    Solicitacao retorno;
-                    if(this.conexao != null)
+        Solicitacao retorno;
+        if(this.conexao != null)
+        {
+            transmissor = Conexao.getOutputStream();
+            receptor = Conexao.getInputStream();
+
+            try 
+            {
+                transmissor.writeObject(new Solicitacao("COM"));
+                transmissor.flush();
+                retorno = (Solicitacao) receptor.readObject();
+                System.out.println(retorno.toString());
+                if(retorno.getComando().toUpperCase().equals("CAR"))
+                {
+                    if("as".equals(retorno.getComplemento2()))
                     {
-                        transmissor = Conexao.getOutputStream();
-                        receptor = Conexao.getInputStream();
-
-                        try 
+                        for(int i=0; i<cartas.getQtdElems(); i++)
                         {
-                            transmissor.writeObject(new Solicitacao("COM"));
-                            transmissor.flush();
-                            retorno = (Solicitacao) receptor.readObject();
-                            System.out.println(retorno.toString());
-                            if(retorno.getComando().toUpperCase().equals("CAR"))
-                            {
-                                if("as".equals(retorno.getComplemento2()))
-                                {
-                                    for(int i=0; i<cartas.getQtdElems(); i++)
-                                    {
-                                        if("valete".equals(cartas.get(i).getValor()))
-                                            this.pontosDoJogo += 10;
-                                    }
-                                    this.pontosDoJogo += 1;
-                                }
-                                else if("rei".equals(retorno.getComplemento2()) || "dama".equals(retorno.getComplemento2()) || "valete".equals(retorno.getComplemento2()))
-                                {
-                                    this.pontosDoJogo += 10;
-                                }
-                                else{this.pontosDoJogo += Integer.parseInt(retorno.getComplemento2());}
-                                
-                                lblPontos.setText(this.pontosDoJogo.toString());
-                                cartas.inserirNoFim(new Carta(retorno.getComplemento2(), retorno.getComplemento1()));
-                                ImageIcon image;
-                                Integer qtd = cartas.getQtdElems();
-                                switch(retorno.getComplemento1())
-                                {
-                                    case "copas":
-                                    image = new ImageIcon(getClass()
-                                        .getResource("/client/saladejogo/ui/copas-" + 
-                                        retorno.getComplemento2() + ".jpg"));
-                                    switch(qtd)
-                                    {
-                                        case 3:
-                                            carta3.setIcon(image);
-                                        break;
-                                        case 4:
-                                            carta4.setIcon(image);
-                                        break;
-                                        case 5:
-                                            carta5.setIcon(image);
-                                        break;
-                                        case 6:
-                                            carta6.setIcon(image);
-                                        break;                                                
-                                    }        
-                                    break;
-                                    case "espadas":
-
-                                        image = new ImageIcon(getClass()
-                                            .getResource("/client/saladejogo/ui/copas-" + 
-                                            retorno.getComplemento2() + ".jpg"));
-                                        switch(qtd)
-                                        {
-                                            case 3:
-                                                carta3.setIcon(image);
-                                            break;
-                                            case 4:
-                                                carta4.setIcon(image);
-                                            break;
-                                            case 5:
-                                                carta5.setIcon(image);
-                                            break;
-                                            case 6:
-                                                carta6.setIcon(image);
-                                            break;                                                
-                                        }
-                                    break;
-                                    case "paus":
-                                        image = new ImageIcon(getClass()
-                                            .getResource("/client/saladejogo/ui/copas-" + 
-                                            retorno.getComplemento2() + ".jpg"));
-                                        switch(qtd)
-                                        {
-                                            case 3:
-                                                carta3.setIcon(image);
-                                            break;
-                                            case 4:
-                                                carta4.setIcon(image);
-                                            break;
-                                            case 5:
-                                                carta5.setIcon(image);
-                                            break;
-                                            case 6:
-                                                carta6.setIcon(image);
-                                            break;                                                
-                                        }                                            
-                                    break;
-                                    
-                                    case "ouro":
-                                        image = new ImageIcon(getClass()
-                                        .getResource("/client/saladejogo/ui/copas-" + 
-                                                    retorno.getComplemento2() + ".jpg"));
-                                        switch(qtd)
-                                        {
-                                            case 3:
-                                                carta3.setIcon(image);
-                                            break;
-                                            case 4:
-                                                carta4.setIcon(image);
-                                            break;
-                                            case 5:
-                                                carta5.setIcon(image);
-                                            break;
-                                            case 6:
-                                                carta6.setIcon(image);
-                                            break;                                                
-                                        }
-                                    break;
-                                }
-                                
-                            }
-                        } 
-                        catch (IOException | ClassNotFoundException ex) 
-                        {
-                            Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (Exception ex) {
-                            Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
+                            if("valete".equals(cartas.get(i).getValor()))
+                                this.pontosDoJogo += 10;
                         }
-                    }                    
+                        this.pontosDoJogo += 1;
+                    }
+                    else if("rei".equals(retorno.getComplemento2()) || "dama".equals(retorno.getComplemento2()) || "valete".equals(retorno.getComplemento2()))
+                    {
+                        this.pontosDoJogo += 10;
+                    }
+                    else{this.pontosDoJogo += Integer.parseInt(retorno.getComplemento2());}
+
+                    lblPontos.setText(this.pontosDoJogo.toString());
+                    cartas.inserirNoFim(new Carta(retorno.getComplemento2(), retorno.getComplemento1()));
+                    ImageIcon image;
+                    Integer qtd = cartas.getQtdElems();
+                    switch(retorno.getComplemento1())
+                    {
+                        case "copas":
+                        image = new ImageIcon(getClass()
+                            .getResource("/client/saladejogo/ui/copas-" + 
+                            retorno.getComplemento2() + ".jpg"));
+                        switch(qtd)
+                        {
+                            case 3:
+                                carta3.setIcon(image);
+                            break;
+                            case 4:
+                                carta4.setIcon(image);
+                            break;
+                            case 5:
+                                carta5.setIcon(image);
+                            break;
+                            case 6:
+                                carta6.setIcon(image);
+                            break;                                                
+                        }        
+                        break;
+                        case "espadas":
+
+                            image = new ImageIcon(getClass()
+                                .getResource("/client/saladejogo/ui/copas-" + 
+                                retorno.getComplemento2() + ".jpg"));
+                            switch(qtd)
+                            {
+                                case 3:
+                                    carta3.setIcon(image);
+                                break;
+                                case 4:
+                                    carta4.setIcon(image);
+                                break;
+                                case 5:
+                                    carta5.setIcon(image);
+                                break;
+                                case 6:
+                                    carta6.setIcon(image);
+                                break;                                                
+                            }
+                        break;
+                        case "paus":
+                            image = new ImageIcon(getClass()
+                                .getResource("/client/saladejogo/ui/copas-" + 
+                                retorno.getComplemento2() + ".jpg"));
+                            switch(qtd)
+                            {
+                                case 3:
+                                    carta3.setIcon(image);
+                                break;
+                                case 4:
+                                    carta4.setIcon(image);
+                                break;
+                                case 5:
+                                    carta5.setIcon(image);
+                                break;
+                                case 6:
+                                    carta6.setIcon(image);
+                                break;                                                
+                            }                                            
+                        break;
+
+                        case "ouro":
+                            image = new ImageIcon(getClass()
+                            .getResource("/client/saladejogo/ui/copas-" + 
+                                        retorno.getComplemento2() + ".jpg"));
+                            switch(qtd)
+                            {
+                                case 3:
+                                    carta3.setIcon(image);
+                                break;
+                                case 4:
+                                    carta4.setIcon(image);
+                                break;
+                                case 5:
+                                    carta5.setIcon(image);
+                                break;
+                                case 6:
+                                    carta6.setIcon(image);
+                                break;                                                
+                            }
+                        break;
+                    }
+
+                }
+            } 
+            catch (IOException | ClassNotFoundException ex) 
+            {
+                Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(TelaPartida.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }                    
  
     }//GEN-LAST:event_btnMaisCartasActionPerformed
 

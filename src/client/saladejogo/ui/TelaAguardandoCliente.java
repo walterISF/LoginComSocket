@@ -120,7 +120,8 @@ public class TelaAguardandoCliente extends javax.swing.JPanel {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                while(true)
+                boolean condicao = true;
+                while(condicao)
                 {
                     if(Conexao.getSocket() != null)
                     {
@@ -142,7 +143,9 @@ public class TelaAguardandoCliente extends javax.swing.JPanel {
                                     frameLayout.setVisible(false);
                                     JFrame frame = new JFrame("Partida");
                                     TelaPartida jogar = new TelaPartida(frame);
-                                    this.cancel();
+                                    condicao = false;
+                                    timer.cancel();
+                                    timer.purge();
                                 }
                             }
                         } 

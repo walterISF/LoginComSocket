@@ -7,6 +7,7 @@ package client.saladejogo.ui;
 
 import client.socket.Conexao;
 import client.socket.Solicitacao;
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -41,6 +42,7 @@ public class TelaAguardando extends javax.swing.JPanel {
         this.frameLayout.pack();
         this.frameLayout.setLocationRelativeTo(null); 
         this.frameLayout.setResizable(false);
+        this.btnOk.setVisible(false);
         this.frameLayout.setVisible(true);
         this.nomePartida = nome;
         this.conexao = Conexao.getSocket();
@@ -158,6 +160,8 @@ public class TelaAguardando extends javax.swing.JPanel {
                             if(retorno.getComando().toUpperCase().equals("SUC"))
                             {
                                 lblValor.setText(retorno.getComplemento1());
+                                if(Integer.parseInt(retorno.getComplemento1()) > 2)
+                                    btnOk.setVisible(true);
                             }
                         } 
                         catch (IOException | ClassNotFoundException ex) 

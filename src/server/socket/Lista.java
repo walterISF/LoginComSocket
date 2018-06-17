@@ -5,6 +5,7 @@
  */
 package server.socket;
 
+import bd.dbos.Usuario;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
@@ -51,17 +52,31 @@ public class Lista <X> implements Cloneable, Serializable
                 this (i,null);
         }
     }
+    
+    private No prim=null;
+    private No aux;
 
-    public No getPrim() {
-        return prim;
+    public X getPrim() {
+        
+        return prim.info;
     }
 
     public void setPrim(No prim) {
         this.prim = prim;
     }
     
-	
-    private No prim=null;
+    public X getProx()
+    {
+        No atual = null;
+        if(this.aux != null)
+        {
+            atual = this.aux;
+            this.aux = this.aux.getProx();
+            return atual.getInfo();
+        }
+        return null;
+        
+    }
 
     private X meuCloneDeX (X modelo)
     {
@@ -106,7 +121,10 @@ public class Lista <X> implements Cloneable, Serializable
             info=i;
 
         if (this.prim==null)
+        {
             this.prim = new No (info);
+            this.aux = this.prim;
+        }  
         else
         {
             No atual=this.prim;
@@ -215,17 +233,43 @@ public class Lista <X> implements Cloneable, Serializable
         else
         {
             No atual = this.prim;
-            No remover;
+            No anterior = this.prim;
+            
             for(int i=0; i<posicao; i++)
-            {
                 atual = atual.getProx();
-            }
-            remover = atual.getProx();
-            atual.setProx(atual.getProx().getProx());
-            info = remover.getInfo();
+
+            for(int j=0; (posicao -1)<j; j++)
+                anterior = anterior.getProx();
+            
+            info = anterior.getInfo();
+            anterior.setProx(null);
         }
         
         return info;
+    }
+    public void removerJogador(String jogador) throws Exception
+    {
+        X info = null;
+        if (this.prim==null)
+            throw new Exception ("Lista vazia");
+
+        if (this.prim.getProx()==null)
+            this.prim=null;
+        else
+        {
+            No atual = this.prim;
+            Partida partida;
+            Lista<Usuario> usuarios;
+            Usuario user;
+            for(int i=1; i<this.getQtdElems()+1; i++)
+            {
+                user = (Usuario)atual.getInfo();
+                if(user.getNome().equals(jogador))
+                    removerDoMeio(i);
+                atual = atual.getProx();
+            }
+        }
+        
     }
 	
     @Override

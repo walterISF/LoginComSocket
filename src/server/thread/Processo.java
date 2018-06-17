@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import client.socket.Solicitacao;
 import bd.BD;
 import bd.dbos.Usuario;
-import java.util.ArrayList;
 import server.socket.Carta;
 import server.socket.DadosBasicos;
 import server.socket.Lista;
@@ -38,6 +37,7 @@ public class Processo extends Thread
         ObjectOutputStream output;
         DadosBasicos.Init();
         partidas = DadosBasicos.getPartidas();
+        Lista<Carta> cartasRepassadas = null;
         String nomePartida = null;
         try 
         {
@@ -148,17 +148,19 @@ public class Processo extends Thread
                     case "COM":
                         if(nomePartida != null)
                         {
+                            cartasRepassadas = new Lista<>();
                             Partida partida = DadosBasicos.getUmaPartida(nomePartida);
                             Carta carta = partida.getCarta(partida.getBaralhos().getBaralho(0));
+                            cartasRepassadas.inserirNoFim(carta);
                             output.writeObject(new Solicitacao("CAR",carta.getNipe(), carta.getValor()));
                         }
                         else
                         {
-                            output.writeObject(new Solicitacao("ERR","Voce nao esta logado em neuma partida"));
+                            output.writeObject(new Solicitacao("ERR","Voce nao esta logado em nenhuma partida"));
                         }
                         break;
                     case "APO":
-                            if(userPartida.getMoeda() < Float.valueOf(recebido.getComplemento1()))
+                            if(userPartida.getMoeda() < Float.parseFloat(recebido.getComplemento1()))
                             {
                                 output.writeObject(new Solicitacao("ERR", "Saldo insuficiente"));
                             }
@@ -167,7 +169,7 @@ public class Processo extends Thread
                                 Partida partida = DadosBasicos.getUmaPartida(nomePartida);
                                 try 
                                 {
-                                    partida.addMoedas(Float.valueOf(recebido.getComplemento1()));
+                                    partida.addMoedas(Float.parseFloat(recebido.getComplemento1()));
                                 } 
                                 catch (Exception ex) 
                                 {
@@ -190,24 +192,53 @@ public class Processo extends Thread
                 
                         break;
                     case "EOC":
-                        
-                        break;
-                    case "SAI":
-                        output.writeObject(new Solicitacao("SUC", "Você saiu do jogo"));
-                        break;
-                    case "CONT":
-                        if(recebido.getComplemento1() != "")
+                        int somaDasCartas = 0;
+                        if(cartasRepassadas!=null)
                         {
-                            Partida partidaSolicitada = DadosBasicos.getUmaPartida(recebido.getComplemento1());
-                            output.writeObject(new Solicitacao("SUC", partidaSolicitada.getJogares().getQtdElems() + ""));                            
-                        }
-                        else
-                        {
-                            for(int i = 0; i<partidas.getQtdElems(); i++)
+                            for(int i=0; i<cartasRepassadas.getQtdElems(); i++)
                             {
-                                partidas.getPrim();
+                                somaDasCartas+= Integer.parseInt(cartasRepassadas.getProx().getValor());
                             }
                         }
+                        break;
+                    case "SAI":
+                        if(partidas.getQtdElems() > 0)
+                        {
+                            if(partidas.getPartida(nomePartida).getJogares().tem(userPartida) && userPartida != null)
+                            {
+                                partidas.getPartida(nomePartida).getJogares().removerJogador(userPartida.getNome());
+
+                            }                            
+                        }
+                        output.writeObject(new Solicitacao("SUC", "Você saiu do jogo"));
+                        receptor.close();
+                        output.close();
+                        this.conexao.close();
+                        this.interrupt();
+                        break;
+                    case "URL":
+                            if(partidas.getQtdElems() > 0)
+                            {
+                                String partidasCriadas = "";
+                                for(int i = 0; i<partidas.getQtdElems(); i++)
+                                {
+                                    partidasCriadas = partidasCriadas + "," + partidas.getProx().getNome().trim();
+                                    
+                                    output.writeObject(new Solicitacao("SUC", partidasCriadas));
+                                }                                
+                            }
+                            else
+                            {
+                                output.writeObject(new Solicitacao("ERR","Não existem partidas a se jogar"));
+                            }
+                        break;
+                    case "UUL":
+                            Partida partidaSolicitada = null;
+                            if(partidas != null)
+                                partidaSolicitada = DadosBasicos.getUmaPartida(recebido.getComplemento1());
+                            
+                            if(partidaSolicitada != null)
+                            output.writeObject(new Solicitacao("SUC", partidaSolicitada.getJogares().getQtdElems() + ""));                        
                         break;
                 }                
             }
@@ -216,6 +247,8 @@ public class Processo extends Thread
         } 
         catch (ClassNotFoundException | IOException ex)  
         {
+            Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

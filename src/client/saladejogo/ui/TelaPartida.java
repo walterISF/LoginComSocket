@@ -13,7 +13,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -229,7 +228,21 @@ public class TelaPartida extends javax.swing.JPanel {
                             System.out.println(retorno.toString());
                             if(retorno.getComando().toUpperCase().equals("CAR"))
                             {
-                                this.pontosDoJogo += Integer.parseInt(retorno.getComplemento2());
+                                if("as".equals(retorno.getComplemento2()))
+                                {
+                                    for(int i=0; i<cartas.getQtdElems(); i++)
+                                    {
+                                        if("valete".equals(cartas.get(i).getValor()))
+                                            this.pontosDoJogo += 10;
+                                    }
+                                    this.pontosDoJogo += 1;
+                                }
+                                else if("rei".equals(retorno.getComplemento2()) || "dama".equals(retorno.getComplemento2()) || "valete".equals(retorno.getComplemento2()))
+                                {
+                                    this.pontosDoJogo += 10;
+                                }
+                                else{this.pontosDoJogo += Integer.parseInt(retorno.getComplemento2());}
+                                
                                 lblPontos.setText(this.pontosDoJogo.toString());
                                 cartas.inserirNoFim(new Carta(retorno.getComplemento2(), retorno.getComplemento1()));
                                 ImageIcon image;

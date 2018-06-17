@@ -181,7 +181,7 @@ public class Lista <X> implements Cloneable, Serializable
         return null;
     }
     
-        public Baralho getBaralho (int posicao)
+    public Baralho getBaralho (int posicao)
     {	
         No atual = this.prim;
         Baralho baralho;
@@ -194,6 +194,22 @@ public class Lista <X> implements Cloneable, Serializable
 
         return null;
     }
+    
+    public X get(int i)
+    {
+        X item;
+        if(i < this.getQtdElems())
+        {
+            No atual = this.prim;
+            for(int j=0; j<i; j++)
+                atual = atual.getProx();
+            
+            item = atual.getInfo();
+            return item;
+        }
+        
+        return null;
+    }
 	
     public void removerDoInicio () throws Exception
     {
@@ -203,7 +219,7 @@ public class Lista <X> implements Cloneable, Serializable
         this.prim = this.prim.getProx ();
     }
 
-    public void removerDoFim () throws Exception
+    public X removerDoFim () throws Exception
     {
         if (this.prim==null)
             throw new Exception ("Lista vazia");
@@ -218,7 +234,11 @@ public class Lista <X> implements Cloneable, Serializable
                 atual = atual.getProx();
 
                 atual.setProx (null);
-        }	
+                
+                return atual.getInfo();
+        }
+        
+        return null;
     }
     
     public X removerDoMeio(int posicao) throws Exception
@@ -235,13 +255,14 @@ public class Lista <X> implements Cloneable, Serializable
             No anterior = this.prim;
             
             for(int i=0; i<posicao; i++)
-                atual = atual.getProx();
-
-            for(int j=0; (posicao -1)<j; j++)
-                anterior = anterior.getProx();
-            
+            {
+                if(i==posicao-1)
+                   anterior = atual;
+                atual = atual.getProx();    
+            }
+                
             info = anterior.getInfo();
-            anterior.setProx(null);
+            anterior = atual.getProx();
         }
         
         return info;

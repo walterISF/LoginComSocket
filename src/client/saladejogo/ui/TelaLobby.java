@@ -222,7 +222,7 @@ private void updateListaSalas()
                 {
                     if(Conexao.getSocket() != null)
                     {
-                        Solicitacao solicitacao = new Solicitacao("CONT");
+                        Solicitacao solicitacao = new Solicitacao("URL");
                         Solicitacao retorno;
                         try 
                         {

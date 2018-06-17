@@ -38,6 +38,7 @@ public class TelaPartida extends javax.swing.JPanel {
     Socket conexao;
     JFrame frameLayout;
     Lista<Carta> cartas= new Lista<>();
+    Integer pontosDoJogo = 0;
     /**
      * Creates new form TelaPartida
      * @param framelayout
@@ -215,7 +216,6 @@ public class TelaPartida extends javax.swing.JPanel {
 
     private void btnMaisCartasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaisCartasActionPerformed
                     Solicitacao retorno;
-                    Integer valor=0;
                     if(this.conexao != null)
                     {
                         transmissor = Conexao.getOutputStream();
@@ -229,8 +229,8 @@ public class TelaPartida extends javax.swing.JPanel {
                             System.out.println(retorno.toString());
                             if(retorno.getComando().toUpperCase().equals("CAR"))
                             {
-                                valor += Integer.parseInt(retorno.getComplemento2());
-                                lblPontos.setText(valor.toString());
+                                this.pontosDoJogo += Integer.parseInt(retorno.getComplemento2());
+                                lblPontos.setText(this.pontosDoJogo.toString());
                                 cartas.inserirNoFim(new Carta(retorno.getComplemento2(), retorno.getComplemento1()));
                                 ImageIcon image;
                                 Integer qtd = cartas.getQtdElems();
@@ -389,7 +389,6 @@ public class TelaPartida extends javax.swing.JPanel {
         {
             if(cartas.getQtdElems() == 0)
             {
-                Integer valor = 0;
                 while(cartas.getQtdElems() < 2)
                 {
                     Solicitacao retorno;
@@ -406,8 +405,8 @@ public class TelaPartida extends javax.swing.JPanel {
                             System.out.println(retorno.toString());
                             if(retorno.getComando().toUpperCase().equals("CAR"))
                             {
-                                valor += Integer.parseInt(retorno.getComplemento2());
-                                lblPontos.setText(valor.toString());
+                                this.pontosDoJogo += Integer.parseInt(retorno.getComplemento2());
+                                lblPontos.setText(this.pontosDoJogo.toString());
                                 cartas.inserirNoFim(new Carta(retorno.getComplemento2(), retorno.getComplemento1()));
                                 ImageIcon image;
                                 switch(retorno.getComplemento1())

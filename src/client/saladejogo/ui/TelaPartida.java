@@ -194,7 +194,7 @@ public class TelaPartida extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPararActionPerformed
-        Solicitacao parada = new Solicitacao("EOC");
+         Solicitacao parada = new Solicitacao("EOC");
         Solicitacao retorno;
         try
         {

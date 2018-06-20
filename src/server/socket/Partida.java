@@ -6,7 +6,6 @@
 package server.socket;
 
 import bd.dbos.Usuario;
-import java.util.Collections;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +23,7 @@ public class Partida
     private Float valorMesa;
     private Lista<Usuario> jogares;
     private Lista<Baralho> baralhos;
+    private Usuario ganhador;
 
     
     public Partida(String nome)
@@ -72,6 +72,15 @@ public class Partida
     public void setBaralhos(Lista<Baralho> baralhos) {
         this.baralhos = baralhos;
     }
+
+    public Usuario getGanhador() {
+        return ganhador;
+    }
+
+    public void setGanhador(Usuario ganhador) {
+        this.ganhador = ganhador;
+    }
+    
     
     public void initBaralho(Lista<Baralho> baralhos)
     {

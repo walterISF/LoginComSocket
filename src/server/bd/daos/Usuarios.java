@@ -1,9 +1,9 @@
-package bd.daos;
+package server.bd.daos;
 
 import java.io.Serializable;
 import bd.core.MeuResultSet;
 import java.sql.*;
-import bd.BD;
+import server.bd.BD;
 import bd.dbos.Usuario;
 
 public class Usuarios
@@ -69,7 +69,7 @@ public class Usuarios
             BD.COMANDO.setString (2, usuario.getNome  ());
             BD.COMANDO.setString (3, usuario.getSenha ());
             BD.COMANDO.setFloat  (4, usuario.getMoeda ());
-
+            
             BD.COMANDO.executeUpdate ();
             BD.COMANDO.commit        ();
         }

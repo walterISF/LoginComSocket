@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import client.socket.Solicitacao;
-import bd.BD;
+import server.bd.BD;
 import bd.dbos.Usuario;
 import server.socket.Carta;
 import server.socket.DadosBasicos;
@@ -39,6 +39,7 @@ public class Processo extends Thread
         partidas = DadosBasicos.getPartidas();
         Lista<Carta> cartasRepassadas = null;
         String nomePartida = null;
+        String userEmail = null;
         try 
         {
             receptor = new ObjectInputStream(this.conexao.getInputStream());
@@ -86,6 +87,7 @@ public class Processo extends Thread
                     case "LOG":
                          if(!recebido.getComplemento1().equals("") && !recebido.getComplemento2().equals(""))
                          {
+                             userEmail = recebido.getComplemento1();
                             try 
                             {
                                 if(!BD.USUARIOS.cadastrado(recebido.getComplemento1()))
@@ -198,8 +200,37 @@ public class Processo extends Thread
                         {
                             for(int i=0; i<cartasRepassadas.getQtdElems(); i++)
                             {
-                                somaDasCartas+= Integer.parseInt(cartasRepassadas.getProx().getValor());
+                                switch(cartasRepassadas.get(i).getValor())
+                                {
+                                    case "dama":
+                                    case "valete":
+                                    case "rei":
+                                        somaDasCartas+=10;
+                                    case "as":
+                                        somaDasCartas+=1;
+                                    default:
+                                        somaDasCartas+= Integer.parseInt(cartasRepassadas.getProx().getValor());
+                                }        
+                                
+                                if(partidas.getPartida(nomePartida).getGanhador() != null)
+                                {
+                                    Usuario test = partidas.getPartida(nomePartida).getGanhador();
+                                    if(!test.equals(userPartida) && userPartida.getMoeda() > test.getMoeda())
+                                    {
+                                        partidas.getPartida(nomePartida).setGanhador(userPartida);
+                                    }
+                                }
+                                else
+                                {
+                                    partidas.getPartida(nomePartida).setGanhador(userPartida);
+                                }
+                                
+                                
+                                
                             }
+                            partidas.getPartida(nomePartida).getJogares().removerDoFim();
+                            output.writeObject(new Solicitacao("SUC"));
+                            
                         }
                         break;
                     case "SAI":
@@ -241,6 +272,26 @@ public class Processo extends Thread
                             if(partidaSolicitada != null)
                             output.writeObject(new Solicitacao("SUC", partidaSolicitada.getJogares().getQtdElems() + "", partidaSolicitada.getStatus().toString()));                        
                         break;
+                    case "USP":
+                            Partida partidaSolicitadaH = null;
+                            if(partidas != null)
+                                partidaSolicitadaH = DadosBasicos.getUmaPartida(recebido.getComplemento1());
+                            
+                            if(partidaSolicitadaH != null)
+                                partidaSolicitadaH.setStatus(Partida.Status.JOGANDO);
+                            output.writeObject(new Solicitacao("SUC", partidaSolicitadaH.getJogares().getQtdElems() + "", partidaSolicitadaH.getStatus().toString()));                        
+                        break;
+                    case "UWG":
+                        if(partidas.getPartida(nomePartida).getJogares().getQtdElems() > 0)
+                        {
+                            output.writeObject(new Solicitacao("ERR", "jogadores em jogo"));
+                        }
+                        else
+                        {
+                            output.writeObject(new Solicitacao("WIN", partidas.getPartida(nomePartida).getGanhador().getNome()));
+                        }
+                    
+                     
                 }                
             }
             while(!recebido.getComando().equals(""));

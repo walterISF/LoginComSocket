@@ -1,7 +1,7 @@
-package bd;
+package server.bd;
 
 import bd.core.MeuPreparedStatement;
-import bd.daos.Usuarios;
+import server.bd.daos.Usuarios;
 
 public class BD
 {
@@ -16,14 +16,14 @@ public class BD
     	try
         {
             comando =
-//            new MeuPreparedStatement (
-//            "com.microsoft.sqlserver.jdbc.SQLServerDriver",
-//            "jdbc:sqlserver://172.16.12.12:1433;databasename=poo201840",
-//            "poo201840", "Npech7");
             new MeuPreparedStatement (
-            "com.mysql.jdbc.Driver",
-            "jdbc:mysql://localhost:3306/poo201840",
-            "root", "");
+            "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+            "jdbc:sqlserver://172.16.12.12:1433;databasename=poo201840",
+            "poo201840", "Npech7");
+//            new MeuPreparedStatement (
+//            "com.mysql.jdbc.Driver",
+//            "jdbc:mysql://localhost:3306/poo201840",
+//            "root", "");
             
 
             usuarios = new Usuarios (); //um como esse para cada classe DAO

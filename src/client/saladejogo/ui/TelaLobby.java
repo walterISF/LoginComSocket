@@ -15,7 +15,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -29,10 +28,10 @@ public class TelaLobby extends javax.swing.JPanel {
 
     private ObjectOutputStream transmissor;
     private ObjectInputStream receptor;
-    private Socket conexao;
-    private JFrame frameLayout;
-    private DefaultListModel model;
-    private Timer timer = null;
+    private final Socket conexao;
+    private final JFrame frameLayout;
+    private final DefaultListModel model;
+    private final Timer timer = null;
     /**
      * Creates new form TelaLobby
      * @param framelayout
@@ -51,7 +50,6 @@ public class TelaLobby extends javax.swing.JPanel {
         this.lstAberta.setModel(model);
         Conexao.getInstance();
         this.conexao = Conexao.getSocket();
-        updateListaSalas();
     }
 
     /**
@@ -242,11 +240,11 @@ public class TelaLobby extends javax.swing.JPanel {
     {
         if(Conexao.getSocket() != null)
         {
-            Solicitacao solicitacao = new Solicitacao("URL");
-            Solicitacao retorno;
+            Solicitacao solicitacao, retorno;
             String[] listaDeSalas;
             try 
             {
+                solicitacao = new Solicitacao("URL");
                 transmissor = Conexao.getOutputStream();
                 receptor = Conexao.getInputStream();
                 transmissor.writeObject(solicitacao);

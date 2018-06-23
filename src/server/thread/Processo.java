@@ -37,7 +37,7 @@ public class Processo extends Thread
         ObjectOutputStream output;
         DadosBasicos.Init();
         partidas = DadosBasicos.getPartidas();
-        Lista<Carta> cartasRepassadas = null;
+        Lista<Carta> cartasRepassadas = new Lista<>();
         String nomePartida = null;
         String userEmail = null;
         try 
@@ -132,8 +132,7 @@ public class Processo extends Thread
                                 if(DadosBasicos.getPartidas() == null)
                                     DadosBasicos.Init();
                                 partidas.inserirNoFim(nova);
-                                DadosBasicos.setUmaPartida(nova);
-                                output.writeObject(new Solicitacao("SUC", "Seu saldo atual: " + userPartida.getMoeda() + "moedas"));
+                                output.writeObject(new Solicitacao("SUC", "Seu saldo atual: " + userPartida.getMoeda() + " moedas"));
                                 
                             }
                             else
@@ -150,7 +149,6 @@ public class Processo extends Thread
                     case "COM":
                         if(nomePartida != null)
                         {
-                            cartasRepassadas = new Lista<>();
                             Partida partida = DadosBasicos.getUmaPartida(nomePartida);
                             Carta carta = partida.getCarta(partida.getBaralhos().getBaralho(0));
                             cartasRepassadas.inserirNoFim(carta);
@@ -176,6 +174,7 @@ public class Processo extends Thread
                                 } 
                                 catch (Exception ex) 
                                 {
+                                    output.writeObject(new Solicitacao("ERR", ex.toString()));
                                     Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
@@ -187,15 +186,18 @@ public class Processo extends Thread
                             try 
                             {
                                 partidaEntrar.addJogador(userPartida);
+                                output.writeObject(new Solicitacao("SUC"));
                             } 
                             catch (Exception ex) 
                             {
+                                output.writeObject(new Solicitacao("ERR", ex.toString()));
                                 Logger.getLogger(Processo.class.getName()).log(Level.SEVERE, null, ex);
                             }
                 
                         break;
                     case "EOC":
                         int somaDasCartas = 0;
+                        boolean valete = false;
                         if(cartasRepassadas!=null)
                         {
                             for(int i=0; i<cartasRepassadas.getQtdElems(); i++)
@@ -203,30 +205,42 @@ public class Processo extends Thread
                                 switch(cartasRepassadas.get(i).getValor())
                                 {
                                     case "dama":
+                                        somaDasCartas+=10;
+                                    break;
                                     case "valete":
+                                        valete = true;
+                                        somaDasCartas+=10;
+                                    break;
                                     case "rei":
                                         somaDasCartas+=10;
+                                    break;
                                     case "as":
+                                        if(valete)
+                                            somaDasCartas+=11;
                                         somaDasCartas+=1;
+                                    break;
                                     default:
                                         somaDasCartas+= Integer.parseInt(cartasRepassadas.getProx().getValor());
+                                    break;
                                 }        
                                 
-                                if(partidas.getPartida(nomePartida).getGanhador() != null)
-                                {
-                                    Usuario test = partidas.getPartida(nomePartida).getGanhador();
-                                    if(!test.equals(userPartida) && userPartida.getMoeda() > test.getMoeda())
-                                    {
-                                        partidas.getPartida(nomePartida).setGanhador(userPartida);
-                                    }
-                                }
-                                else
+                            }
+                            if(partidas.getPartida(nomePartida).getGanhador() != null)
+                            {
+                                Usuario test = partidas.getPartida(nomePartida).getGanhador();
+                                if(!test.equals(userPartida) && somaDasCartas <= 21 && somaDasCartas > DadosBasicos.getMaiorSoma())
                                 {
                                     partidas.getPartida(nomePartida).setGanhador(userPartida);
                                 }
-                                
-                                
-                                
+                            }
+                            else
+                            {
+                                if(somaDasCartas <= 21)
+                                {
+                                    partidas.getPartida(nomePartida).setGanhador(userPartida);
+                                    DadosBasicos.setMaiorSoma(somaDasCartas);
+                                }
+                                    
                             }
                             partidas.getPartida(nomePartida).getJogares().removerDoFim();
                             output.writeObject(new Solicitacao("SUC"));
@@ -256,8 +270,9 @@ public class Processo extends Thread
                                 {
                                     partidasCriadas = partidasCriadas + "," + partidas.getProx().getNome().trim();
                                     
-                                    output.writeObject(new Solicitacao("SUC", partidasCriadas));
-                                }                                
+                                    
+                                }
+                                output.writeObject(new Solicitacao("SUC", partidasCriadas));
                             }
                             else
                             {

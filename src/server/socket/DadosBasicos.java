@@ -12,6 +12,7 @@ package server.socket;
 public class DadosBasicos 
 {
     private static Lista<Partida> partidas;
+    private static int maiorSoma = 0;
     
     public static void Init()
     {
@@ -38,6 +39,16 @@ public class DadosBasicos
     {
         DadosBasicos.partidas.inserirNoFim(partida);
     }
+
+    public static int getMaiorSoma() {
+        return maiorSoma;
+    }
+
+    public static void setMaiorSoma(int maiorSoma) {
+        DadosBasicos.maiorSoma = maiorSoma;
+    }
+    
+    
     
     
 }
